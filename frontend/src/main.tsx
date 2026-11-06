@@ -11,6 +11,7 @@ import './styles/app.css'
 import './styles/communication.css'
 import './styles/preferences.css'
 import './styles/hand-tracking.css'
+import './styles/polish.css'
 
 createRoot(document.getElementById('root')!).render(<StrictMode><BrowserRouter><App/></BrowserRouter></StrictMode>)
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {

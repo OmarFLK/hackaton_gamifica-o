@@ -17,12 +17,15 @@ export function LandingPage() {
   return <div className="landing">
     <header className="landing-header"><Brand/><DemoBadge/><PreferencesControls/>{user ? <Link className="button ghost small" to={homeFor(user.role)}>Continuar como {user.name.split(' ')[0]}<ArrowRight size={16}/></Link> : <Link className="button ghost small" to="/login">Entrar</Link>}</header>
     <main className="landing-main" id="main-content">
+      <div className="landing-hero-row">
       <section className="landing-hero">
         <span className="eyebrow">SUPERPED · JORNADA CORAJOSA</span>
         <h1>Cuidado que aproxima<span className="heading-dot">.</span></h1>
         <p>Família e equipe acompanham a rotina de crianças em tratamento num só lugar — e a criança ganha um espaço só dela para brincar e contar como está.</p>
         <div className="landing-notice" role="note"><ShieldCheck size={20}/><p><strong>Demonstração acadêmica.</strong> Todos os dados são fictícios. Não oferece diagnóstico, dose ou aconselhamento médico e não foi validado para uso clínico.</p></div>
       </section>
+        <img className="landing-mascot" src="/mascote/pandi-principal.png" alt="Pandi, o companheiro do Pendi" width={300} height={327}/>
+      </div>
       <section className="entry-grid" aria-label="Escolha como entrar">
         {ENTRIES.map(entry => <Link key={entry.title} to={entry.to} className="entry-card">
           <span className="entry-icon"><entry.icon size={24}/></span>

@@ -1,0 +1,175 @@
+/* =====================================================================
+   Polimento visual: tema escuro completo, contraste, celular e animações.
+   Carregado por último. Não altera estrutura; só cores, espaçamento e movimento.
+   ===================================================================== */
+
+/* ---------- Cores semânticas: modo claro (contraste ≥ 4.5:1 sobre os fundos claros) ---------- */
+:root {
+  --fg-ok: #2f6a4a; --fg-warn: #73541c; --fg-bad: #8c3a4f; --fg-info: #2f5596;
+  --pd-ease: cubic-bezier(.22, .8, .3, 1);
+  --pd-shadow: 0 1px 2px #13265310, 0 8px 24px #1326530d;
+  --pd-shadow-hover: 0 2px 4px #13265314, 0 14px 34px #13265318;
+}
+
+/* ---------- Modo escuro: valores das variáveis geradas a partir das cores fixas ---------- */
+:root[data-theme="dark"] {
+  --bg-surface: #172338; --bg-tint: #1e2d47; --bg-ok: #163428; --bg-warn: #3a2f1c; --bg-bad: #3d1f2a; --bg-info: #1b3050;
+  --fg-strong: #eef3ff; --fg-body: #cfd9ec; --fg-muted: #aab7cc;
+  --fg-ok: #95dbb3; --fg-warn: #f0cb8a; --fg-bad: #f7aabb; --fg-info: #a6c6ff;
+  --bd-soft: #34445f;
+  --pd-shadow: 0 1px 2px #00000040, 0 8px 24px #00000030;
+  --pd-shadow-hover: 0 2px 4px #00000050, 0 14px 34px #00000045;
+}
+
+/* Textos que herdavam cinzas claros demais nos dois temas */
+:is(.eyebrow, .breadcrumb, .fiction-label, .app-footer, .landing-footer, .login-disclaimer, .story-footer,
+    .stat-card > span, .stat-card small, .count-badge, .chart-caption, .message-author, .message-bubble time,
+    .child-label, .child-chat-privacy, .field-hint, .demo-logins summary, .demo-logins .eyebrow, .story-content > p) { color: var(--fg-muted, #5f6b80); }
+.chart-empty-days { color: var(--fg-warn); }
+.status-badge { color: var(--fg-muted, #5f6b80); }
+.status-badge.given { color: var(--fg-ok); } .status-badge.not_given { color: var(--fg-bad); } .status-badge.postponed { color: var(--fg-warn); }
+.conversation-avatar { color: var(--fg-info); }
+.ai-connection { color: var(--fg-warn); } .ai-connection.ready { color: var(--fg-ok); }
+.notice-symbol { color: var(--fg-info); border-color: currentColor; }
+.stat-card strong em { color: var(--fg-muted, #5f6b80); }
+.module-row strong, .chart-table td, .chart-table th { color: var(--fg-body, #34425c); }
+.child-chat-welcome p, .kid-world .child-chat-message p { color: var(--kid-ink, inherit); }
+
+/* ---------- Modo escuro: componentes que ainda tinham superfície clara ---------- */
+[data-theme="dark"] :is(.game, .patient-card, .search-box input, .review-list div, .mood-option, .kid-tile, .kid-mascot-card.soon,
+  .entry-card, .chip, .profile-tab, .faq-card, .faq-answer, .module-row, .ai-chat-card, .notice-composer) { background: var(--bg-surface); color: var(--black); border-color: var(--bd-soft); }
+[data-theme="dark"] :is(.patient-initial, .entry-icon, .stat-icon, .soon-icon, .mascot-avatar, .pill-icon) { background: var(--bg-tint); color: var(--fg-info); }
+[data-theme="dark"] .child-world-cta { background: linear-gradient(120deg, #1b2c49, #2a1f35); border-color: var(--bd-soft); }
+[data-theme="dark"] .child-world-cta :is(h2, p) { color: var(--black); }
+[data-theme="dark"] :is(.game-title, .game-timer, .game-message, .game-intro-text, .kid-page-title, .kid-subtitle, .kid-note, .kid-section-title, .kid-title) { color: var(--kid-ink); }
+[data-theme="dark"] :is(.canvas-hint, .canvas-overlay, .game-paused) { background: #13203aee; color: #eef3ff; }
+[data-theme="dark"] .bird-canvas { border-color: var(--bd-soft); }
+[data-theme="dark"] .game-voluntary { background: var(--bg-tint); color: var(--kid-ink); }
+[data-theme="dark"] :is(.chart-table td, .chart-table th, .chart-table summary) { color: var(--fg-body); }
+[data-theme="dark"] .chart-table :is(td, th) { border-color: var(--bd-soft); }
+[data-theme="dark"] .tab { color: var(--fg-muted); }
+[data-theme="dark"] .tab.active { color: #fff; }
+[data-theme="dark"] :is(.soon-tag) { background: var(--bg-warn) !important; color: var(--fg-warn) !important; }
+[data-theme="dark"] .mascot-img:not(.mascot-avatar) { filter: drop-shadow(0 6px 14px #00000055); }
+[data-theme="dark"] .demo-badge { background: #2c2618; border-color: #5d4d2c; color: #f0cb8a; }
+[data-theme="dark"] .landing-notice { background: #2a2418; border-color: #5d4d2c; color: #f3dcb2; }
+[data-theme="dark"] .skip-link { background: var(--bg-surface); color: var(--black); }
+[data-theme="dark"] dialog { background: var(--bg-surface); color: var(--black); border-color: var(--bd-soft); }
+
+/* ---------- Celular: barra superior sem colisões ---------- */
+@media (max-width: 600px) {
+  .topbar { height: auto; min-height: 62px; flex-wrap: nowrap; gap: 6px; padding: 7px 10px; justify-content: flex-start; }
+  .topbar-start { flex: 0 0 auto; margin-right: auto; }
+  .topbar-start .icon-button { min-width: 44px; min-height: 44px; }
+  .topbar .demo-badge { font-size: 7.5px; letter-spacing: .6px; padding: 6px 7px; flex-shrink: 1; min-width: 0; }
+  .topbar .preferences-controls { gap: 4px; }
+  .topbar .preference-button, .topbar .notification-bell { min-width: 42px; min-height: 42px; padding: 5px; }
+  .topbar .connection { flex-shrink: 0; }
+  .patient-switcher { margin-top: 4px; flex-wrap: wrap; row-gap: 6px; }
+  .patient-switcher .fiction-label { margin-left: 0; }
+  /* Área infantil: preferências em uma linha própria, ações em grade */
+  .kid-topbar { row-gap: 8px; }
+  .kid-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .kid-actions .preferences-controls { grid-column: 1 / -1; justify-content: flex-end; }
+  .game-header { row-gap: 10px; }
+  .game-controls { justify-content: flex-end; }
+}
+@media (max-width: 360px) { .topbar .demo-badge { display: none; } }
+
+/* ---------- Página inicial: gradientes e destaque ---------- */
+.landing {
+  background:
+    radial-gradient(900px 480px at 92% -8%, #2037742a, transparent 62%),
+    radial-gradient(700px 420px at -12% 28%, #941c2f17, transparent 60%),
+    linear-gradient(180deg, #eef2fa 0%, var(--ice) 70%);
+}
+[data-theme="dark"] .landing {
+  background:
+    radial-gradient(900px 480px at 92% -8%, #3f63c455, transparent 62%),
+    radial-gradient(700px 420px at -12% 28%, #941c2f33, transparent 60%),
+    linear-gradient(180deg, #121f37 0%, var(--ice) 70%);
+}
+.landing-hero h1 {
+  background: linear-gradient(100deg, var(--night) 30%, #3a5aa8 70%, var(--wine));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+[data-theme="dark"] .landing-hero h1 { background-image: linear-gradient(100deg, #eef3ff 25%, #a9c2ff 65%, #f6a7b7); }
+.landing-hero h1 .heading-dot { -webkit-text-fill-color: var(--wine); }
+.landing-hero-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.landing-hero-row .landing-hero { flex: 1; }
+.landing-mascot { width: min(300px, 32vw); height: auto; filter: drop-shadow(0 18px 30px #13265333); animation: pd-float 6s ease-in-out infinite; }
+.entry-card { position: relative; overflow: hidden; box-shadow: var(--pd-shadow); }
+.entry-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--navy), var(--wine)); opacity: 0; transition: opacity .2s; }
+.entry-card:hover::before, .entry-card:focus-visible::before { opacity: 1; }
+.entry-card:hover { box-shadow: var(--pd-shadow-hover); }
+.entry-icon { background: linear-gradient(135deg, #e9eef9, #f6f0f6); }
+.entry-card .entry-go svg { transition: transform .2s var(--pd-ease); }
+.entry-card:hover .entry-go svg { transform: translateX(4px); }
+@media (max-width: 850px) { .landing-mascot { display: none; } }
+
+/* Login: painel da história com gradiente suave */
+.login-story { background: radial-gradient(600px 400px at 100% 0%, #20377422, transparent 60%), linear-gradient(160deg, #eef2fa, #e6ecf7); }
+[data-theme="dark"] .login-story { background: radial-gradient(600px 400px at 100% 0%, #3f63c444, transparent 60%), linear-gradient(160deg, #13223f, #0f1b31); }
+
+/* Superfícies com profundidade leve */
+:is(.card, .stat-card, .patient-card, .kid-tile, .mode-card) { box-shadow: var(--pd-shadow); }
+:is(.stat-card, .patient-card, .kid-tile, .mode-card, .faq-card) { transition: transform .2s var(--pd-ease), box-shadow .2s var(--pd-ease), border-color .2s; }
+:is(.stat-card, .patient-card, .faq-card):hover { transform: translateY(-2px); box-shadow: var(--pd-shadow-hover); }
+.button { transition: background .15s, border-color .15s, transform .12s var(--pd-ease), box-shadow .15s; }
+.button:active:not(:disabled) { transform: translateY(1px); }
+.button.primary:hover:not(:disabled) { box-shadow: 0 6px 16px #20377433; }
+
+/* ---------- Animações de entrada (simples, curtas, desligadas com movimento reduzido) ---------- */
+@keyframes pd-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes pd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pd-pop { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes pd-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.main-content > *, .kid-content > *:not(.kid-world-anim-skip) { animation: pd-fade-up .5s var(--pd-ease) both; }
+.main-content > :nth-child(2), .kid-content > :nth-child(2) { animation-delay: .05s; }
+.main-content > :nth-child(3), .kid-content > :nth-child(3) { animation-delay: .1s; }
+.main-content > :nth-child(4) { animation-delay: .15s; }
+.main-content > :nth-child(n+5) { animation-delay: .2s; }
+.stats-grid > *, .patient-grid > *, .kid-main-actions > *, .kid-adventures > *, .mood-picker > .mood-option, .kid-mascot-grid > * { animation: pd-pop .45s var(--pd-ease) both; }
+:is(.stats-grid, .patient-grid, .kid-main-actions, .kid-adventures, .kid-mascot-grid) > :nth-child(2), .mood-picker > .mood-option:nth-of-type(2) { animation-delay: .06s; }
+:is(.stats-grid, .patient-grid, .kid-main-actions, .kid-adventures, .kid-mascot-grid) > :nth-child(3), .mood-picker > .mood-option:nth-of-type(3) { animation-delay: .12s; }
+:is(.stats-grid, .patient-grid, .kid-mascot-grid) > :nth-child(4), .mood-picker > .mood-option:nth-of-type(4) { animation-delay: .18s; }
+:is(.patient-grid, .kid-mascot-grid) > :nth-child(n+5), .mood-picker > .mood-option:nth-of-type(n+5) { animation-delay: .22s; }
+.landing-hero > * { animation: pd-fade-up .6s var(--pd-ease) both; }
+.landing-hero > :nth-child(2) { animation-delay: .06s; } .landing-hero > :nth-child(3) { animation-delay: .12s; } .landing-hero > :nth-child(4) { animation-delay: .18s; }
+.entry-grid > * { animation: pd-pop .5s var(--pd-ease) both; }
+.entry-grid > :nth-child(1) { animation-delay: .2s; } .entry-grid > :nth-child(2) { animation-delay: .26s; } .entry-grid > :nth-child(3) { animation-delay: .32s; } .entry-grid > :nth-child(4) { animation-delay: .38s; }
+.login-form-inner, .story-content { animation: pd-fade-up .55s var(--pd-ease) both; }
+.story-content { animation-delay: .08s; }
+dialog[open] { animation: pd-pop .25s var(--pd-ease) both; }
+dialog[open]::backdrop { animation: pd-fade-in .25s ease both; }
+.kid-hero-img, .game-summary .mascot-img { animation: pd-float 5s ease-in-out infinite; }
+.offline-banner, .feedback.error, .success, .unsynced { animation: pd-fade-in .3s ease both; }
+
+/* ---------- Página de erro / 404 / falha inesperada ---------- */
+.status-page { min-height: 100vh; display: grid; place-items: center; padding: 32px 20px; text-align: center;
+  background: radial-gradient(700px 420px at 80% 0%, #2037741f, transparent 60%), radial-gradient(600px 380px at 10% 100%, #941c2f14, transparent 60%), var(--ice); }
+[data-theme="dark"] .status-page { background: radial-gradient(700px 420px at 80% 0%, #3f63c440, transparent 60%), radial-gradient(600px 380px at 10% 100%, #941c2f2e, transparent 60%), var(--ice); }
+.status-card { max-width: 520px; display: flex; flex-direction: column; align-items: center; gap: 14px; animation: pd-fade-up .55s var(--pd-ease) both; }
+.status-card .mascot-img { width: 190px; height: 170px; animation: pd-float 5s ease-in-out infinite; }
+.status-code { font-family: var(--font-title); font-size: clamp(64px, 14vw, 104px); font-weight: 800; line-height: 1; letter-spacing: -4px;
+  background: linear-gradient(100deg, var(--navy), var(--wine)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+[data-theme="dark"] .status-code { background-image: linear-gradient(100deg, #a9c2ff, #f6a7b7); }
+.status-card h1 { color: var(--night); }
+.status-card p { color: var(--fg-muted, #5f6b80); font-size: 15px; max-width: 420px; }
+.status-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+.status-card details { font-size: 12px; color: var(--fg-muted, #5f6b80); max-width: 100%; }
+.status-card details pre { white-space: pre-wrap; overflow-wrap: anywhere; text-align: left; }
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-mascot, .kid-hero-img, .game-summary .mascot-img, .status-card .mascot-img { animation: none !important; }
+}
+
+/* Ajustes finais de contraste apontados pela auditoria */
+.landing-footer, .landing-footer span, .landing .eyebrow { color: #4c586d; }
+[data-theme="dark"] :is(.landing-footer, .landing-footer span, .landing .eyebrow) { color: var(--fg-muted); }
+.login-story :is(.story-content > p, .story-footer) { color: #4c586d; }
+[data-theme="dark"] .login-story :is(.story-content > p, .story-footer) { color: var(--fg-muted); }
+.sidebar .user-card small { color: #c3cfe6; }
+[data-theme="dark"] .stepper li span { background: var(--bg-tint); color: var(--fg-info); }
+[data-theme="dark"] :is(.stepper li.current span, .stepper li.done span) { background: #3557a0; color: #fff; }
