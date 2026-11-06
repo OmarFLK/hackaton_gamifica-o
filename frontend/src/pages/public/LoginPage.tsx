@@ -8,6 +8,7 @@ import type { Role, User } from '../../lib/types'
 import { Brand } from '../../components/common/Brand'
 import { ErrorState, Loading } from '../../components/common/Feedback'
 import { DemoBadge } from '../../components/ui/Badge'
+import { PreferencesControls } from '../../components/common/PreferencesControls'
 
 type Profile = 'profissional' | 'responsavel' | 'dev'
 const PROFILES: { id: Profile; label: string; hint: string }[] = [
@@ -73,7 +74,7 @@ export function LoginPage() {
       <div className="story-footer"><Heart size={16}/>Com espaço para ser criança.</div>
     </section>
     <section className="login-form-panel">
-      <DemoBadge/>
+      <div className="login-preferences"><DemoBadge/><PreferencesControls/></div>
       <div className="login-form-inner">
         <span className="eyebrow">BEM-VINDO AO PENDI</span>
         <h2>Como você quer entrar?</h2>

@@ -10,10 +10,14 @@ import { Button, Card, CardHeader, EmptyState, ErrorState, Input, Loading, MoodC
 import { MedicationCalendar } from '../../features/medications'
 import { MessageCenter } from '../../features/messages'
 import { PandiAvatar, mascotById } from '../child/mascots'
+import { GuardianCreateForm } from './GuardianCreateForm'
+import { Modal } from '../../components/ui/Modal'
 
 type Tab = 'resumo' | 'medicamentos' | 'mensagens' | 'clinico'
 
 function GuardianLinker({ patient, onLinked }: { patient: PatientDetail; onLinked: () => void }) {
+  const { user } = useAuth()
+  const [newGuardian, setNewGuardian] = useState(false)
   const [options, setOptions] = useState<FormOptions | null>(null)
   const [guardianId, setGuardianId] = useState('')
   const [busy, setBusy] = useState(false)
@@ -26,27 +30,29 @@ function GuardianLinker({ patient, onLinked }: { patient: PatientDetail; onLinke
     try { await post(`/api/patients/${patient.id}/guardians`, { guardian_user_id: Number(guardianId) }); setFeedback({ ok: true, text: 'Responsável vinculado no servidor. Nenhum e-mail foi enviado (demo).' }); setGuardianId(''); onLinked() }
     catch (err) { setFeedback({ ok: false, text: errorText(err) }) } finally { setBusy(false) }
   }
-  return <form className="inline-form" onSubmit={link}>
+  return <><form className="inline-form" onSubmit={link}>
     <Select label="Vincular responsável demo existente" value={guardianId} onChange={e => setGuardianId(e.target.value)} disabled={!available.length || busy}>
       <option value="">{available.length ? 'Selecione…' : 'Todos os responsáveis demo já vinculados'}</option>
       {available.map(g => <option key={g.id} value={g.id}>{g.name} · {g.email}</option>)}
     </Select>
     <Button type="submit" variant="ghost" loading={busy} disabled={!guardianId}><LinkIcon size={17}/>Vincular</Button>
     {feedback && <p role="status" className={feedback.ok ? 'success' : 'field-error'}>{feedback.text}</p>}
-  </form>
+  </form>{user?.role === 'CLINICIAN' && <Button variant="ghost" onClick={() => setNewGuardian(true)}>Cadastrar novo responsável</Button>}
+    <Modal open={newGuardian} title="Cadastrar novo responsável" onClose={() => setNewGuardian(false)}><GuardianCreateForm onCreated={created => { setOptions(current => current ? { ...current, guardians: [...current.guardians, created] } : current); setGuardianId(String(created.id)); setNewGuardian(false) }}/></Modal></>
 }
 
 function ClinicalReview({ patient, onSaved }: { patient: PatientClinical; onSaved: (p: PatientClinical) => void }) {
-  const [form, setForm] = useState({ cancer_type_demo: patient.cancer_type_demo ?? '', clinical_stage_demo: patient.clinical_stage_demo ?? '', clinical_notes: patient.clinical_notes ?? '' })
+  const [form, setForm] = useState({ cancer_type_demo: patient.cancer_type_demo ?? '', clinical_stage_demo: patient.clinical_stage_demo ?? '', clinical_notes: patient.clinical_notes ?? '', weight_kg: String(patient.weight_kg ?? ''), height_cm: String(patient.height_cm ?? '') })
   const [busy, setBusy] = useState(false)
   const [feedback, setFeedback] = useState<{ ok: boolean; text: string } | null>(null)
   const save = async (event: React.FormEvent) => {
     event.preventDefault(); setBusy(true); setFeedback(null)
-    try { onSaved(await put<PatientClinical>(`/api/patients/${patient.id}/clinical-review`, form)); setFeedback({ ok: true, text: 'Revisão salva no servidor.' }) }
+    try { onSaved(await put<PatientClinical>(`/api/patients/${patient.id}/clinical-review`, { ...form, weight_kg: form.weight_kg ? Number(form.weight_kg) : null, height_cm: form.height_cm ? Number(form.height_cm) : null })); setFeedback({ ok: true, text: 'Revisão salva no servidor.' }) }
     catch (err) { setFeedback({ ok: false, text: errorText(err) }) } finally { setBusy(false) }
   }
   return <Card><CardHeader eyebrow="SOMENTE PROFISSIONAL MÉDICO" title="Revisão clínica fictícia" subtitle="Campos inteiramente fictícios. Nunca alterados por jogos, humor ou IA; não visíveis à família."/>
     <form className="stack-form" onSubmit={save}>
+      <div className="form-grid"><Input label="Peso da criança (kg)" type="number" min="0.1" max="500" step="0.1" inputMode="decimal" value={form.weight_kg} onChange={e => setForm({ ...form, weight_kg: e.target.value })}/><Input label="Altura da criança (cm)" type="number" min="1" max="250" step="0.1" inputMode="decimal" value={form.height_cm} onChange={e => setForm({ ...form, height_cm: e.target.value })}/></div>
       <div className="form-grid">
         <Input label="Tipo (fictício)" maxLength={120} value={form.cancer_type_demo} onChange={e => setForm({ ...form, cancer_type_demo: e.target.value })}/>
         <Input label="Estágio (fictício)" maxLength={60} value={form.clinical_stage_demo} onChange={e => setForm({ ...form, clinical_stage_demo: e.target.value })}/>
@@ -113,6 +119,7 @@ export function PatientDetailPage() {
               <ul className="activity-list"><li><Gamepad2 size={16}/><div><span>{dashboard.game_sessions_count} brincadeira(s) registrada(s)</span><small>Uso voluntário, não é terapia nem medição.</small></div></li>
                 {dashboard.upcoming_medications.map(m => <li key={`${m.schedule_id}${m.time}`}><ClipboardPen size={16}/><div><span>{m.label} · {m.time}</span><small>Horário fictício programado</small></div></li>)}</ul></Card>
           </div>
+          <Card><CardHeader title="Anotações gerais da família" subtitle="Relatos dos últimos 7 dias, com autor e horário."/>{dashboard.general_notes?.length ? <div className="scroll-panel" role="region" aria-label="Anotações da família" tabIndex={0}><ul className="activity-list">{dashboard.general_notes.map(entry => <li key={entry.id}><ClipboardPen size={16}/><div><span className="preserve-lines">{entry.description}</span><small>{formatDateTime(entry.recorded_at)} · relato da família</small></div></li>)}</ul></div> : <EmptyState>Nenhuma anotação da família neste período.</EmptyState>}</Card>
           <p className="muted small-text">{dashboard.disclaimer ?? 'Indicadores de rotina relatados, não evolução clínica.'}</p>
         </> : !isClinician && <div className="notice"><p>Perfil assistente: registros de rotina, humor e dados clínicos não são exibidos.</p></div>}
       </>}

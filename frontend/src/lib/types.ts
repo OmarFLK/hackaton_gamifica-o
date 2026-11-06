@@ -9,17 +9,18 @@ export type AvatarId = 'pandi'
 export interface Patient { id: number; name: string; birth_date: string; chosen_avatar: string; clinician_id: number }
 export interface LinkedGuardian { id: number; name: string }
 export interface PatientDetail extends Patient { clinician_name: string | null; guardians: LinkedGuardian[] }
-export interface PatientClinical extends PatientDetail { clinical_notes: string | null; cancer_type_demo: string | null; clinical_stage_demo: string | null }
+export interface PatientClinical extends PatientDetail { clinical_notes: string | null; cancer_type_demo: string | null; clinical_stage_demo: string | null; weight_kg?: number | null; height_cm?: number | null }
 export interface PatientCreateInput {
   name: string; birth_date: string; chosen_avatar: AvatarId; clinician_id?: number; guardian_user_id?: number
   clinical_notes?: string; cancer_type_demo?: string; clinical_stage_demo?: string
+  weight_kg?: number; height_cm?: number
 }
 export interface PersonOption { id: number; name: string; email: string }
 export interface FormOptions { clinicians: PersonOption[]; guardians: PersonOption[] }
 
 export type MoodSource = 'CHILD' | 'GUARDIAN'
 export interface MoodEntry { id: number; patient_id: number; score: number; source: MoodSource; recorded_at: string; note: string | null; reporter_user_id: number | null }
-export type RoutineKind = 'water' | 'meal'
+export type RoutineKind = 'water' | 'meal' | 'note'
 export interface RoutineEntry { id: number; patient_id: number; kind: RoutineKind; quantity: number | null; unit: string | null; description: string | null; recorded_at: string; source: string; reporter_user_id: number | null }
 
 export interface MedicationSchedule { id: number; patient_id: number; label: string; times_json: string[]; active: boolean; clinician_id: number }
@@ -40,6 +41,7 @@ export interface GameSession { id: number; patient_id: number; game: GameId; mod
 export interface UpcomingMedication { schedule_id: number; label: string; time: string }
 export interface PatientDashboard {
   patient: PatientDetail; mood_last_7_days: MoodEntry[]; water_entries: RoutineEntry[]; meal_entries: RoutineEntry[]
+  general_notes?: RoutineEntry[]
   game_sessions_count: number; upcoming_medications: UpcomingMedication[]; disclaimer?: string
 }
 

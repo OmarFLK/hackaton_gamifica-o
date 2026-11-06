@@ -9,6 +9,7 @@ import { App } from './app/App'
 import './styles/index.css'
 import './styles/app.css'
 import './styles/communication.css'
+import './styles/preferences.css'
 
 createRoot(document.getElementById('root')!).render(<StrictMode><BrowserRouter><App/></BrowserRouter></StrictMode>)
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {

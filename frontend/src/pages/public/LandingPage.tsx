@@ -3,6 +3,7 @@ import { ArrowRight, Code2, HeartHandshake, ShieldCheck, Sparkles, Stethoscope }
 import { useAuth, homeFor } from '../../app/AuthProvider'
 import { Brand } from '../../components/common/Brand'
 import { DemoBadge } from '../../components/ui/Badge'
+import { PreferencesControls } from '../../components/common/PreferencesControls'
 
 const ENTRIES = [
   { to: '/login?perfil=profissional', icon: Stethoscope, title: 'Sou profissional', text: 'Pacientes vinculados, cadastro, agenda e mensagens com a família.' },
@@ -14,7 +15,7 @@ const ENTRIES = [
 export function LandingPage() {
   const { user } = useAuth()
   return <div className="landing">
-    <header className="landing-header"><Brand/><DemoBadge/>{user ? <Link className="button ghost small" to={homeFor(user.role)}>Continuar como {user.name.split(' ')[0]}<ArrowRight size={16}/></Link> : <Link className="button ghost small" to="/login">Entrar</Link>}</header>
+    <header className="landing-header"><Brand/><DemoBadge/><PreferencesControls/>{user ? <Link className="button ghost small" to={homeFor(user.role)}>Continuar como {user.name.split(' ')[0]}<ArrowRight size={16}/></Link> : <Link className="button ghost small" to="/login">Entrar</Link>}</header>
     <main className="landing-main" id="main-content">
       <section className="landing-hero">
         <span className="eyebrow">SUPERPED · JORNADA CORAJOSA</span>

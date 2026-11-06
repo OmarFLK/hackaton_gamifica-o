@@ -8,6 +8,7 @@ import { Brand } from '../common/Brand'
 import { PwaInstall } from '../common/PwaInstall'
 import { DemoBadge } from '../ui/Badge'
 import { NotificationBell } from '../../features/notifications/NotificationBell'
+import { PreferencesControls } from '../common/PreferencesControls'
 
 interface NavItem { path: string; label: string; icon: LucideIcon; end?: boolean }
 const ROLE_NAMES: Record<Role, string> = { CLINICIAN: 'Profissional de saúde', CLINICAL_ASSISTANT: 'Assistente', GUARDIAN: 'Responsável', DEVELOPER: 'Desenvolvedor' }
@@ -28,6 +29,7 @@ function navigationFor(role: Role): { label: string; items: NavItem[] } {
     { path: '/medico', label: 'Painel', icon: LayoutDashboard, end: true },
     { path: '/medico/pacientes', label: 'Pacientes', icon: Users, end: true },
     { path: '/medico/pacientes/novo', label: 'Novo paciente', icon: UserPlus },
+    ...(role === 'CLINICIAN' ? [{ path: '/medico/responsaveis/novo', label: 'Novo responsável', icon: Users }] : []),
     ...(role === 'CLINICIAN' ? [
       { path: '/medico/mensagens', label: 'Mensagens', icon: MessageCircle },
       { path: '/medico/notificacoes', label: 'Notificações', icon: Bell },
@@ -86,6 +88,7 @@ export function AdultLayout() {
       <header className="topbar">
         <div className="topbar-start"><button className="icon-button mobile-only" aria-label="Abrir menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu/></button><span className="breadcrumb">Pendi <span>/</span> {nav.label.toLowerCase().replace(/^\w/, c => c.toUpperCase())}</span></div>
         <DemoBadge/>
+        <PreferencesControls/>
         <NotificationBell/>
         <span className={`connection ${offline ? 'is-offline' : ''}`}>{offline ? <WifiOff size={15}/> : <Wifi size={15}/>}{offline ? 'Offline' : 'API conectada'}</span>
       </header>

@@ -7,6 +7,8 @@ import { api, errorText, post } from '../../lib/api'
 import type { AvatarId, FormOptions, Patient, PatientCreateInput } from '../../lib/types'
 import { Button, Card, EmptyState, ErrorState, Input, Loading, PageHeading, Select, Textarea } from '../../components/ui'
 import { COMING_SOON, PANDI, PandiAvatar } from '../child/mascots'
+import { GuardianCreateForm } from './GuardianCreateForm'
+import { Modal } from '../../components/ui/Modal'
 
 const STEPS = ['Dados fictícios', 'Equipe e família', 'Revisão']
 
@@ -18,7 +20,8 @@ export function PatientCreatePage() {
   const [step, setStep] = useState(0)
   const [options, setOptions] = useState<FormOptions | null>(null)
   const [loadError, setLoadError] = useState('')
-  const [form, setForm] = useState({ name: '', birth_date: '', chosen_avatar: 'pandi' as AvatarId, clinician_id: '', guardian_user_id: '', cancer_type_demo: '', clinical_stage_demo: '', clinical_notes: '' })
+  const [form, setForm] = useState({ name: '', birth_date: '', chosen_avatar: 'pandi' as AvatarId, clinician_id: '', guardian_user_id: '', cancer_type_demo: '', clinical_stage_demo: '', clinical_notes: '', weight_kg: '', height_cm: '' })
+  const [newGuardian, setNewGuardian] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [busy, setBusy] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -42,6 +45,10 @@ export function PatientCreatePage() {
       else if (new Date(form.birth_date) > new Date()) next.birth_date = 'A data não pode estar no futuro.'
     }
     if (step === 1 && !form.clinician_id) next.clinician_id = 'Selecione o médico responsável.'
+    if (step === 1) {
+      if (form.weight_kg && (!(Number(form.weight_kg) > 0) || Number(form.weight_kg) > 500)) next.weight_kg = 'Informe um peso válido em kg.'
+      if (form.height_cm && (!(Number(form.height_cm) > 0) || Number(form.height_cm) > 250)) next.height_cm = 'Informe uma altura válida em cm.'
+    }
     setErrors(next)
     return !Object.keys(next).length
   }
@@ -50,6 +57,8 @@ export function PatientCreatePage() {
     const body: PatientCreateInput = { name: form.name.trim(), birth_date: form.birth_date, chosen_avatar: form.chosen_avatar, clinician_id: Number(form.clinician_id) }
     if (form.guardian_user_id) body.guardian_user_id = Number(form.guardian_user_id)
     if (isClinician) {
+      if (form.weight_kg) body.weight_kg = Number(form.weight_kg)
+      if (form.height_cm) body.height_cm = Number(form.height_cm)
       if (form.cancer_type_demo.trim()) body.cancer_type_demo = form.cancer_type_demo.trim()
       if (form.clinical_stage_demo.trim()) body.clinical_stage_demo = form.clinical_stage_demo.trim()
       if (form.clinical_notes.trim()) body.clinical_notes = form.clinical_notes.trim()
@@ -82,7 +91,9 @@ export function PatientCreatePage() {
           <option value="">Vincular depois</option>
           {options.guardians.map(g => <option key={g.id} value={g.id}>{g.name} · {g.email}</option>)}
         </Select>
+        {isClinician && <Button type="button" variant="ghost" onClick={() => setNewGuardian(true)}>Cadastrar novo responsável</Button>}
         {isClinician ? <fieldset><legend>Campos clínicos fictícios (opcional, só médico)</legend>
+          <div className="form-grid"><Input label="Peso da criança (kg)" type="number" min="0.1" max="500" step="0.1" inputMode="decimal" value={form.weight_kg} onChange={set('weight_kg')} error={errors.weight_kg}/><Input label="Altura da criança (cm)" type="number" min="1" max="250" step="0.1" inputMode="decimal" value={form.height_cm} onChange={set('height_cm')} error={errors.height_cm}/></div>
           <div className="form-grid"><Input label="Tipo (fictício)" value={form.cancer_type_demo} onChange={set('cancer_type_demo')} maxLength={120}/><Input label="Estágio (fictício)" value={form.clinical_stage_demo} onChange={set('clinical_stage_demo')} maxLength={60}/></div>
           <Textarea label="Notas (fictícias)" value={form.clinical_notes} onChange={set('clinical_notes')} maxLength={2000}/>
         </fieldset> : <div className="notice"><p><strong>Perfil assistente:</strong> cadastro administrativo. Diagnóstico, estágio e prescrição ficam com o médico.</p></div>}
@@ -91,6 +102,7 @@ export function PatientCreatePage() {
         <div><dt>Nome</dt><dd>{form.name}</dd></div><div><dt>Nascimento</dt><dd>{form.birth_date.split('-').reverse().join('/')}</dd></div>
         <div><dt>Companheiro</dt><dd>{PANDI.name}</dd></div>
         <div><dt>Médico(a)</dt><dd>{clinician?.name ?? '—'}</dd></div><div><dt>Família</dt><dd>{guardian?.name ?? 'Vincular depois'}</dd></div>
+        {form.weight_kg && <div><dt>Peso</dt><dd>{form.weight_kg} kg</dd></div>}{form.height_cm && <div><dt>Altura</dt><dd>{form.height_cm} cm</dd></div>}
         {isClinician && form.cancer_type_demo && <div><dt>Tipo (fictício)</dt><dd>{form.cancer_type_demo}</dd></div>}
       </dl>}
       {submitError && <ErrorState message={submitError}/>}
@@ -99,5 +111,6 @@ export function PatientCreatePage() {
         {step < 2 ? <Button onClick={() => validateStep() && setStep(step + 1)}>Continuar<ArrowRight size={17}/></Button> : <Button onClick={submit} loading={busy}><Check size={17}/>Cadastrar no servidor</Button>}
       </div>
     </Card>
+    <Modal open={newGuardian} title="Cadastrar novo responsável" onClose={() => setNewGuardian(false)}><GuardianCreateForm onCreated={created => { setOptions(current => current ? { ...current, guardians: [...current.guardians, created] } : current); setForm(current => ({ ...current, guardian_user_id: String(created.id) })); setNewGuardian(false) }}/></Modal>
   </>
 }

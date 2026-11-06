@@ -10,6 +10,7 @@ import { ProtectedRoute, useAuth } from './AuthProvider'
 import { ConversationInbox } from '../features/messages/ConversationInbox'
 import { NotificationsPage } from '../features/notifications/NotificationsPage'
 import { AIChatPage } from '../features/assistant/AIChatPage'
+import { GuardianCreatePage } from '../pages/doctor/GuardianCreatePage'
 
 function DeveloperPage() {
   const { offline } = useAuth()
@@ -30,6 +31,7 @@ export function AppRoutes() {
         <Route path="pacientes/:id" element={<PatientDetailPage/>}/>
         <Route path="ajuda" element={<HelpPage/>}/>
         <Route element={<ProtectedRoute roles={['CLINICIAN']}/>}>
+          <Route path="responsaveis/novo" element={<GuardianCreatePage/>}/>
           <Route path="mensagens" element={<ConversationInbox/>}/>
           <Route path="notificacoes" element={<NotificationsPage/>}/>
           <Route path="ia" element={<AIChatPage/>}/>

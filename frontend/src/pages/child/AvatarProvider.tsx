@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo } from 'react'
 import { mascotById, type Mascot } from './mascots'
+import { narrate } from '../../lib/preferences'
 
 /**
  * Companheiro ativo da criança. Hoje só existe o Pandi; o provider continua existindo
@@ -21,12 +22,5 @@ export function useAvatar() {
 
 /** Apoio sonoro opcional com voz sintética genérica do navegador (sem clonagem). */
 export function speakText(text: string) {
-  if (!('speechSynthesis' in window)) return false
-  window.speechSynthesis.cancel()
-  const utterance = new SpeechSynthesisUtterance(text)
-  utterance.lang = 'pt-BR'; utterance.rate = 0.92
-  const voice = window.speechSynthesis.getVoices().find(v => v.lang === 'pt-BR')
-  if (voice) utterance.voice = voice
-  window.speechSynthesis.speak(utterance)
-  return true
+  return narrate(text)
 }

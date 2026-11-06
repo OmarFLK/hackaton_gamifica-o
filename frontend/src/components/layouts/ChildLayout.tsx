@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { HandHeart, LogOut, Pause } from 'lucide-react'
 import { DemoBadge } from '../ui/Badge'
 import { Modal } from '../ui/Modal'
+import { PreferencesControls } from '../common/PreferencesControls'
 
 export const CHILD_PAUSE_EVENT = 'superped:child-pause'
 export const CHILD_CALL_ADULT_EVENT = 'superped:child-call-adult'
@@ -36,6 +37,7 @@ export function ChildLayout({ theme, title, onExit, offline, children }: { theme
       <span className="kid-title">{title ?? 'Meu mundo'}</span>
       <DemoBadge suffix={offline ? 'OFFLINE' : undefined}/>
       <div className="kid-actions">
+        <PreferencesControls/>
         <button className="kid-button" onClick={pauseChildWorld}><Pause size={20}/>Pausar</button>
         <button className="kid-button kid-call" onClick={callAdult}><HandHeart size={20}/>Chamar adulto</button>
         <button className="kid-button" onClick={() => { pauseChildWorld(); onExit() }}><LogOut size={20}/>Sair</button>

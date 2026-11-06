@@ -1,5 +1,9 @@
 # Pendi (SuperPed) — status real dos módulos
 
+## Preferências e família
+
+Adicionados controles globais de narrador/modo escuro, cadastro de responsável pelo médico, peso/altura, anotações da família e histórico com rolagem interna. 126 testes API, 17 frontend, build e fluxos desktop/mobile aprovados. [Detalhes e testes](PREFERENCIAS_E_FAMILIA.md).
+
 ## Publicação em nuvem — 06/11/2026
 
 PR #2 revisado e integrado à main. Produção demonstrativa: https://hackatongamifica-o.vercel.app, API https://pendi-demo-api.onrender.com e PostgreSQL Neon `production` com 11 tabelas. Configuração e provas: [DEPLOY_GRATUITO.md](DEPLOY_GRATUITO.md). Passaram build da raiz, 21 verificações desktop/mobile na URL pública e 11 verificações de API com os três perfis RAG/Gemma. Antes da publicação passaram 120 testes backend e 17 frontend. As seções abaixo preservam resultados históricos; o estado atual e as limitações de voz/câmera estão no guia de deploy.

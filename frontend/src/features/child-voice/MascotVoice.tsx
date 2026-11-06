@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { HandHeart, Mic, Pause, Play, Volume2, VolumeX } from 'lucide-react'
 import { phrases, safeVoiceAnswer, welcome } from './phrases'
+import { narratorEnabled, NARRATOR_CHANGE_EVENT } from '../../lib/preferences'
 
 interface RecognitionInstance {
   lang: string; continuous: boolean; interimResults: boolean
@@ -21,6 +22,11 @@ export function MascotVoice({ onCallAdult, mascotName = 'Pandi' }: { onCallAdult
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
   const recognition = useRef<RecognitionInstance | null>(null)
   const ttsSupported = 'speechSynthesis' in window
+  useEffect(() => {
+    const changed = () => { if (!narratorEnabled()) setSpeaking(false) }
+    window.addEventListener(NARRATOR_CHANGE_EVENT, changed)
+    return () => window.removeEventListener(NARRATOR_CHANGE_EVENT, changed)
+  }, [])
   const Constructor = (window as VoiceWindow).SpeechRecognition || (window as VoiceWindow).webkitSpeechRecognition
   const stop = () => { if (ttsSupported) window.speechSynthesis.cancel(); recognition.current?.abort(); setSpeaking(false); setListening(false) }
   useEffect(() => {
@@ -37,7 +43,7 @@ export function MascotVoice({ onCallAdult, mascotName = 'Pandi' }: { onCallAdult
     // O componente não solicita câmera nem mantém streams de mídia próprios.
   }, [ttsSupported])
   const speak = () => {
-    if (!ttsSupported) return
+    if (!ttsSupported || !narratorEnabled()) return
     stop(); setError('')
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'pt-BR'; utterance.rate = 0.92
