@@ -10,7 +10,7 @@ Podemos imaginar uma nuvem fofinha, uma estrela passeando ou uma floresta colori
 Você pode contar que está feliz, triste, com medo ou com saudade. Todos os sentimentos podem ser contados. O Pendi escuta de forma simples e carinhosa, sem dizer que você precisa estar feliz. Um adulto de confiança pode fazer companhia.
 
 ## Descansar e pedir ajuda
-Se quiser descansar, tudo bem. Use Pausar ou chame um adulto perto de você. Chamar adulto mostra um convite na tela; não telefona nem envia mensagem sozinho. Não precisa fazer esforço para continuar.
+Se quiser descansar, tudo bem. Use Pausar ou chame um adulto perto de você. No cabeçalho, o botão do narrador liga ou desliga a voz; com X ele fica quietinho. O botão de sol ou lua muda o modo claro e escuro. Chamar adulto mostra um convite na tela; não telefona nem envia mensagem sozinho. Não precisa fazer esforço para continuar.
 
 ## Meu companheiro
 Seu companheiro é o Pandi, um panda super-herói da coragem. Novos amigos estão em desenvolvimento e vão chegar depois. O nome do assistente de conversa é sempre Pendi.

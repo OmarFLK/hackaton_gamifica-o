@@ -10,6 +10,8 @@ LEGACY_PATIENT_COLUMNS = {
     'clinical_notes': 'TEXT',
     'cancer_type_demo': 'VARCHAR(120)',
     'clinical_stage_demo': 'VARCHAR(60)',
+    'weight_kg': 'FLOAT',
+    'height_cm': 'FLOAT',
 }
 
 

@@ -7,7 +7,7 @@ Os tipos de MedicationEvent/Message são os mesmos usados pelos routers 10–11.
 """
 from datetime import datetime, timezone
 
-from sqlalchemy import JSON, Boolean, ForeignKey, Index, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, Boolean, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
@@ -43,6 +43,8 @@ class Patient(Base):
     clinical_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
     cancer_type_demo: Mapped[str | None] = mapped_column(String(120), nullable=True)
     clinical_stage_demo: Mapped[str | None] = mapped_column(String(60), nullable=True)
+    weight_kg: Mapped[float | None] = mapped_column(Float, nullable=True)
+    height_cm: Mapped[float | None] = mapped_column(Float, nullable=True)
     chosen_avatar: Mapped[str] = mapped_column(String(30), default='pandi')
     clinician_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
 

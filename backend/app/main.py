@@ -8,7 +8,7 @@ from app.core.config import demo_mode, frontend_origins, jwt_secret
 from app.core.database import init_db
 from app.routers import (assistant, auth, developer, games, medications, messages, mood, patients, routines)
 from app.seed import run_seed
-from app.routers import conversations, notifications, ai, speech
+from app.routers import conversations, notifications, ai, speech, guardians
 
 
 @asynccontextmanager
@@ -44,7 +44,7 @@ async def security_headers(request, call_next):
 
 for router in (auth.router, patients.router, routines.router, mood.router, games.router,
                medications.router, messages.router, assistant.router, developer.router,
-               conversations.router, notifications.router, ai.router, speech.router):
+               conversations.router, notifications.router, ai.router, speech.router, guardians.router):
     app.include_router(router)
 
 

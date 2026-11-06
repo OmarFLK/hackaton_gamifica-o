@@ -18,7 +18,7 @@ from app.models.schemas import (ClinicalReviewInput, Dashboard, GuardianLinkInpu
                                 UpcomingMedication)
 
 router = APIRouter(prefix='/api/patients', tags=['Pacientes'])
-CLINICAL_FIELDS = ('clinical_notes', 'cancer_type_demo', 'clinical_stage_demo')
+CLINICAL_FIELDS = ('clinical_notes', 'cancer_type_demo', 'clinical_stage_demo', 'weight_kg', 'height_cm')
 
 
 def scoped_query(db: Session, user: User):
@@ -110,8 +110,8 @@ def add_guardian(data: GuardianLinkInput, patient: Patient = Depends(require_pat
 def clinical_review(data: ClinicalReviewInput, patient: Patient = Depends(require_patient_access('CLINICIAN')),
                     user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Revisão manual de campos fictícios pelo médico. Nunca alterada por jogo, humor ou IA."""
-    for field, value in data.model_dump().items():
-        setattr(patient, field, value.strip() if isinstance(value, str) and value.strip() else None)
+    for field, value in data.model_dump(exclude_unset=True).items():
+        setattr(patient, field, (value.strip() or None) if isinstance(value, str) else value)
     db.commit()
     return detail_for(db, user, patient)
 
@@ -134,4 +134,5 @@ def dashboard(patient: Patient = Depends(require_patient_access('CLINICIAN', 'GU
                      mood_last_7_days=[MoodOut.model_validate(m) for m in moods],
                      water_entries=[RoutineOut.model_validate(r) for r in routines if r.kind == 'water'],
                      meal_entries=[RoutineOut.model_validate(r) for r in routines if r.kind == 'meal'],
+                     general_notes=[RoutineOut.model_validate(r) for r in routines if r.kind == 'note'],
                      game_sessions_count=games, upcoming_medications=upcoming)

@@ -6,7 +6,8 @@ Entradas usam extra='forbid': autor, fonte de servidor e IDs não vêm do formul
 from datetime import date
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+import re
 
 # Somente Pandi está disponível; novos companheiros estão em desenvolvimento.
 Avatar = Literal['pandi']
@@ -46,6 +47,28 @@ class GuardianOption(ORM):
     email: str
 
 
+class GuardianCreate(Strict):
+    name: str = Field(min_length=2, max_length=120)
+    email: str = Field(min_length=5, max_length=200)
+    password: str = Field(min_length=12, max_length=128)
+
+    @field_validator('name')
+    @classmethod
+    def clean_name(cls, value):
+        value = value.strip()
+        if len(value) < 2:
+            raise ValueError('Informe o nome do responsavel')
+        return value
+
+    @field_validator('email')
+    @classmethod
+    def clean_email(cls, value):
+        value = value.strip().lower()
+        if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', value):
+            raise ValueError('Informe um email valido')
+        return value
+
+
 # ---------- Pacientes ----------
 class PatientSummary(ORM):
     id: int
@@ -69,6 +92,8 @@ class PatientClinical(PatientDetail):
     clinical_notes: str | None = None
     cancer_type_demo: str | None = None
     clinical_stage_demo: str | None = None
+    weight_kg: float | None = None
+    height_cm: float | None = None
 
 
 class PatientCreate(Strict):
@@ -80,6 +105,8 @@ class PatientCreate(Strict):
     clinical_notes: str | None = Field(default=None, max_length=2000)
     cancer_type_demo: str | None = Field(default=None, max_length=120)
     clinical_stage_demo: str | None = Field(default=None, max_length=60)
+    weight_kg: float | None = Field(default=None, gt=0, le=500, allow_inf_nan=False)
+    height_cm: float | None = Field(default=None, gt=0, le=250, allow_inf_nan=False)
 
     @field_validator('name')
     @classmethod
@@ -106,6 +133,8 @@ class ClinicalReviewInput(Strict):
     clinical_notes: str | None = Field(default=None, max_length=2000)
     cancer_type_demo: str | None = Field(default=None, max_length=120)
     clinical_stage_demo: str | None = Field(default=None, max_length=60)
+    weight_kg: float | None = Field(default=None, gt=0, le=500, allow_inf_nan=False)
+    height_cm: float | None = Field(default=None, gt=0, le=250, allow_inf_nan=False)
 
 
 # ---------- Humor ----------
@@ -127,15 +156,23 @@ class MoodOut(ORM):
 
 # ---------- Rotina ----------
 class RoutineInput(Strict):
-    kind: Literal['water', 'meal']
+    kind: Literal['water', 'meal', 'note']
     quantity: int | None = Field(default=None, ge=0, le=5000)
     unit: Literal['ml'] | None = None
-    description: str | None = Field(default=None, max_length=300)
+    description: str | None = Field(default=None, max_length=2000)
 
     @field_validator('description')
     @classmethod
     def strip_description(cls, value: str | None) -> str | None:
         return value.strip() or None if value is not None else None
+
+    @model_validator(mode='after')
+    def valid_description(self):
+        if self.kind == 'meal' and self.description and len(self.description) > 300:
+            raise ValueError('Descricao de refeicao limitada a 300 caracteres')
+        if self.kind == 'note' and not self.description:
+            raise ValueError('Escreva a anotacao geral')
+        return self
 
 
 class RoutineOut(ORM):
@@ -178,6 +215,7 @@ class Dashboard(BaseModel):
     mood_last_7_days: list[MoodOut]
     water_entries: list[RoutineOut]
     meal_entries: list[RoutineOut]
+    general_notes: list[RoutineOut] = Field(default_factory=list)
     game_sessions_count: int
     upcoming_medications: list[UpcomingMedication]
     disclaimer: str = 'Indicadores de rotina relatados, não evolução clínica. DEMONSTRAÇÃO.'

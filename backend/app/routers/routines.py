@@ -26,8 +26,8 @@ def create_routine(data: RoutineInput, patient: Patient = Depends(require_patien
         entry = RoutineEntry(patient_id=patient.id, kind='water', quantity=data.quantity, unit='ml')
     else:
         if not data.description:
-            raise HTTPException(422, 'Descreva a refeição')
-        entry = RoutineEntry(patient_id=patient.id, kind='meal', description=data.description)
+            raise HTTPException(422, 'Preencha a descricao do registro')
+        entry = RoutineEntry(patient_id=patient.id, kind=data.kind, description=data.description)
     # Autor e fonte vêm da sessão, nunca do formulário.
     entry.source, entry.reporter_user_id = 'GUARDIAN', user.id
     db.add(entry)
