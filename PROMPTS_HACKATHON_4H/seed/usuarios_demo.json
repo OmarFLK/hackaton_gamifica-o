@@ -1,0 +1,99 @@
+{
+  "disclaimer": "DADOS 100% FICTÍCIOS — SOMENTE DEMO",
+  "accounts": [
+    {
+      "name": "Dra. Marina Demo",
+      "email": "medico@superped.demo",
+      "password": "Demo2026!",
+      "role": "CLINICIAN"
+    },
+    {
+      "name": "Rafa Responsável",
+      "email": "responsavel@superped.demo",
+      "password": "Demo2026!",
+      "role": "GUARDIAN"
+    },
+    {
+      "name": "Alex Assistente",
+      "email": "assistente@superped.demo",
+      "password": "Demo2026!",
+      "role": "CLINICAL_ASSISTANT"
+    },
+    {
+      "name": "Dani Tecnologia",
+      "email": "dev@superped.demo",
+      "password": "Demo2026!",
+      "role": "DEVELOPER"
+    }
+  ],
+  "patients": [
+    {
+      "name": "Nina Aurora",
+      "birth_date": "2017-05-17",
+      "chosen_avatar": "pandi",
+      "clinician_email": "medico@superped.demo",
+      "guardian_email": "responsavel@superped.demo"
+    },
+    {
+      "name": "Theo Nuvem",
+      "birth_date": "2015-10-02",
+      "chosen_avatar": "arco",
+      "clinician_email": "medico@superped.demo",
+      "guardian_email": "responsavel@superped.demo"
+    },
+    {
+      "name": "Lia Sol",
+      "birth_date": "2019-07-09",
+      "chosen_avatar": "niva",
+      "clinician_email": "medico@superped.demo",
+      "guardian_email": "responsavel@superped.demo"
+    }
+  ],
+  "medications": [
+    {
+      "patient": "Nina Aurora",
+      "label": "Medicamento A",
+      "times_json": [
+        "08:00",
+        "20:00"
+      ]
+    },
+    {
+      "patient": "Theo Nuvem",
+      "label": "Medicamento B",
+      "times_json": [
+        "09:00"
+      ]
+    }
+  ],
+  "mood_demo": [
+    {
+      "patient": "Nina Aurora",
+      "score": 5,
+      "source": "CHILD"
+    },
+    {
+      "patient": "Nina Aurora",
+      "score": 3,
+      "source": "CHILD"
+    },
+    {
+      "patient": "Theo Nuvem",
+      "score": 6,
+      "source": "GUARDIAN"
+    }
+  ],
+  "routines_demo": [
+    {
+      "patient": "Nina Aurora",
+      "kind": "water",
+      "quantity": 150,
+      "unit": "ml"
+    },
+    {
+      "patient": "Nina Aurora",
+      "kind": "meal",
+      "description": "Lanche informado pela família"
+    }
+  ]
+}
