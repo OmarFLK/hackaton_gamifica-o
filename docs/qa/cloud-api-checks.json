@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-11-06T18:47:58.428599+00:00",
+  "api_url": "https://pendi-demo-api.onrender.com",
+  "frontend_url": "https://hackatongamifica-o.vercel.app",
+  "results": [
+    {
+      "test": "Render HTTPS: /api/health 200",
+      "status": "PASSOU"
+    },
+    {
+      "test": "CORS aceita a Vercel; origem externa e acesso sem token bloqueados",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Seis contas ficticias autenticam com JWT",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Cada responsavel ve seus vinculos; URLs de outra crianca e IA infantil retornam 403",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Relato ficticio escrito e relido pelo backend no PostgreSQL Neon",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Mensagem medico-familia persiste e notifica apenas o responsavel vinculado",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Protecao infantil encaminha pergunta clinica ao adulto",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Whisper no Render",
+      "available": false,
+      "note": "Sem modelo no servidor, a interface usa reconhecimento do navegador quando disponivel."
+    },
+    {
+      "test": "Gemma real + RAG isolado por perfil: guardian",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Gemma real + RAG isolado por perfil: clinician",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Gemma real + RAG isolado por perfil: child",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Vercel publica sem autenticacao da hospedagem: SPA, rotas internas, PNG e service worker",
+      "status": "PASSOU"
+    }
+  ]
+}

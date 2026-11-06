@@ -1,5 +1,9 @@
 # Pendi (SuperPed) — status real dos módulos
 
+## Publicação em nuvem — 06/11/2026
+
+PR #2 revisado e integrado à main. Produção demonstrativa: https://hackatongamifica-o.vercel.app, API https://pendi-demo-api.onrender.com e PostgreSQL Neon `production` com 11 tabelas. Configuração e provas: [DEPLOY_GRATUITO.md](DEPLOY_GRATUITO.md). Passaram build da raiz, 21 verificações desktop/mobile na URL pública e 11 verificações de API com os três perfis RAG/Gemma. Antes da publicação passaram 120 testes backend e 17 frontend. As seções abaixo preservam resultados históricos; o estado atual e as limitações de voz/câmera estão no guia de deploy.
+
 ## Atualização de comunicação e IA
 
 Implementados: central humana de conversas, avisos/sino/leitura por usuário, Pendi com Gemma 27B real da Mauá, três bases RAG isoladas e transcrição local com revisão antes do envio infantil. O navegador passou em 12 novas verificações com duas contas e captura sintética. Ver [PENDI_CHAT_RAG_VOZ.md](PENDI_CHAT_RAG_VOZ.md). Os resultados anteriores do PR #1 abaixo são históricos.
@@ -32,7 +36,7 @@ Atualizado em 06/11/2026 após a revisão do PR #1. Este quadro só lista o que 
 
 ## Não feito / pendente real
 
-- Backend Render e banco Neon **não validados nesta execução**. Há preview Vercel informado no PR; integração pública de login/gravações ainda precisa ser conferida.
+- Atualização: backend Render, banco Neon e frontend Vercel foram publicados e validados em 06/11/2026; consultar o guia de deploy acima para URLs, testes e limites atuais.
 - Microfone e câmera testados com dispositivos sintéticos do Edge, incluindo fechamento dos tracks e permissão negada. Validar hardware físico antes da apresentação.
 - Personagens Homem-Aranha, Mickey e Minnie: somente o nome com aviso "Em desenvolvimento". Uso de arte, voz ou nome em produção exige licença dos detentores (Marvel/Disney) e contraria a regra original do briefing; decisão pendente da equipe.
 - Kiosk infantil sem responsável não foi implementado (opcional no contrato).

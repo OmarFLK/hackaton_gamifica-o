@@ -13,3 +13,6 @@ pytest-cache-files-*/
 playwright-report/
 test-results/
 .runtime/
+.neon
+
+.vercel

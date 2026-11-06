@@ -62,11 +62,11 @@ Frontend: em `frontend`, `npm test` e `npm run build`. Desenvolvimento: `npm run
 - [Contrato de API](docs/CONTRATO_MVP_4H.md)
 - [Guia para o outro desenvolvedor](docs/INTEGRATION_NOTES.md)
 - [Resultados atuais dos testes](docs/TESTES_MODULOS_10_18.md)
-- [Deploy preparado, ainda não publicado](docs/DEPLOY_GRATUITO.md)
+- [Deploy publicado: Neon, Render e Vercel — passo a passo](docs/DEPLOY_GRATUITO.md)
 - [Contingência local](docs/PLANO_B_OFFLINE.md)
 - [Pitch](docs/PITCH_3_MINUTOS.md) e [roteiro da demo](docs/ROTEIRO_DEMO.md)
 
-Banco SQLite local funcional, incluindo atualização preservando dados da demo antiga. O backend com banco Neon remoto ainda precisa ser configurado/validado; o preview Vercel informado no PR não comprova essa integração. O blueprint e o rewrite SPA estão prontos. Consulte as pendências reais no relatório de revisão.
+Aplicativo publicado: https://hackatongamifica-o.vercel.app. API: https://pendi-demo-api.onrender.com. Frontend Vercel → backend Render → PostgreSQL Neon validados com leitura/escrita, mensagens/notificações e Gemma real nos três perfis. Passaram 21 verificações desktop/mobile contra a URL pública. Ambientes privados foram configurados sem publicar credenciais. O [guia de deploy](docs/DEPLOY_GRATUITO.md) registra campos, comandos, evidências e os limites de voz, câmera opcional e Render Free.
 
 Omar Saliba 
 Bernardo Cassiano 

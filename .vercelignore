@@ -1,0 +1,17 @@
+.env*
+**/.env*
+.neon
+.runtime/
+.venv/
+.agents/
+.codex/
+.claude/
+backend/
+integration-kit/
+mascotes_separados_png/
+PROMPTS_HACKATHON_4H/
+seed/
+docs/
+scripts/
+**/*.db
+**/__pycache__/

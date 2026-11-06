@@ -3,6 +3,8 @@ services:
     name: pendi-demo-api
     runtime: python
     plan: free
+    region: ohio
+    branch: main
     rootDir: backend
     buildCommand: pip install -r requirements.lock.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -16,5 +18,21 @@ services:
         generateValue: true
       - key: DATABASE_URL
         sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
       - key: FRONTEND_URL
         sync: false
+      - key: BARO_API_KEY
+        sync: false
+      - key: AI_API_URL
+        value: https://ia.maua.br/api/v1
+      - key: AI_API_MODEL
+        value: google/gemma-3-27b
+      - key: AI_ALLOWED_HOSTS
+        value: ia.maua.br
+      - key: AI_PROVIDER_LABEL
+        value: Pendi
+      - key: AI_ALLOW_HTTP
+        value: "false"
+      - key: ALLOW_DB_RESET
+        value: "false"
