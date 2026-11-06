@@ -65,3 +65,9 @@ Frontend: em `frontend`, `npm test` e `npm run build`. Desenvolvimento: `npm run
 - [Pitch](docs/PITCH_3_MINUTOS.md) e [roteiro da demo](docs/ROTEIRO_DEMO.md)
 
 Banco SQLite local funcional, incluindo atualização preservando dados da demo antiga. O backend com banco Neon remoto ainda precisa ser configurado/validado; o preview Vercel informado no PR não comprova essa integração. O blueprint e o rewrite SPA estão prontos. Consulte as pendências reais no relatório de revisão.
+
+Omar Saliba 
+Bernardo Cassiano 
+Andrey Salomao 
+Igor Fernandes
+Thawanne 
