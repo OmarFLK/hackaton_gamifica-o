@@ -1,0 +1,37 @@
+{
+  "base": "https://hackatongamifica-o.vercel.app",
+  "results": [
+    {
+      "test": "Narrador inicia desligado; tema escuro persiste ao recarregar",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Medico cria responsavel no cadastro e vincula a crianca com peso e altura",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Medidas editadas pelo medico persistem apos recarregar a ficha",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Nova familia acessa somente seu vinculo; anotacao persiste e historico rola dentro do bloco",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Narrador fala quando ligado, cancela ao desligar e permanece mudo apos reload",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Cartoes infantis no tema escuro mantem contraste de texto de pelo menos 4.5:1",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Cabecalhos e novos formularios cabem em 375px; temas claro e escuro alternam",
+      "status": "PASSOU"
+    },
+    {
+      "test": "Medico le anotacao da familia e acessa pagina dedicada de cadastro; nenhum erro JS",
+      "status": "PASSOU"
+    }
+  ]
+}

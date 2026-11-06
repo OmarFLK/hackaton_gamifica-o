@@ -21,7 +21,7 @@ Novo endpoint: `POST /api/guardians`, somente `CLINICIAN`; normaliza e-mail, rej
 
 - 126 testes backend aprovados, incluindo novas permissões, senha, e-mail duplicado, medidas e notas por vínculo.
 - 17 testes frontend aprovados e build TypeScript/Vite aprovado.
-- `scripts/smoke_family_updates.py`: sete verificações completas no Edge, incluindo cadastro real via modal, vínculo, edição de medidas, leitura pelo médico, rolagem interna, persistência das preferências e telas em 375px sem rolagem horizontal. A fala é interceptada no teste para contar chamadas, sem emitir som.
+- `scripts/smoke_family_updates.py`: oito verificações completas no Edge contra a URL pública, incluindo cadastro real via modal, vínculo, edição de medidas, leitura pelo médico, rolagem interna, persistência das preferências e telas em 375px sem rolagem horizontal. Contraste mínimo de 4,5:1 confirmado nos textos dos cartões infantis escuros. A fala é interceptada no teste para contar chamadas, sem emitir som. [Relatório público](qa/preferences-family-public.json).
 - Capturas e relatório local em `.runtime/family-updates/`.
 
 Reexecutar em produção (cria somente registros fictícios):
