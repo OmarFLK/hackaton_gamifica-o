@@ -1,3 +1,31 @@
+# Integração
+
+## Módulos 01–09 (fundação, portais, área infantil e jogos)
+
+Atualizado em 06/11/2026. A fundação substituiu a bancada temporária, conforme a seção "Base temporária" abaixo previa.
+
+**Backend**
+- `app/core/config.py`, `database.py`, `security.py`, `dependencies.py`; `app/models/entities.py` e `schemas.py`; `app/seed.py`.
+- `app/integration.py` agora reexporta a fundação; os routers 10–13 não foram alterados. `demo_support.py` foi removido; os testes originais só tiveram os imports trocados.
+- Novos routers: `auth`, `patients`, `routines`, `mood`, `games` (todos registrados em `main.py`).
+- Startup: cria tabelas sempre; o seed só roda com `DEMO_MODE=true` (antes a API se recusava a subir sem a flag).
+
+**Extensões ao contrato (documentadas, sem quebrar campos existentes)**
+- `ClinicianDelegate` (médico → assistente). O seed delega `assistente@` para `medico@`. O assistente lista os pacientes delegados, cadastra pacientes (sem campos clínicos) e vincula a família; continua com 403 em medicamentos/mensagens/humor/rotina.
+- `reporter_user_id` em `MoodEntry`, `RoutineEntry` e `GameSession`, sempre vindo do token.
+- `GET /api/patients/form-options` (médicos representáveis e responsáveis demo) e `PUT /api/patients/{id}/clinical-review` (só médico; campos fictícios).
+- `GET /api/patients/{id}/games` para leitura. A resposta do detalhe inclui `clinician_name` e `guardians`; os campos clínicos aparecem só para `CLINICIAN`.
+- Escrita de humor, rotina e jogos: somente `GUARDIAN` vinculado (a criança registra pela sessão dele).
+
+**Frontend (`frontend/`, app oficial)**
+- Criado a partir do kit: features 10–13, marca, manifest e service worker foram reaproveitados sem reescrita. O shell provisório (`App.tsx`/`SessionProvider`) foi substituído por `app/AuthProvider.tsx` (com `ProtectedRoute` e modo offline), `PatientsProvider.tsx` e `router.tsx`.
+- Exports: `LandingPage`, `LoginPage`/`LoginForm` (`pages/public`), `AdultLayout`, `ChildLayout` (`components/layouts`), `DemoBadge` e primitives (`components/ui`), páginas `doctor/*`, `guardian/*`, `child/*` e `CandleGame`, `BirdGame`, `StarGame` (`features/games`).
+- `components/ui` reexporta `Loading`/`ErrorState`/`EmptyState` de `components/common/Feedback`, sem duplicá-los.
+- `scripts/setup-demo.ps1` e `start-demo.ps1` agora usam `frontend/`. `start-demo.ps1 -ApiPort 8010` permite outra porta, recompilando com `VITE_API_URL`.
+- Smoke de navegador: `scripts/smoke_01_09.py` (variável `SMOKE_BASE`).
+
+---
+
 # Integração dos módulos 10–18
 
 Atualizado em 06/11/2026. A interface geral será desenvolvida pelo outro dev e enviada pelo GitHub. Não substituir a interface dele por este kit.

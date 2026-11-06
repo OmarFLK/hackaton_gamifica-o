@@ -1,0 +1,20 @@
+/* Tokens canônicos SuperPed/Pendi. Institucionais: não alterar por tema infantil. */
+:root {
+  --navy: #203774;
+  --night: #132653;
+  --wine: #941C2F;
+  --black: #101521;
+  --white: #FFFFFF;
+  --ice: #F4F6FA;
+  --border: #E3E7EF;
+  --muted: #5f6b80;           /* 4.9:1 sobre branco */
+  --focus: #4b82c6;
+  --chart-series: #3F5FAE;    /* validado (dataviz) para série única */
+
+  --font-title: 'Montserrat Variable', Montserrat, 'Segoe UI', Arial, sans-serif;
+  --font-body: 'Open Sans Variable', 'Open Sans', 'Segoe UI', Arial, sans-serif;
+  --font-kid: 'Nunito Variable', Nunito, 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+
+  --radius: 12px;
+  --tap: 48px;
+}

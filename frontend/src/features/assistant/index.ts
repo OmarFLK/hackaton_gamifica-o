@@ -1,0 +1,1 @@
+export { InformationalAssistant } from './InformationalAssistant'

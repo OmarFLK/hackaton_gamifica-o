@@ -1,0 +1,1 @@
+export { MascotVoice } from './MascotVoice'

@@ -70,17 +70,50 @@
     {
       "patient": "Nina Aurora",
       "score": 5,
-      "source": "CHILD"
+      "source": "CHILD",
+      "days_ago": 0
     },
     {
       "patient": "Nina Aurora",
       "score": 3,
-      "source": "CHILD"
+      "source": "CHILD",
+      "days_ago": 1
+    },
+    {
+      "patient": "Nina Aurora",
+      "score": 4,
+      "source": "GUARDIAN",
+      "days_ago": 2
+    },
+    {
+      "patient": "Nina Aurora",
+      "score": 6,
+      "source": "CHILD",
+      "days_ago": 4
+    },
+    {
+      "patient": "Nina Aurora",
+      "score": 5,
+      "source": "CHILD",
+      "days_ago": 5
     },
     {
       "patient": "Theo Nuvem",
       "score": 6,
-      "source": "GUARDIAN"
+      "source": "GUARDIAN",
+      "days_ago": 0
+    },
+    {
+      "patient": "Theo Nuvem",
+      "score": 7,
+      "source": "CHILD",
+      "days_ago": 2
+    },
+    {
+      "patient": "Theo Nuvem",
+      "score": 4,
+      "source": "CHILD",
+      "days_ago": 3
     }
   ],
   "routines_demo": [
@@ -88,12 +121,96 @@
       "patient": "Nina Aurora",
       "kind": "water",
       "quantity": 150,
-      "unit": "ml"
+      "unit": "ml",
+      "days_ago": 0
+    },
+    {
+      "patient": "Nina Aurora",
+      "kind": "water",
+      "quantity": 200,
+      "unit": "ml",
+      "days_ago": 0
     },
     {
       "patient": "Nina Aurora",
       "kind": "meal",
-      "description": "Lanche informado pela família"
+      "description": "Lanche informado pela família",
+      "days_ago": 0
+    },
+    {
+      "patient": "Nina Aurora",
+      "kind": "water",
+      "quantity": 300,
+      "unit": "ml",
+      "days_ago": 1
+    },
+    {
+      "patient": "Nina Aurora",
+      "kind": "meal",
+      "description": "Almoço relatado",
+      "days_ago": 1
+    },
+    {
+      "patient": "Nina Aurora",
+      "kind": "water",
+      "quantity": 250,
+      "unit": "ml",
+      "days_ago": 3
+    },
+    {
+      "patient": "Theo Nuvem",
+      "kind": "water",
+      "quantity": 400,
+      "unit": "ml",
+      "days_ago": 0
+    },
+    {
+      "patient": "Theo Nuvem",
+      "kind": "meal",
+      "description": "Café da manhã relatado",
+      "days_ago": 0
+    }
+  ],
+  "delegations": [
+    {
+      "assistant_email": "assistente@superped.demo",
+      "clinician_email": "medico@superped.demo"
+    }
+  ],
+  "clinical_demo": [
+    {
+      "patient": "Nina Aurora",
+      "cancer_type_demo": "Tipo fictício A (demo)",
+      "clinical_stage_demo": "Estágio fictício (demo)",
+      "clinical_notes": "Anotação fictícia de demonstração. Sem valor clínico."
+    },
+    {
+      "patient": "Theo Nuvem",
+      "cancer_type_demo": "Tipo fictício B (demo)",
+      "clinical_stage_demo": "Estágio fictício (demo)",
+      "clinical_notes": "Anotação fictícia de demonstração."
+    },
+    {
+      "patient": "Lia Sol",
+      "cancer_type_demo": "Tipo fictício C (demo)",
+      "clinical_stage_demo": "Estágio fictício (demo)",
+      "clinical_notes": "Anotação fictícia de demonstração."
+    }
+  ],
+  "games_demo": [
+    {
+      "patient": "Nina Aurora",
+      "game": "candle",
+      "mode": "touch",
+      "duration_seconds": 40,
+      "days_ago": 1
+    },
+    {
+      "patient": "Theo Nuvem",
+      "game": "bird",
+      "mode": "touch",
+      "duration_seconds": 65,
+      "days_ago": 2
     }
   ]
 }

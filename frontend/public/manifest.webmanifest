@@ -1,0 +1,13 @@
+{
+  "id": "/",
+  "name": "Pendi — Cuidado que aproxima",
+  "short_name": "Pendi",
+  "description": "Demonstração acadêmica de cuidado compartilhado com dados fictícios.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F4F6FA",
+  "theme_color": "#203774",
+  "icons": [{ "src": "/brand/pendi-symbol.png", "sizes": "4096x4096", "type": "image/png", "purpose": "any" }]
+}
