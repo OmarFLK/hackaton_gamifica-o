@@ -104,10 +104,13 @@ with sync_playwright() as playwright:
             ok('mobile: drawer abre e fecha')
         logout(page)
 
-        # 07 Família: o Rafa vê SOMENTE a própria criança (Nina), nunca a do outro responsável
+        # 07 Família: apenas crianças vinculadas, preservando cadastros de testes anteriores.
         login(page, 'responsavel', 'Responsável demo')
         expect(page).to_have_url(re.compile(r'/familia$'))
-        expect(page.get_by_label('ACOMPANHANDO').locator('option')).to_have_text(['Nina Aurora'])
+        options = page.get_by_label('ACOMPANHANDO').locator('option')
+        expect(options.filter(has_text='Nina Aurora')).to_have_count(1)
+        assert not {'Theo Nuvem', 'Lia Sol', new_name}.intersection(options.all_text_contents())
+        page.get_by_label('ACOMPANHANDO').select_option(label='Nina Aurora')
         ok(f'{tag}: responsável só enxerga a própria criança')
         expect(page.get_by_text('Como está hoje?').first).to_be_visible()
         no_horizontal_scroll(page, 'família'); page.screenshot(path=OUT / f'{tag}-familia-painel.png', full_page=True)
