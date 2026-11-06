@@ -2,7 +2,11 @@ from datetime import datetime, timedelta, timezone
 import jwt
 import pytest
 from sqlalchemy import func, select
-from app import demo_support as support
+from app import seed
+from app.core import database
+from app.core.config import jwt_secret
+from app.core.security import password_hash
+from app.models import entities
 
 
 def test_health_and_four_logins(client, tokens):
@@ -17,7 +21,7 @@ def test_invalid_auth(client):
     assert client.post('/api/auth/login', json={'email': 'medico@superped.demo', 'password': 'wrong'}).status_code == 401
     assert client.get('/api/auth/me').status_code == 401
     assert client.get('/api/auth/me', headers={'Authorization': 'Bearer invalid'}).status_code == 401
-    expired = jwt.encode({'sub': '1', 'exp': datetime.now(timezone.utc) - timedelta(minutes=1)}, support.jwt_secret(), algorithm='HS256')
+    expired = jwt.encode({'sub': '1', 'exp': datetime.now(timezone.utc) - timedelta(minutes=1)}, jwt_secret(), algorithm='HS256')
     assert client.get('/api/auth/me', headers={'Authorization': f'Bearer {expired}'}).status_code == 401
 
 
@@ -27,19 +31,19 @@ def test_patient_routes_require_auth(client, path):
 
 
 def test_seed_idempotent_and_hashed(client):
-    support.initialize_demo()
-    support.initialize_demo()
-    with support.SessionLocal() as db:
-        assert db.scalar(select(func.count()).select_from(support.User)) == 4
-        assert db.scalar(select(func.count()).select_from(support.Patient)) == 3
-        assert db.scalar(select(func.count()).select_from(support.MedicationSchedule)) == 2
-        assert all(u.password_hash.startswith('$argon2') for u in db.scalars(select(support.User)))
+    seed.run_seed()
+    seed.run_seed()
+    with database.SessionLocal() as db:
+        assert db.scalar(select(func.count()).select_from(entities.User)) == 4
+        assert db.scalar(select(func.count()).select_from(entities.Patient)) == 3
+        assert db.scalar(select(func.count()).select_from(entities.MedicationSchedule)) == 2
+        assert all(u.password_hash.startswith('$argon2') for u in db.scalars(select(entities.User)))
 
 
 def test_no_demo_initialization_without_flag(client, monkeypatch):
-    monkeypatch.setattr(support, 'DEMO', False)
+    monkeypatch.setenv('DEMO_MODE', 'false')
     with pytest.raises(RuntimeError, match='DEMO_MODE=true'):
-        support.initialize_demo()
+        seed.run_seed()
 
 
 def test_clinician_creates_guardian_reports_clinician_reads(client, tokens):
@@ -101,10 +105,10 @@ def test_schedule_cannot_be_used_for_another_patient(client, tokens):
 
 
 def test_idor_all_patient_resources(client, tokens):
-    with support.SessionLocal() as db:
-        outsider = support.User(name='Outro médico fictício', email='outro@superped.demo', password_hash=support.password_hash.hash('Demo2026!'), role='CLINICIAN')
+    with database.SessionLocal() as db:
+        outsider = entities.User(name='Outro médico fictício', email='outro@superped.demo', password_hash=password_hash.hash('Demo2026!'), role='CLINICIAN')
         db.add(outsider); db.flush()
-        patient = support.Patient(name='Paciente sem vínculo', birth_date='2018-01-01', clinician_id=outsider.id)
+        patient = entities.Patient(name='Paciente sem vínculo', birth_date='2018-01-01', clinician_id=outsider.id)
         db.add(patient); db.commit(); patient_id = patient.id
     for role in ['clinician', 'guardian']:
         for path in ['medications', 'medication-events', 'messages']:

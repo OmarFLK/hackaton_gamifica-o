@@ -17,7 +17,7 @@ try {
         $example = $example.Replace('SUBSTITUA_POR_UM_SEGREDO_ALEATORIO_COM_32_CARACTERES_OU_MAIS', $demoSecret)
         [System.IO.File]::WriteAllText($backendEnvPath, $example, [System.Text.UTF8Encoding]::new($false))
     }
-    Push-Location 'integration-kit/frontend'
+    Push-Location 'frontend'
     try {
         if (-not (Test-Path -LiteralPath '.env.local')) { Copy-Item -LiteralPath '.env.example' -Destination '.env.local' }
         npm ci --registry=https://registry.yarnpkg.com --no-audit --no-fund

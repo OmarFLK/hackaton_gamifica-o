@@ -1,21 +1,33 @@
-# Pendi — status real dos módulos 10–18
+# Pendi (SuperPed) — status real dos módulos
 
-06/11/2026. Escopo do outro dev: interface geral e módulos 00–09. Sem agentes adicionais nesta execução.
+Atualizado em 06/11/2026 após a revisão do PR #1. Este quadro só lista o que foi executado e verificado. Detalhes em [REVISAO_PR_1.md](REVISAO_PR_1.md).
 
-| Item | Responsável | Estado verificável |
+| Item | Estado verificável | Evidência |
 |---|---|---|
-| 10 Medicamentos | Codex | API e telas conectadas; agenda, edição, relato, histórico e alarme demo testados |
-| 11 Mensagens/FAQ | Codex | APIs e telas conectadas; troca médico/família e encaminhamento FAQ testados |
-| 12 Mobile/PWA/voz | Codex | Componente com TTS/STT opcionais, botões determinísticos, manifest e cache público; mobile/offline testados, áudio físico não validado |
-| 13 Status dev | Codex | Endpoint e dashboard testados; dev recebe 403 para pacientes |
-| 14 Integração | Codex + outro dev | Módulos complementares integrados e executáveis; conexão com os módulos 00–09 aguarda GitHub |
-| 15 Testes | Codex | Build + 48 testes API + 9 testes frontend + 18 verificações Edge passaram |
-| 16 Deploy | Codex + contas do apresentador | Blueprint Render e guia preparados; não publicado |
-| 17 Pitch | Codex | Roteiros preparados e limitados ao estado real; ensaio não executado |
-| 18 Contingência | Codex | API SQLite local e frontend de leitura sem internet testados; escritas desabilitadas offline |
+| 01 Orquestração | Quadro, scripts e documentação atualizados | este arquivo, `README.md`, `INTEGRATION_NOTES.md` |
+| 02 Scaffold | `frontend/` principal (Vite+React+TS+Tailwind), tipos do contrato, cliente API, `demo.ts`, roteador | `npm run build` passa |
+| 03 UI/login | Tokens, fontes empacotadas (sem CDN), landing com 4 entradas, login com perfis, primitives, layouts adulto/infantil | smoke 1440/375 sem scroll horizontal |
+| 04 Auth/RBAC | JWT HS256, Argon2, `get_current_user`, `require_role`, `require_patient_access`, `AuthProvider`, `ProtectedRoute` | testes 401/403/200 e IDOR |
+| 05 Banco/seed | 10 entidades SQLAlchemy, SQLite local / Neon por `DATABASE_URL`, seed idempotente | `python -m app.seed` 2x sem duplicar; `test_seed.py` |
+| 06 Portal médico | Painel, lista com busca, ficha com abas, cadastro em 3 etapas, vínculo familiar, revisão clínica fictícia | cadastro persiste; família/dev 403 |
+| 07 Portal família | Painel, seletor de criança vinculada, água/refeição, humor, gráficos 7 dias, links para medicamentos/mensagens/FAQ | registro aparece para o médico |
+| 08 Área infantil | Home, 7 mascotes SVG originais × 7 expressões, check-in, chamar adulto, pausar, sair, conversa (módulo 12) | smoke completo |
+| 09 Jogos | Vela, Pássaro, Estrela; toque sempre; microfone/câmera opcionais; sessão salva ou "Não sincronizado" | jogáveis por toque; sessões salvas |
+| 10–18 | Entregues anteriormente (outro agente); agora ligados à fundação definitiva e ao frontend principal | 48 testes originais seguem passando |
 
-Não estão prontos nesta entrega: cadastro de pacientes, rotina/água, emoções, seletor dos sete mascotes, jogos e portais completos 00–09. A área de companhia com voz/botões usa Pandi como preview do módulo 12. Não apresentar o fluxo completo dos módulos 00–18 como concluído antes da integração.
+## Verificação executada
 
-## Retomada
+- Backend: `pytest` → **85 passaram** (75 existentes + 10 regressões da revisão).
+- Frontend: `npm test` → **17 passaram** (9 originais + 8 dos jogos); `npm run build` OK.
+- Navegador (Edge, `scripts/smoke_01_09.py`): **19 verificações** em 1440px e 375px, no dev server e no build de produção.
+- Revisão extra (Edge, `scripts/smoke_review_integration.py`): **18 verificações**, com teclado, sensores sintéticos, falha de API, modo offline e jogos em 375/768/1440px.
+- Banco local atualizado a partir da demo antiga, preservando pacientes; 10 tabelas e zero violações de chave estrangeira.
 
-Quando o outro dev enviar o código ao GitHub: inspecionar o diff remoto, integrar pelos adapters documentados, preservar o frontend dele, repetir build/smoke nos pontos alterados e validar o deploy real. A execução atual está isolada na branch `codex/modules-10-18`.
+## Não feito / pendente real
+
+- Backend Render e banco Neon **não validados nesta execução**. Há preview Vercel informado no PR; integração pública de login/gravações ainda precisa ser conferida.
+- Microfone e câmera testados com dispositivos sintéticos do Edge, incluindo fechamento dos tracks e permissão negada. Validar hardware físico antes da apresentação.
+- Escolha de mascote persiste só no dispositivo (contrato não tem endpoint de avatar); a interface informa isso.
+- Kiosk infantil sem responsável não foi implementado (opcional no contrato).
+- Bundle JS de ~800 kB (Recharts): funciona, mas sem code-splitting.
+- `integration-kit/frontend` foi mantido intacto como referência; o app oficial é `frontend/`.

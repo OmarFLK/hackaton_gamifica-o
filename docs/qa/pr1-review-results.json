@@ -1,0 +1,74 @@
+[
+  {
+    "test": "Medicamentos do médico integrados à ficha real",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Família registra na agenda criada pelo médico do app integrado",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Chat dos módulos 10–11 funciona nas telas novas",
+    "status": "PASSOU"
+  },
+  {
+    "test": "FAQ integrada mantém encaminhamento clínico",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Espaço preserva acionamento nativo de Pausar/Continuar no pássaro",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Câmera sintética é encerrada ao pausar a estrela",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Câmera pode retomar e encerra ao finalizar",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Pausa global encerra microfone sintético da vela",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Saída do jogo desmonta seus recursos de mídia",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Permissão negada mantém a vela totalmente jogável por toque",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Falha de API no jogo informa não sincronizado sem falso sucesso",
+    "status": "PASSOU"
+  },
+  {
+    "test": "ID infantil fora do vínculo não mantém perfil anterior na tela",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Jogo da estrela sem overflow em 375px",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Jogo da estrela sem overflow em 768px",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Jogo da estrela sem overflow em 1440px",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Médico lê relato e mensagem familiar no portal integrado",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Jogo offline funciona por toque e identifica resumo não sincronizado",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Nenhum erro JavaScript não tratado no percurso adicional",
+    "status": "PASSOU"
+  }
+]

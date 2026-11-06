@@ -1,0 +1,1 @@
+export function Brand() { return <div className="brand" aria-label="Pendi"><img className="brand-symbol" src="/brand/pendi-symbol.png" alt=""/><div className="brand-wordmark"><img src="/brand/pendi-wordmark.png" alt="Pendi"/></div></div> }
