@@ -2,12 +2,15 @@
 
 Verificado em **06/11/2026**, com dados ficticios.
 
-- Aplicativo: https://hackatongamifica-o.vercel.app
+- Aplicativo: https://pendi-demo.vercel.app
+- Endereco anterior, ainda valido: https://hackatongamifica-o.vercel.app
 - API: https://pendi-demo-api.onrender.com
 - Health: https://pendi-demo-api.onrender.com/api/health
 - API docs: https://pendi-demo-api.onrender.com/docs
 
 O navegador acessa somente a API do Render. Apenas o backend conecta ao Neon e ao provedor de IA. As credenciais estao em arquivos privados ignorados pelo Git.
+
+O dominio curto foi adicionado permanentemente ao projeto da Vercel e autorizado no CORS do Render. As origens locais `localhost`/`127.0.0.1` nas portas 5173 e 5174 tambem estao autorizadas para testes. A mudanca foi aplicada por redeploy do backend, sem mudar credenciais ou dados.
 
 ## 1. Neon: banco PostgreSQL
 
