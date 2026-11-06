@@ -90,6 +90,3 @@ export function LoginPage() {
   </main>
 }
 
-export function NotFoundPage() {
-  return <main className="not-found"><h1>Página não encontrada</h1><Link className="button primary" to="/">Voltar ao início</Link></main>
-}
