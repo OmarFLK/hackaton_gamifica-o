@@ -105,7 +105,7 @@ VITE_DEMO_MODE=true
 
 Essas duas variaveis ja foram configuradas. Nunca colocar `DATABASE_URL`, `BARO_API_KEY` ou `JWT_SECRET` neste frontend. `VITE_*` entra no JavaScript entregue ao navegador. Depois de mudar ambiente, fazer novo deploy para recompilar.
 
-`frontend/vercel.json` fixa build/dist e faz o fallback da SPA, preservando assets, mascotes, manifest e service worker. `.vercelignore` exclui backend, arquivos de ambiente e artefatos locais do upload.
+`frontend/vercel.json` fixa build/dist e faz o fallback da SPA, preservando assets, mascotes, manifest e service worker. `.vercelignore` exclui backend, arquivos de ambiente e artefatos locais do upload. Pastas exclusivas da raiz usam `/scripts/`, `/docs/` etc.: sem a barra inicial, a regra tambem excluia `frontend/scripts/build-offline.mjs` e fazia o build automatico falhar. A regra foi corrigida para preservar esse script de build.
 
 Para publicar novamente, pela raiz do repositorio:
 
