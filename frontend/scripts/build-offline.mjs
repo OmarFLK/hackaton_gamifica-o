@@ -3,12 +3,22 @@ import { createHash } from 'node:crypto'
 const assets = (await readdir('dist/assets')).map(file => `/assets/${file}`)
 const mascotFiles = (await readdir('dist/mascote')).map(file => `/mascote/${file}`)
 const publicFiles = ['/index.html', '/manifest.webmanifest', '/brand/pendi-wordmark.png', '/brand/pendi-symbol.png', ...mascotFiles]
+// Modelo e WASM so entram no cache quando a camera e ativada. Nao atrasam login/PWA.
+const handFiles = ['/models/hand_landmarker.task', ...(await readdir('dist/mediapipe/1.2.2/wasm')).map(file => `/mediapipe/1.2.2/wasm/${file}`)]
 const version = createHash('sha256').update(await readFile('dist/index.html')).digest('hex').slice(0, 12)
 // A lista é fechada. Nenhuma resposta da API ou recurso autenticado entra no cache.
 const worker = `const CACHE = 'pendi-public-${version}';
 const PUBLIC_FILES = ${JSON.stringify([...publicFiles, ...assets])};
+const HAND_FILES = ${JSON.stringify(handFiles)};
 self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(PUBLIC_FILES))); self.skipWaiting(); });
 self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('pendi-public-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())); });
+self.addEventListener('message', event => {
+  if (event.data?.type !== 'CACHE_HAND_RUNTIME' || !Array.isArray(event.data.files)) return;
+  const paths = event.data.files.filter(path => HAND_FILES.includes(path));
+  event.waitUntil(caches.open(CACHE).then(cache => Promise.all(paths.map(async path => {
+    if (!await cache.match(path)) await cache.add(path);
+  }))).catch(() => {}));
+});
 self.addEventListener('fetch', event => {
   const request = event.request;
   const url = new URL(request.url);
@@ -17,8 +27,11 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;
   }
-  if (!PUBLIC_FILES.includes(url.pathname)) return;
-  event.respondWith(caches.match(url.pathname).then(cached => cached || fetch(request)));
+  if (!PUBLIC_FILES.includes(url.pathname) && !HAND_FILES.includes(url.pathname)) return;
+  event.respondWith(caches.match(url.pathname).then(cached => cached || fetch(request).then(response => {
+    if (response.ok && HAND_FILES.includes(url.pathname)) event.waitUntil(caches.open(CACHE).then(cache => cache.put(request, response.clone())));
+    return response;
+  })));
 });
 `
 await writeFile('dist/sw.js', worker)

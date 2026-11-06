@@ -11,7 +11,7 @@ export interface PlayContext { mode: GameMode; paused: boolean; reducedMotion: b
 const MODE_INFO: Record<GameMode, { label: string; icon: ReactNode; note: string }> = {
   touch: { label: 'Tocar na tela', icon: <Hand size={22}/>, note: 'Funciona sempre, sem pedir permissão.' },
   microphone: { label: 'Usar microfone', icon: <Mic size={22}/>, note: 'Opcional. O som vira um sinal da brincadeira; nada é gravado ou enviado.' },
-  camera: { label: 'Usar câmera', icon: <Camera size={22}/>, note: 'Opcional. A imagem aparece só na tela; nada detecta sua mão.' },
+  camera: { label: 'Usar câmera', icon: <Camera size={22}/>, note: 'Opcional. A mão é reconhecida neste aparelho. Nada é gravado ou enviado.' },
 }
 
 type SaveState = { status: 'saving' } | { status: 'saved'; session: GameSession } | { status: 'unsynced'; reason: string }
@@ -21,8 +21,8 @@ type SaveState = { status: 'saving' } | { status: 'saved'; session: GameSession 
  * pausa (também pelo botão global da área infantil), sair, e registro da sessão ao terminar.
  * Sem API: o resumo fica só em memória com a etiqueta "Não sincronizado".
  */
-export function GameShell({ game, title, intro, modes, patientId, offline, onExit, children }: GameProps & {
-  game: GameId; title: string; intro: string; modes: GameMode[]; children: (context: PlayContext) => ReactNode
+export function GameShell({ game, title, intro, modes, modeLabels, patientId, offline, onExit, children }: GameProps & {
+  game: GameId; title: string; intro: string; modes: GameMode[]; modeLabels?: Partial<Record<GameMode, string>>; children: (context: PlayContext) => ReactNode
 }) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'summary'>('intro')
   const [mode, setMode] = useState<GameMode>('touch')
@@ -67,7 +67,7 @@ export function GameShell({ game, title, intro, modes, patientId, offline, onExi
           <button className="kid-button" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? <Play size={20}/> : <Pause size={20}/>}{paused ? 'Continuar' : 'Pausar'}</button>
           <button className="kid-button" onClick={finish}><CheckCircle2 size={20}/>Terminar</button>
         </>}
-        <button className="kid-button" onClick={onExit}><LogOut size={20}/>Sair</button>
+        <button className="kid-button" onClick={onExit}><LogOut size={20}/>{phase === 'intro' && game === 'star' ? 'Voltar' : 'Sair'}</button>
       </div>
     </header>
 
@@ -75,7 +75,7 @@ export function GameShell({ game, title, intro, modes, patientId, offline, onExi
       <div className="game-intro-hero"><img src="/mascote/pandi-frontal.png" alt="" width={120} height={140} className="mascot-img"/><p className="game-intro-text">{intro}</p></div>
       <p className="game-voluntary">É só uma brincadeira: você brinca se quiser, pode pausar ou parar quando preferir e chamar um adulto a qualquer momento. Não é exercício, teste nem tratamento.</p>
       <div className="mode-grid">{modes.map(option => <button key={option} className={`mode-card ${option === 'touch' ? 'primary' : ''}`} onClick={() => start(option)}>
-        {MODE_INFO[option].icon}<strong>{MODE_INFO[option].label}</strong><small>{MODE_INFO[option].note}</small>
+        {MODE_INFO[option].icon}<strong>{modeLabels?.[option] ?? MODE_INFO[option].label}</strong><small>{MODE_INFO[option].note}</small>
       </button>)}</div>
     </div>}
 

@@ -16,3 +16,4 @@ test-results/
 .neon
 
 .vercel
+/frontend/public/mediapipe/

@@ -178,7 +178,7 @@ with sync_playwright() as playwright:
         expect(page.get_by_text('Sessão registrada no servidor.')).to_be_visible()
         page.get_by_role('button', name='Voltar às aventuras').click()
         page.get_by_role('link', name=re.compile('Estrela ao alcance')).click()
-        page.get_by_role('button', name=re.compile('Tocar na tela')).click()
+        page.get_by_role('button', name=re.compile('Jogar com toque')).click()
         page.get_by_role('button', name=re.compile('Pegar a estrela')).click()
         expect(page.get_by_text(re.compile('Estrelas pegas: 1'))).to_be_visible()
         page.screenshot(path=OUT / f'{tag}-jogo-estrela.png', full_page=True)

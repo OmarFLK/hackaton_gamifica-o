@@ -1,0 +1,28 @@
+.hand-star-game .star-field { min-height: 320px; isolation: isolate; box-shadow: inset 0 0 0 3px #132653; background: linear-gradient(145deg,#1a2d59,#293e7d); }
+.hand-star-game .star-camera { z-index: -1; opacity: .9; }
+.hand-star-game .star-sky { position: absolute; inset: 0; z-index: -1; }
+.hand-overlay { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+.star-hud { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; z-index: 4; pointer-events: none; }
+.hand-indicator { display: inline-flex; gap: 9px; align-items: center; padding: 10px 14px; border-radius: 24px; color: #fff; background: #182d58e8; max-width: 72%; font: 700 14px var(--font-kid); box-shadow: 0 2px 12px #0b173629; }
+.hand-indicator i { width: 10px; height: 10px; flex-shrink: 0; background: #e2c068; border-radius: 50%; }
+.hand-indicator.found i { background: #78e7cd; }
+.star-points { padding: 10px 16px; border-radius: 24px; color: #fff; background: #941c2f; font: 700 15px var(--font-kid); white-space: nowrap; }
+.hand-star-game .star-target { width: 84px; height: 84px; background: #ffffff14; border: 1px solid #ffffff55; box-shadow: 0 0 28px #f5d77625; transition: box-shadow .15s ease, opacity .15s ease; }
+.star-collision-halo { position: absolute; inset: calc(-1 * var(--hit-margin, 20px)); border-radius: 50%; border: 1px solid #a6fff05c; pointer-events: none; }
+.hand-star-game .star-target.is-hovering { box-shadow: 0 0 35px #78e7cd88; background: #78e7cd30; }
+.hand-star-game .star-target.is-captured { opacity: .35; filter: drop-shadow(0 0 13px #fff2a6); }
+.capture-ring { position: absolute; inset: -5px; width: calc(100% + 10px); height: calc(100% + 10px); transform: rotate(-90deg); pointer-events: none; }
+.capture-ring circle { fill: none; stroke: #78e7cd; stroke-width: 5px; stroke-dasharray: 295; stroke-dashoffset: calc(295 * (1 - var(--capture-progress, 0))); }
+.star-instruction { position: absolute; bottom: 12px; left: 12px; right: 12px; margin: 0; padding: 8px 12px; text-align: center; color: #fff; background: #102144d9; border-radius: 16px; font: 700 17px var(--font-kid); pointer-events: none; z-index: 4; }
+.hand-game-actions { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin: 14px 0; }
+.hand-options { padding: 14px 16px; background: var(--kid-soft); border: 1px solid var(--border); border-radius: 14px; }
+.hand-options summary { cursor: pointer; font-weight: 700; min-height: 30px; }
+.hand-options > div { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; padding-top: 12px; }
+.hand-options label { display: flex; flex-direction: column; gap: 6px; font: 700 14px var(--font-kid); }
+.hand-options select { min-height: 46px; max-width: 100%; }
+.hand-help { padding: 12px 16px; border-radius: 12px; background: var(--kid-soft); color: var(--kid-ink); font-size: 16px; }
+.hand-privacy { max-width: 800px; text-align: center; margin: 14px auto; line-height: 1.6; }
+.hand-debug { background: #111d31; color: #d2f8ed; padding: 12px; border-radius: 10px; font-size: 12px; margin-top: 12px; }
+.hand-debug pre { white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 8px; }
+[data-theme="dark"] .game-paused { background: #11213bea; color: #edf2ff; }
+@media(max-width:600px) { .hand-options > div { grid-template-columns: 1fr; } .hand-indicator { font-size: 12px; padding: 9px 10px; max-width: 67%; } .star-points { font-size: 13px; padding: 10px 12px; } .star-hud { top: 10px; left: 10px; right: 10px; gap: 5px; } .star-instruction { font-size: 15px; } .hand-game-actions .kid-button { flex: 1 1 44%; } }
