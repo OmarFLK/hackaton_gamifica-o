@@ -105,7 +105,9 @@ def audit(page, route, tag, report, prepare=None):
 
 
 def start_game(page):
-    page.get_by_role('button', name=re.compile('Tocar na tela')).click()
+    button = page.get_by_role('button', name=re.compile('Tocar na tela|Jogar com toque|toque', re.I)).first
+    if button.count():
+        button.click()
 
 
 report = {}

@@ -4,6 +4,6 @@
   "installCommand": "npm ci",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{"source": "/((?!brand/|mascote/|assets/|manifest.webmanifest|sw.js).*)", "destination": "/index.html"}],
+  "rewrites": [{"source": "/((?!brand/|mascote/|models/|mediapipe/|assets/|manifest.webmanifest|sw.js).*)", "destination": "/index.html"}],
   "headers": [{"source": "/sw.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}]}]
 }

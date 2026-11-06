@@ -105,7 +105,7 @@ try:
         expect(page.get_by_text('Sessão registrada no servidor.')).to_be_visible()
 
         page.goto(BASE + '/crianca/1/jogos/star')
-        page.get_by_role('button', name='Usar câmera', exact=False).click()
+        page.get_by_role('button', name='Ativar câmera', exact=False).click()
         page.wait_for_function("window.__tracks.some(track => track.kind === 'video' && track.readyState === 'live')")
         page.locator('.game-controls').get_by_role('button', name='Pausar', exact=True).click()
         page.wait_for_function("window.__tracks.every(track => track.readyState === 'ended')")
@@ -151,7 +151,7 @@ try:
         for width in (375, 768, 1440):
             page.set_viewport_size({'width': width, 'height': 1000})
             page.goto(BASE + '/crianca/1/jogos/star')
-            page.get_by_role('button', name='Tocar na tela', exact=False).click()
+            page.get_by_role('button', name='Jogar com toque', exact=False).click()
             page.get_by_role('button', name='Pegar a estrela.', exact=False).click()
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
             page.screenshot(path=str(OUT / f'jogo-estrela-{width}.png'), full_page=True)
