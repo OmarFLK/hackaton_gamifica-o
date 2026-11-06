@@ -21,8 +21,11 @@ export function PatientsProvider({ children }: { children: React.ReactNode }) {
   const [revision, setRevision] = useState(0)
 
   useEffect(() => {
-    if (!user || user.role === 'DEVELOPER') { setPatients([]); setLoading(false); return }
-    if (offline) { setPatients(offlinePatients); setLoading(false); setError(''); return }
+    // Troca de conta: descarta na hora a lista da sessão anterior, para nunca exibi-la a outro perfil.
+    setPatients([])
+    if (!user || user.role === 'DEVELOPER') { setLoading(false); sessionStorage.removeItem(SELECTED_KEY); return }
+    // Offline: o responsável fictício só tem a própria criança (Nina), como no servidor.
+    if (offline) { setPatients(user.role === 'GUARDIAN' ? offlinePatients.slice(0, 1) : offlinePatients); setLoading(false); setError(''); return }
     const controller = new AbortController()
     setLoading(true); setError('')
     api<Patient[]>('/api/patients', { signal: controller.signal })

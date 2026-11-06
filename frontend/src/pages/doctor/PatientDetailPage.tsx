@@ -9,7 +9,7 @@ import type { FormOptions, PatientClinical, PatientDashboard, PatientDetail } fr
 import { Button, Card, CardHeader, EmptyState, ErrorState, Input, Loading, MoodChart, Select, Textarea, WaterChart } from '../../components/ui'
 import { MedicationCalendar } from '../../features/medications'
 import { MessageCenter } from '../../features/messages'
-import { MascotFace, mascotById } from '../child/mascots'
+import { PandiAvatar, mascotById } from '../child/mascots'
 
 type Tab = 'resumo' | 'medicamentos' | 'mensagens' | 'clinico'
 
@@ -92,7 +92,7 @@ export function PatientDetailPage() {
   return <>
     <Link className="back-link" to="/medico/pacientes"><ArrowLeft size={16}/>Pacientes</Link>
     <header className="patient-header">
-      <MascotFace mascot={mascot} size={72}/>
+      <PandiAvatar size={72}/>
       <div><span className="eyebrow">FICHA · PERFIL FICTÍCIO</span><h1>{patient.name}<span className="heading-dot">.</span></h1>
         <p className="muted">{ageFrom(patient.birth_date)} anos · nascimento {formatBirth(patient.birth_date)} · companheiro {mascot.name}</p>
         <p className="muted small-text">Médico(a) responsável: {patient.clinician_name ?? '—'} · Família: {patient.guardians.map(g => g.name).join(', ') || 'nenhum vínculo'}</p></div>

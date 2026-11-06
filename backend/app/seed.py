@@ -69,7 +69,20 @@ def run_seed() -> dict:
             patients[item['name']] = patient
         db.flush()
 
-        guardian = users.get('responsavel@superped.demo')
+        # Cada criança demo tem SOMENTE o seu responsável. Corrige bancos criados por seeds
+        # antigos, em que um único responsável estava vinculado a todas as crianças.
+        demo_guardians = {users[a['email']].id for a in data['accounts'] if a['role'] == 'GUARDIAN'}
+        for item in data['patients']:
+            patient, expected = patients[item['name']], users[item['guardian_email']].id
+            for link in db.scalars(select(PatientGuardian).where(PatientGuardian.patient_id == patient.id)):
+                if link.guardian_user_id in demo_guardians and link.guardian_user_id != expected:
+                    db.delete(link)
+            if not db.scalar(select(PatientGuardian.id).where(PatientGuardian.patient_id == patient.id,
+                                                              PatientGuardian.guardian_user_id == expected)):
+                db.add(PatientGuardian(patient_id=patient.id, guardian_user_id=expected))
+        db.flush()
+
+        guardian_of = {item['name']: users[item['guardian_email']].id for item in data['patients']}
         for item in data.get('medications', []):
             patient = patients[item['patient']]
             if not db.scalar(select(MedicationSchedule).where(MedicationSchedule.patient_id == patient.id,
@@ -81,20 +94,20 @@ def run_seed() -> dict:
             if item['patient'] in fresh:
                 db.add(MoodEntry(patient_id=patients[item['patient']].id, score=item['score'], source=item['source'],
                                  recorded_at=_when(item.get('days_ago', 0), 12 + index % 6),
-                                 reporter_user_id=guardian.id if guardian else None))
+                                 reporter_user_id=guardian_of[item['patient']]))
         for index, item in enumerate(data.get('routines_demo', [])):
             if item['patient'] in fresh:
                 db.add(RoutineEntry(patient_id=patients[item['patient']].id, kind=item['kind'],
                                     quantity=item.get('quantity'), unit=item.get('unit'),
                                     description=item.get('description'), source='GUARDIAN',
                                     recorded_at=_when(item.get('days_ago', 0), 11 + index % 8),
-                                    reporter_user_id=guardian.id if guardian else None))
+                                    reporter_user_id=guardian_of[item['patient']]))
         for item in data.get('games_demo', []):
             if item['patient'] in fresh:
                 db.add(GameSession(patient_id=patients[item['patient']].id, game=item['game'], mode=item['mode'],
                                    duration_seconds=item['duration_seconds'],
                                    created_at=_when(item.get('days_ago', 0), 16),
-                                   reporter_user_id=guardian.id if guardian else None))
+                                   reporter_user_id=guardian_of[item['patient']]))
         db.commit()
     return created
 

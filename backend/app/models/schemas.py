@@ -8,7 +8,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-Avatar = Literal['arco', 'guarda-lua', 'faisca', 'pinta', 'pipo', 'niva', 'pandi']
+# Somente Pandi está disponível; novos companheiros estão em desenvolvimento.
+Avatar = Literal['pandi']
 Role = Literal['CLINICIAN', 'CLINICAL_ASSISTANT', 'GUARDIAN', 'DEVELOPER']
 
 

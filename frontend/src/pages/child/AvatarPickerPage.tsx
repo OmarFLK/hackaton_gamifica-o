@@ -1,30 +1,37 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Check, Volume2 } from 'lucide-react'
-import { MASCOTS, MascotFace } from './mascots'
-import { speakText, useAvatar } from './AvatarProvider'
+import { Check, Hammer, Volume2 } from 'lucide-react'
+import { Modal } from '../../components/ui/Modal'
+import { COMING_SOON, PANDI, PandiAvatar, PandiPoseImage } from './mascots'
+import { speakText } from './AvatarProvider'
 import type { ChildProfile } from './ChildArea'
 
 export function AvatarPickerPage({ child }: { child: ChildProfile }) {
-  const { mascot, choose, scarf, setScarf, storedLocally } = useAvatar()
   const navigate = useNavigate()
+  const [pending, setPending] = useState<string | null>(null)
+  const openSoon = (name: string) => { setPending(name); speakText(`${name} está em desenvolvimento.`) }
   return <div className="kid-picker">
     <h1 className="kid-page-title">Quem vai brincar com você, {child.firstName}?</h1>
-    <div className="kid-mascot-grid" role="radiogroup" aria-label="Companheiros">
-      {MASCOTS.map(m => <button key={m.id} role="radio" aria-checked={mascot.id === m.id} className={`kid-mascot-card ${mascot.id === m.id ? 'selected' : ''}`}
-        style={{ background: m.theme.background }} onClick={() => { choose(m.id); speakText(`${m.name}. ${m.description}`) }}>
-        {mascot.id === m.id && <span className="kid-check"><Check size={18}/></span>}
-        <MascotFace mascot={m} size={96} scarf={m.id === 'niva' && scarf}/>
-        <strong>{m.name}</strong><span>{m.world}</span>
+    <div className="kid-mascot-grid">
+      <button className="kid-mascot-card selected" style={{ background: PANDI.theme.background }} aria-pressed="true" onClick={() => speakText(`${PANDI.name}. ${PANDI.description}`)}>
+        <span className="kid-check"><Check size={18}/></span>
+        <PandiPoseImage pose="frontal" size={110}/>
+        <strong>{PANDI.name}</strong><span>{PANDI.world}</span>
+      </button>
+      {COMING_SOON.map(character => <button key={character.id} className="kid-mascot-card soon" onClick={() => openSoon(character.name)} aria-label={`${character.name}: em desenvolvimento`}>
+        <span className="soon-icon" aria-hidden="true"><Hammer size={34}/></span>
+        <strong>{character.name}</strong><span className="soon-tag">Em desenvolvimento</span>
       </button>)}
     </div>
     <section className="kid-mascot-detail" aria-live="polite">
-      <MascotFace mascot={mascot} size={80} scarf={scarf}/>
-      <div><h2>{mascot.name}</h2><p>{mascot.description}</p>
-        {mascot.id === 'niva' && <label className="kid-toggle"><input type="checkbox" checked={scarf} onChange={e => setScarf(e.target.checked)}/>Usar lenço</label>}
-      </div>
-      <button className="kid-audio" onClick={() => speakText(`${mascot.name}. ${mascot.description}`)}><Volume2 size={20}/>Ouvir</button>
+      <PandiAvatar size={80}/>
+      <div><h2>{PANDI.name}</h2><p>{PANDI.description}</p></div>
+      <button className="kid-audio" onClick={() => speakText(`${PANDI.name}. ${PANDI.description}`)}><Volume2 size={20}/>Ouvir</button>
     </section>
-    <p className="kid-note">{storedLocally ? 'Preferência guardada neste dispositivo.' : 'A escolha fica guardada só neste dispositivo.'}</p>
     <button className="kid-big-button" onClick={() => navigate('..')}><Check size={24}/>Pronto!</button>
+    <Modal open={pending !== null} title="Em desenvolvimento" onClose={() => setPending(null)}>
+      <p className="kid-modal-text">{pending} ainda está em desenvolvimento. Logo, logo vai poder brincar com você! Por enquanto, o Pandi faz companhia.</p>
+      <div className="form-actions"><button className="button primary" onClick={() => setPending(null)}>Entendi</button></div>
+    </Modal>
   </div>
 }

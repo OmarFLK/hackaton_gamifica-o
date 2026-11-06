@@ -4,7 +4,8 @@ export type Role = 'CLINICIAN' | 'GUARDIAN' | 'CLINICAL_ASSISTANT' | 'DEVELOPER'
 export interface User { id: number; name: string; email: string; role: Role }
 export interface LoginResponse { access_token: string; token_type: 'bearer'; user: User }
 
-export type AvatarId = 'arco' | 'guarda-lua' | 'faisca' | 'pinta' | 'pipo' | 'niva' | 'pandi'
+// Somente Pandi disponível; Homem-Aranha, Mickey e Minnie estão em desenvolvimento (sem uso visual).
+export type AvatarId = 'pandi'
 export interface Patient { id: number; name: string; birth_date: string; chosen_avatar: string; clinician_id: number }
 export interface LinkedGuardian { id: number; name: string }
 export interface PatientDetail extends Patient { clinician_name: string | null; guardians: LinkedGuardian[] }

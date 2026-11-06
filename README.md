@@ -4,7 +4,7 @@ Demonstração acadêmica com dados inteiramente fictícios. **DEMONSTRAÇÃO ·
 
 Módulos 01–18 do kit `PROMPTS_HACKATHON_4H` integrados. O app oficial está em `frontend/` e a API em `backend/`. `integration-kit/frontend` foi mantido como referência dos módulos 10–18.
 
-Disponível: landing com 4 entradas; login por perfil com JWT e permissões verificadas no servidor; portal médico (painel, pacientes, ficha, cadastro em etapas, vínculo familiar, revisão clínica fictícia); portal família (água, refeições, humor, gráficos de 7 dias); área infantil assistida pelo responsável (7 mascotes originais, check-in de 7 rostinhos, conversa por voz sintética); 3 minijogos (vela, pássaro, estrela) jogáveis por toque, com microfone/câmera opcionais; agenda de medicamentos, mensagens, FAQ, status dev, PWA e modo offline de leitura.
+Disponível: landing com 4 entradas; login por perfil com JWT e permissões verificadas no servidor; portal médico (painel, pacientes, ficha, cadastro em etapas, vínculo familiar, revisão clínica fictícia); portal família (água, refeições, humor, gráficos de 7 dias); área infantil assistida pelo responsável (companheiro Pandi; Homem-Aranha, Mickey e Minnie aparecem como "Em desenvolvimento", check-in de 7 rostinhos, conversa por voz sintética); 3 minijogos (vela, pássaro, estrela) jogáveis por toque, com microfone/câmera opcionais; agenda de medicamentos, mensagens, FAQ, status dev, PWA e modo offline de leitura.
 
 Verificação: 75 testes de API, 17 testes de frontend, build de produção e 19 verificações no Edge (1440px e 375px). Detalhes em [docs/STATUS_4H.md](docs/STATUS_4H.md).
 
@@ -41,7 +41,7 @@ Set-Location backend
 ../.venv/Scripts/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Health: `http://127.0.0.1:8000/api/health`. Documentação: `http://127.0.0.1:8000/docs`. Contas fictícias: `medico@superped.demo`, `responsavel@superped.demo`, `assistente@superped.demo`, `dev@superped.demo`; senha somente demo: `Demo2026!`. Assistente só acessa pacientes de médicos que o delegaram explicitamente (o seed delega `assistente@` para `medico@`). Recriar o banco local: `ALLOW_DB_RESET=true python -m app.seed --reset`.
+Health: `http://127.0.0.1:8000/api/health`. Documentação: `http://127.0.0.1:8000/docs`. Contas fictícias: `medico@superped.demo`, `responsavel@superped.demo` (responsável só da Nina), `responsavel.theo@superped.demo` (só do Theo), `responsavel.lia@superped.demo` (só da Lia), `assistente@superped.demo`, `dev@superped.demo`; senha somente demo: `Demo2026!`. Assistente só acessa pacientes de médicos que o delegaram explicitamente (o seed delega `assistente@` para `medico@`). Recriar o banco local: `ALLOW_DB_RESET=true python -m app.seed --reset`.
 
 ## Testar
 

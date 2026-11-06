@@ -6,7 +6,12 @@ import { SENSOR_MESSAGES, useMicrophoneLevel } from './sensors'
 
 const FRAME_MS = 1000 / 60 // limite de FPS
 
-function draw(ctx: CanvasRenderingContext2D, state: BirdState, accent: string, time: number, still: boolean) {
+// Sprite: ilustração oficial do Pandi de braços abertos.
+const SPRITE_SRC = '/mascote/humor-6-muito-feliz.png'
+const SPRITE_W = 52
+const SPRITE_H = 47
+
+function draw(ctx: CanvasRenderingContext2D, state: BirdState, sprite: HTMLImageElement | null, time: number, still: boolean) {
   const { width, height } = BIRD
   const sky = ctx.createLinearGradient(0, 0, 0, height)
   sky.addColorStop(0, '#cfe0fb'); sky.addColorStop(1, '#f4f8ff')
@@ -21,14 +26,13 @@ function draw(ctx: CanvasRenderingContext2D, state: BirdState, accent: string, t
     }
     for (const y of [top, bottom]) for (const dx of [10, 32, 54]) { ctx.beginPath(); ctx.arc(cloud.x + dx, y, 13, 0, Math.PI * 2); ctx.fill() }
   }
-  // Pássaro original: corpo redondo, asa, olho e bico.
+  // Pandi voando (leve balanço; sem balanço com movimento reduzido).
   const y = state.y
-  const wing = still ? 0 : Math.sin(time / 90) * 5
-  ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(BIRD.x, y, BIRD.radius, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.85; ctx.beginPath(); ctx.ellipse(BIRD.x - 4, y + 2 + wing, 8, 5, -0.4, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1
-  ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(BIRD.x + 6, y - 5, 4.5, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#101521'; ctx.beginPath(); ctx.arc(BIRD.x + 7, y - 5, 2.2, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = '#F5B544'; ctx.beginPath(); ctx.moveTo(BIRD.x + 13, y - 1); ctx.lineTo(BIRD.x + 23, y + 2); ctx.lineTo(BIRD.x + 13, y + 6); ctx.closePath(); ctx.fill()
+  const tilt = still ? 0 : Math.max(-0.35, Math.min(0.45, state.vy / 900))
+  if (sprite?.complete && sprite.naturalWidth) {
+    ctx.save(); ctx.translate(BIRD.x, y + (still ? 0 : Math.sin(time / 160) * 1.5)); ctx.rotate(tilt)
+    ctx.drawImage(sprite, -SPRITE_W / 2, -SPRITE_H / 2, SPRITE_W, SPRITE_H); ctx.restore()
+  }
   ctx.fillStyle = '#132653'; ctx.font = '700 22px Nunito, sans-serif'; ctx.textAlign = 'center'
   ctx.fillText(String(state.score), width / 2, 40)
 }
@@ -55,7 +59,7 @@ function BirdPlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
     const ratio = Math.min(window.devicePixelRatio || 1, 2)
     canvas.width = BIRD.width * ratio; canvas.height = BIRD.height * ratio
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
-    const accent = getComputedStyle(canvas).getPropertyValue('--kid-accent').trim() || '#203774'
+    const sprite = new Image(); sprite.src = SPRITE_SRC
     let frame = 0
     let last = performance.now()
     let lastDraw = 0
@@ -71,7 +75,7 @@ function BirdPlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
         stateRef.current = stepBird(stateRef.current, dt, speed)
       }
       const s = stateRef.current
-      draw(ctx, s, accent, now, paused || reducedMotion)
+      draw(ctx, s, sprite, now, paused || reducedMotion)
       setSnapshot(prev => prev.crashed === s.crashed && prev.started === s.started && prev.score === s.score ? prev : { crashed: s.crashed, started: s.started, score: s.score })
     }
     frame = requestAnimationFrame(tick)
@@ -86,12 +90,12 @@ function BirdPlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
 
   return <div className="bird-stage">
     <div className="canvas-wrap">
-      <canvas ref={canvasRef} className="bird-canvas" onPointerDown={event => { event.preventDefault(); up() }} role="img" aria-label={`Pássaro das nuvens. Nuvens atravessadas: ${snapshot.score}`}/>
+      <canvas ref={canvasRef} className="bird-canvas" onPointerDown={event => { event.preventDefault(); up() }} role="img" aria-label={`Voo nas nuvens com o Pandi. Nuvens atravessadas: ${snapshot.score}`}/>
       {!snapshot.started && !snapshot.crashed && <p className="canvas-hint">Toque na tela, no botão ou aperte espaço para voar</p>}
       {snapshot.crashed && <div className="canvas-overlay" role="status"><p>Ops! Uma nuvem estava no caminho.<br/>Você atravessou {snapshot.score} nuvem(ns). Quer tentar de novo?</p><button className="button primary" onClick={restart}><RotateCcw size={18}/>Recomeçar</button></div>}
     </div>
     {mode === 'microphone' && <div className="mic-panel">
-      {mic.status === 'on' && <><p>Faça um som (como “uuuh”) para o pássaro subir.</p><div className="level-meter" aria-hidden="true"><span style={{ width: `${Math.min(100, mic.level * 400)}%` }}/></div><button className="text-button" onClick={mic.recalibrate}>Recalibrar silêncio</button></>}
+      {mic.status === 'on' && <><p>Faça um som (como “uuuh”) para o Pandi subir.</p><div className="level-meter" aria-hidden="true"><span style={{ width: `${Math.min(100, mic.level * 400)}%` }}/></div><button className="text-button" onClick={mic.recalibrate}>Recalibrar silêncio</button></>}
       {SENSOR_MESSAGES[mic.status] && <p role="status">{SENSOR_MESSAGES[mic.status]}</p>}
       {(mic.status === 'denied' || mic.status === 'unsupported') && <button className="button ghost" onClick={() => setMode('touch')}>Brincar por toque</button>}
     </div>}
@@ -100,8 +104,8 @@ function BirdPlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
 }
 
 export function BirdGame(props: GameProps) {
-  return <GameShell {...props} game="bird" title="Pássaro das nuvens" modes={['touch', 'microphone']}
-    intro="Ajude o passarinho a passar pelos vãos entre as nuvens. Toque para ele subir. Sem pressa: dá para recomeçar quantas vezes quiser.">
+  return <GameShell {...props} game="bird" title="Voo nas nuvens" modes={['touch', 'microphone']}
+    intro="Ajude o Pandi a voar pelos vãos entre as nuvens. Toque para ele subir. Sem pressa: dá para recomeçar quantas vezes quiser.">
     {context => <BirdPlay {...context}/>}
   </GameShell>
 }

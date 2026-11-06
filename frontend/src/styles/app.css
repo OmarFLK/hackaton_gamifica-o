@@ -276,3 +276,32 @@ legend { font-size: 13px; color: #3c4a62; }
 }
 .game-title:focus { outline: none; }
 .skip-link:not(:focus) { top: -200px; }
+/* Personagens em desenvolvimento: só nome, sem arte de terceiros. */
+.kid-mascot-card.soon { background: #ffffffb3; border-style: dashed; border-color: #b9c3d6; }
+.kid-mascot-card.soon strong { color: #34425c; }
+.soon-icon { display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; background: #eef1f7; color: #7a869b; }
+.soon-tag { font-size: 13px !important; font-weight: 800; color: #7a5a1c !important; background: #fcf3df; border-radius: 12px; padding: 3px 10px; }
+.companion-fixed { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--ice); }
+.companion-fixed div { display: flex; flex-direction: column; gap: 2px; }
+.companion-fixed strong { font-size: 14px; color: var(--night); }
+.companion-fixed small { font-size: 12px; color: var(--muted); }
+.kid-check svg { color: #fff; stroke: #fff; }
+.kid-mascot-grid { grid-template-columns: repeat(auto-fill, minmax(164px, 1fr)); max-width: 760px; }
+.kid-mascot-card strong { white-space: nowrap; }
+.soon-tag { white-space: nowrap; }
+@media (max-width: 380px) { .kid-mascot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kid-mascot-card strong { font-size: 17px; } .soon-tag { white-space: normal; } }
+/* Ilustrações oficiais do Pandi (PNG com transparência). */
+.mascot-img { display: block; object-fit: contain; flex-shrink: 0; user-select: none; }
+.mascot-avatar { border-radius: 50%; background: #eef2fa; padding: 4px; }
+.kid-hero-img { filter: drop-shadow(0 8px 16px #13265322); }
+.game-intro-hero { display: flex; align-items: center; gap: 16px; }
+.game-intro-hero .mascot-img { width: 120px; height: 140px; }
+.game-summary .mascot-img { width: 190px; height: 152px; }
+.candle-row { display: flex; align-items: flex-end; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.candle-pandi { width: 150px; height: 150px; }
+.child-world-cta .mascot-img { width: 110px; height: 110px; }
+@media (max-width: 600px) {
+  .game-intro-hero { flex-direction: column; text-align: center; }
+  .candle-pandi { width: 110px; height: 110px; }
+  .kid-hero-img { width: 150px !important; height: 150px !important; }
+}

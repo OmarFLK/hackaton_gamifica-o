@@ -17,6 +17,15 @@ Atualizado em 06/11/2026. A fundação substituiu a bancada temporária, conform
 - `GET /api/patients/{id}/games` para leitura. A resposta do detalhe inclui `clinician_name` e `guardians`; os campos clínicos aparecem só para `CLINICIAN`.
 - Escrita de humor, rotina e jogos: somente `GUARDIAN` vinculado (a criança registra pela sessão dele).
 
+**Correção de isolamento do responsável (06/11/2026)**
+- O seed do briefing vinculava as 3 crianças ao mesmo `responsavel@`. Agora cada criança tem o seu responsável fictício (`responsavel@` → Nina, `responsavel.theo@` → Theo, `responsavel.lia@` → Lia). O seed também remove, em bancos antigos, vínculos de contas demo que não batem com o seed.
+- Frontend: a lista de pacientes é descartada no instante em que a conta muda (antes ficava em memória até a nova lista chegar). No modo offline o responsável vê só a Nina.
+- Testes: responsável recebe 403 em todos os endpoints de outra criança, mesmo digitando o ID; teste do kit 10–18 que esperava `[]` em mensagens do paciente 2 agora espera 403.
+
+**Personagens**: apenas `pandi` é aceito em `chosen_avatar` (backend e frontend). Valores antigos caem no Pandi. Homem-Aranha, Mickey e Minnie aparecem só como nome + "Em desenvolvimento".
+
+**Ilustrações do Pandi**: todo desenho do personagem em código foi removido. As telas usam as ilustrações oficiais da equipe em `frontend/public/mascote/` (PNG com transparência), via `PandiPoseImage`, `PandiAvatar` e `MascotFace` (humor 1–7) em `pages/child/mascots.tsx`. Humor: 7 Radiante = muito feliz, 6 Muito feliz = feliz, 5 Feliz = animado, 4 Neutro = calmo, 3 Não tão bem = cansado, 2 Muito mal = preocupado, 1 Muito triste = triste. O jogo `bird` passou a se chamar "Voo nas nuvens" na interface (o Pandi voa); o id do contrato continua `bird`. Ficaram em código apenas elementos de cenário sem ilustração fornecida (vela, nuvens, estrela, ícones).
+
 **Frontend (`frontend/`, app oficial)**
 - Criado a partir do kit: features 10–13, marca, manifest e service worker foram reaproveitados sem reescrita. O shell provisório (`App.tsx`/`SessionProvider`) foi substituído por `app/AuthProvider.tsx` (com `ProtectedRoute` e modo offline), `PatientsProvider.tsx` e `router.tsx`.
 - Exports: `LandingPage`, `LoginPage`/`LoginForm` (`pages/public`), `AdultLayout`, `ChildLayout` (`components/layouts`), `DemoBadge` e primitives (`components/ui`), páginas `doctor/*`, `guardian/*`, `child/*` e `CandleGame`, `BirdGame`, `StarGame` (`features/games`).

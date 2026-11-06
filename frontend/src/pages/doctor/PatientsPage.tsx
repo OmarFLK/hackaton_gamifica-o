@@ -5,7 +5,7 @@ import { useAuth } from '../../app/AuthProvider'
 import { usePatients } from '../../app/PatientsProvider'
 import { ageFrom, formatBirth } from '../../lib/format'
 import { EmptyState, ErrorState, Loading, PageHeading } from '../../components/ui'
-import { MascotFace, mascotById } from '../child/mascots'
+import { PandiAvatar, mascotById } from '../child/mascots'
 
 const normalize = (text: string) => text.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[̀-ͯ]/g, '')
 
@@ -22,7 +22,7 @@ export function PatientsPage() {
       <ul className="patient-grid">{filtered.map(p => {
         const mascot = mascotById(p.chosen_avatar)
         return <li key={p.id} className="patient-card">
-          <MascotFace mascot={mascot} size={56}/>
+          <PandiAvatar size={56}/>
           <div className="patient-card-body"><h2>{p.name}</h2><p>{ageFrom(p.birth_date)} anos · nasc. {formatBirth(p.birth_date)}</p><small>Companheiro: {mascot.name}</small></div>
           <Link className="button ghost small" to={`/medico/pacientes/${p.id}`} aria-label={`Abrir ficha de ${p.name}`}>Abrir ficha<ArrowRight size={16}/></Link>
         </li>

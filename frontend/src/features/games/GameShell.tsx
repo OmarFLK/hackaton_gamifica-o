@@ -72,7 +72,7 @@ export function GameShell({ game, title, intro, modes, patientId, offline, onExi
     </header>
 
     {phase === 'intro' && <div className="game-intro">
-      <p className="game-intro-text">{intro}</p>
+      <div className="game-intro-hero"><img src="/mascote/pandi-frontal.png" alt="" width={120} height={140} className="mascot-img"/><p className="game-intro-text">{intro}</p></div>
       <p className="game-voluntary">É só uma brincadeira: você brinca se quiser, pode pausar ou parar quando preferir e chamar um adulto a qualquer momento. Não é exercício, teste nem tratamento.</p>
       <div className="mode-grid">{modes.map(option => <button key={option} className={`mode-card ${option === 'touch' ? 'primary' : ''}`} onClick={() => start(option)}>
         {MODE_INFO[option].icon}<strong>{MODE_INFO[option].label}</strong><small>{MODE_INFO[option].note}</small>
@@ -85,6 +85,7 @@ export function GameShell({ game, title, intro, modes, patientId, offline, onExi
     </div>}
 
     {phase === 'summary' && <div className="game-summary" role="status">
+      <img src="/mascote/pandi-comemorando.png" alt="Pandi comemorando" width={190} height={152} className="mascot-img"/>
       <h2>Que bom brincar com você!</h2>
       <p>Tempo de brincadeira: {Math.floor(seconds / 60)} min {seconds % 60} s · modo {MODE_INFO[mode].label.toLowerCase()}</p>
       {save?.status === 'saving' && <p className="muted">Salvando…</p>}

@@ -6,7 +6,7 @@ import { usePatients } from '../../app/PatientsProvider'
 import { api, errorText, post } from '../../lib/api'
 import type { AvatarId, FormOptions, Patient, PatientCreateInput } from '../../lib/types'
 import { Button, Card, EmptyState, ErrorState, Input, Loading, PageHeading, Select, Textarea } from '../../components/ui'
-import { MASCOTS, MascotFace } from '../child/mascots'
+import { COMING_SOON, PANDI, PandiAvatar } from '../child/mascots'
 
 const STEPS = ['Dados fictícios', 'Equipe e família', 'Revisão']
 
@@ -71,7 +71,7 @@ export function PatientCreatePage() {
           <Input label="Nome fictício da criança" value={form.name} onChange={set('name')} maxLength={120} error={errors.name} autoFocus/>
           <Input label="Data de nascimento (fictícia)" type="date" value={form.birth_date} onChange={set('birth_date')} max={new Date().toISOString().slice(0, 10)} error={errors.birth_date}/>
         </div>
-        <fieldset><legend>Tema / companheiro inicial</legend><div className="mascot-choice-grid">{MASCOTS.map(m => <label key={m.id} className={`mascot-choice ${form.chosen_avatar === m.id ? 'selected' : ''}`}><input type="radio" name="avatar" className="sr-only" checked={form.chosen_avatar === m.id} onChange={() => setForm({ ...form, chosen_avatar: m.id })}/><MascotFace mascot={m} size={52}/><span>{m.name}</span></label>)}</div></fieldset>
+        <div className="companion-fixed"><PandiAvatar size={52}/><div><strong>Companheiro: {PANDI.name}</strong><small>{COMING_SOON.map(c => c.name).join(', ')}: em desenvolvimento.</small></div></div>
       </div>}
       {step === 1 && <div className="stack-form">
         <Select label="Médico(a) responsável" value={form.clinician_id} onChange={set('clinician_id')} error={errors.clinician_id} disabled={isClinician} hint={isClinician ? 'Você será o médico responsável.' : 'Somente médicos que delegaram cadastro a você.'}>
@@ -89,7 +89,7 @@ export function PatientCreatePage() {
       </div>}
       {step === 2 && <dl className="review-list">
         <div><dt>Nome</dt><dd>{form.name}</dd></div><div><dt>Nascimento</dt><dd>{form.birth_date.split('-').reverse().join('/')}</dd></div>
-        <div><dt>Companheiro</dt><dd>{MASCOTS.find(m => m.id === form.chosen_avatar)?.name}</dd></div>
+        <div><dt>Companheiro</dt><dd>{PANDI.name}</dd></div>
         <div><dt>Médico(a)</dt><dd>{clinician?.name ?? '—'}</dd></div><div><dt>Família</dt><dd>{guardian?.name ?? 'Vincular depois'}</dd></div>
         {isClinician && form.cancer_type_demo && <div><dt>Tipo (fictício)</dt><dd>{form.cancer_type_demo}</dd></div>}
       </dl>}

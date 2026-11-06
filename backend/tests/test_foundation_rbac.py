@@ -25,7 +25,7 @@ def test_unknown_email_is_401(client):
 
 def test_patient_scopes(client, tokens):
     assert len(client.get('/api/patients', headers=tokens['clinician']).json()) == 3
-    assert len(client.get('/api/patients', headers=tokens['guardian']).json()) == 3
+    assert len(client.get('/api/patients', headers=tokens['guardian']).json()) == 1  # somente a própria criança
     # Assistente: somente pacientes de médicos que o delegaram explicitamente (seed).
     assert len(client.get('/api/patients', headers=tokens['assistant']).json()) == 3
     assert client.get('/api/patients', headers=tokens['developer']).status_code == 403
@@ -45,7 +45,7 @@ def test_clinical_fields_only_for_clinician(client, tokens):
 def test_clinician_creates_patient_and_guardian_sees_it(client, tokens):
     guardian_id = me(client, tokens['guardian'])['id']
     created = client.post('/api/patients', headers=tokens['clinician'], json={
-        'name': 'Bia Estrela', 'birth_date': TODAY_CHILD, 'chosen_avatar': 'faisca', 'guardian_user_id': guardian_id,
+        'name': 'Bia Estrela', 'birth_date': TODAY_CHILD, 'chosen_avatar': 'pandi', 'guardian_user_id': guardian_id,
         'cancer_type_demo': 'Tipo fictício (demo)'})
     assert created.status_code == 201, created.text
     pid = created.json()['id']
@@ -145,3 +145,38 @@ def test_inactive_user_token_rejected(client, tokens):
         user = db.get(entities.User, me(client, tokens['guardian'])['id'])
         user.active = False; db.commit()
     assert client.get('/api/auth/me', headers=tokens['guardian']).status_code == 401
+
+
+GUARDIAN_PATHS = ('', '/dashboard', '/moods', '/routines', '/games', '/medications', '/medication-events', '/messages')
+
+
+def test_guardian_only_reaches_own_child(client, tokens):
+    """Responsável vê e acessa SOMENTE a própria criança, mesmo digitando o ID na URL."""
+    assert [p['name'] for p in client.get('/api/patients', headers=tokens['guardian']).json()] == ['Nina Aurora']
+    for other in (2, 3):
+        for path in GUARDIAN_PATHS:
+            assert client.get(f'/api/patients/{other}{path}', headers=tokens['guardian']).status_code == 403, (other, path)
+        assert client.post(f'/api/patients/{other}/moods', headers=tokens['guardian'], json={'score': 4, 'source': 'CHILD'}).status_code == 403
+        assert client.post(f'/api/patients/{other}/routines', headers=tokens['guardian'], json={'kind': 'water', 'quantity': 100, 'unit': 'ml'}).status_code == 403
+        assert client.post(f'/api/patients/{other}/games', headers=tokens['guardian'], json={'game': 'star', 'mode': 'touch', 'duration_seconds': 5}).status_code == 403
+
+
+def test_each_guardian_sees_only_their_child(client):
+    for email, child in (('responsavel.theo@superped.demo', 'Theo Nuvem'), ('responsavel.lia@superped.demo', 'Lia Sol')):
+        token = client.post('/api/auth/login', json={'email': email, 'password': 'Demo2026!'}).json()['access_token']
+        headers = {'Authorization': f'Bearer {token}'}
+        assert [p['name'] for p in client.get('/api/patients', headers=headers).json()] == [child]
+        assert client.get('/api/patients/1', headers=headers).status_code == 403
+
+
+def test_patient_created_for_other_guardian_is_invisible(client, tokens):
+    options = client.get('/api/patients/form-options', headers=tokens['clinician']).json()
+    other = next(g['id'] for g in options['guardians'] if g['email'] == 'responsavel.theo@superped.demo')
+    pid = client.post('/api/patients', headers=tokens['clinician'], json={'name': 'Caio Demo', 'birth_date': TODAY_CHILD, 'guardian_user_id': other}).json()['id']
+    assert pid not in [p['id'] for p in client.get('/api/patients', headers=tokens['guardian']).json()]
+    assert client.get(f'/api/patients/{pid}', headers=tokens['guardian']).status_code == 403
+
+
+def test_only_pandi_avatar_accepted(client, tokens):
+    for avatar in ('arco', 'niva', 'homem-aranha', 'mickey'):
+        assert client.post('/api/patients', headers=tokens['clinician'], json={'name': 'Teste', 'birth_date': TODAY_CHILD, 'chosen_avatar': avatar}).status_code == 422
