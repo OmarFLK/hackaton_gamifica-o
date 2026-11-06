@@ -6,7 +6,7 @@ import { ROUTINE_DISCLAIMER } from '../../lib/demo'
 import { dayKey, formatDateTime, moodByDay, nextTime, waterByDay } from '../../lib/format'
 import { Card, CardHeader, EmptyState, ErrorState, Loading, MoodChart, PageHeading, StatCard, WaterChart } from '../../components/ui'
 import { MOOD_LABELS } from '../../components/ui/Charts'
-import { MascotFace, mascotById } from '../child/mascots'
+import { PandiPoseImage, mascotById } from '../child/mascots'
 import { useDashboard } from './useGuardianData'
 
 export function GuardianDashboard() {
@@ -30,7 +30,7 @@ export function GuardianDashboard() {
   return <>
     <PageHeading eyebrow="ESPAÇO DA FAMÍLIA" title={`Olá, ${user?.name.split(' ')[0]}`} subtitle={`Acompanhando ${firstName}. ${patients.length > 1 ? 'Troque a criança no seletor acima.' : ''}`}/>
     <section className={`child-world-cta ${params.get('mundo') ? 'highlight' : ''}`}>
-      <MascotFace mascot={mascot} size={84}/>
+      <PandiPoseImage pose="principal" size={110} title={mascot.name}/>
       <div><h2>Mundo de {firstName}</h2><p>Abra junto com a criança: escolher companheiro, contar como está e brincar. Ela não precisa de senha.</p></div>
       <Link className="button primary" to={`/crianca/${selected.id}`}><Sparkles size={18}/>Entrar no mundo da criança<ArrowRight size={18}/></Link>
     </section>

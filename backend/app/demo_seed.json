@@ -24,6 +24,18 @@
       "email": "dev@superped.demo",
       "password": "Demo2026!",
       "role": "DEVELOPER"
+    },
+    {
+      "name": "Jô Responsável",
+      "email": "responsavel.theo@superped.demo",
+      "password": "Demo2026!",
+      "role": "GUARDIAN"
+    },
+    {
+      "name": "Lu Responsável",
+      "email": "responsavel.lia@superped.demo",
+      "password": "Demo2026!",
+      "role": "GUARDIAN"
     }
   ],
   "patients": [
@@ -37,16 +49,16 @@
     {
       "name": "Theo Nuvem",
       "birth_date": "2015-10-02",
-      "chosen_avatar": "arco",
+      "chosen_avatar": "pandi",
       "clinician_email": "medico@superped.demo",
-      "guardian_email": "responsavel@superped.demo"
+      "guardian_email": "responsavel.theo@superped.demo"
     },
     {
       "name": "Lia Sol",
       "birth_date": "2019-07-09",
-      "chosen_avatar": "niva",
+      "chosen_avatar": "pandi",
       "clinician_email": "medico@superped.demo",
-      "guardian_email": "responsavel@superped.demo"
+      "guardian_email": "responsavel.lia@superped.demo"
     }
   ],
   "medications": [

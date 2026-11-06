@@ -1,7 +1,8 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 const assets = (await readdir('dist/assets')).map(file => `/assets/${file}`)
-const publicFiles = ['/index.html', '/manifest.webmanifest', '/brand/pendi-wordmark.png', '/brand/pendi-symbol.png']
+const mascotFiles = (await readdir('dist/mascote')).map(file => `/mascote/${file}`)
+const publicFiles = ['/index.html', '/manifest.webmanifest', '/brand/pendi-wordmark.png', '/brand/pendi-symbol.png', ...mascotFiles]
 const version = createHash('sha256').update(await readFile('dist/index.html')).digest('hex').slice(0, 12)
 // A lista é fechada. Nenhuma resposta da API ou recurso autenticado entra no cache.
 const worker = `const CACHE = 'pendi-public-${version}';

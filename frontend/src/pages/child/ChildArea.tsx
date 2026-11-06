@@ -52,7 +52,7 @@ export function ChildArea() {
   if (error) return <main className="kid-error"><ErrorState message={error}/><button className="button primary" onClick={exit}>Voltar para o responsável</button></main>
   if (!patient) return <Loading/>
   const child = { id: patient.id, firstName: patient.name.split(' ')[0] }
-  return <AvatarProvider key={patient.id} patientId={patient.id} initial={patient.chosen_avatar}>
+  return <AvatarProvider key={patient.id} initial={patient.chosen_avatar}>
     <ThemedWorld child={child} offline={offline} onExit={exit}/>
   </AvatarProvider>
 }

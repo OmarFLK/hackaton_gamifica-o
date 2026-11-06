@@ -99,7 +99,7 @@ try:
         resume_button = page.locator('.game-controls').get_by_role('button', name='Continuar', exact=True)
         resume_button.focus(); page.keyboard.press('Space')
         expect(page.get_by_text('Pausado. Descanse o quanto quiser.')).not_to_be_visible()
-        ok('Espaço preserva acionamento nativo de Pausar/Continuar no pássaro')
+        ok('Espaço preserva acionamento nativo de Pausar/Continuar no voo nas nuvens')
         page.get_by_role('button', name='Subir', exact=True).click()
         page.locator('.game-controls').get_by_role('button', name='Terminar', exact=True).click()
         expect(page.get_by_text('Sessão registrada no servidor.')).to_be_visible()

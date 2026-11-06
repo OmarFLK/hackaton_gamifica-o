@@ -29,6 +29,8 @@ function CandlePlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
   const out = flame === 0
 
   return <div className="candle-stage">
+    <div className="candle-row">
+    <img src="/mascote/humor-4-neutro.png" alt="Pandi respirando com calma" width={150} height={150} className="mascot-img candle-pandi"/>
     <svg viewBox="0 0 200 260" className="candle-svg" role="img" aria-label={out ? 'Vela apagada' : `Vela acesa, chama em ${Math.round(flame * 100)}%`}>
       <defs><radialGradient id="glow"><stop offset="0%" stopColor="#FFE9A8" stopOpacity=".9"/><stop offset="100%" stopColor="#FFE9A8" stopOpacity="0"/></radialGradient></defs>
       <circle cx="100" cy="88" r={70 * flame} fill="url(#glow)" style={{ transition: reducedMotion ? 'none' : 'r .4s ease' }}/>
@@ -42,6 +44,7 @@ function CandlePlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
       <rect x="80" y="134" width="10" height="70" rx="5" fill="#ffffff" opacity=".25"/>
       <ellipse cx="100" cy="232" rx="58" ry="10" fill="#d9dfeb"/>
     </svg>
+    </div>
     <p className="game-message" aria-live="polite">{out ? 'A vela apagou! ✨ Quer acender de novo?' : mode === 'microphone' && mic.status === 'on' ? 'Sopre devagarinho perto do aparelho… ou use o botão.' : 'Toque em “Soprar” para a chama dançar e diminuir.'}</p>
     {mode === 'microphone' && <div className="mic-panel">
       {mic.status === 'on' && <><div className="level-meter" aria-hidden="true"><span style={{ width: `${Math.min(100, mic.level * 400)}%` }}/></div><button className="text-button" onClick={mic.recalibrate}>Recalibrar silêncio</button></>}

@@ -13,7 +13,7 @@ Em Medicamentos, consulte os horários definidos pelo médico. Registre administ
 Em Mensagens, escolha a criança vinculada para falar com o médico. O sino mostra novas mensagens e avisos. A atualização depende da página aberta e não garante entrega com o app fechado. O chat não é canal de emergência e não possui prazo garantido de resposta.
 
 ## Brincadeiras e sentimentos
-Abra Entrar no mundo da criança junto com ela. Ela pode escolher mascote, contar sentimentos, brincar de vela, pássaro ou estrela e conversar com o Pendi. Tudo é voluntário, com pausa e alternativa por toque. Sentimento não é diagnóstico.
+Abra Entrar no mundo da criança junto com ela. Ela pode escolher mascote, contar sentimentos, brincar de vela, voo nas nuvens ou estrela e conversar com o Pendi. Tudo é voluntário, com pausa e alternativa por toque. Sentimento não é diagnóstico.
 
 ## Preparar dúvidas para a equipe
 Anote o que gostaria de perguntar e o que já foi orientado, sem inventar informações. Use a conversa humana para dúvidas individuais. Em urgência não espere o chat; procure ajuda presencial da equipe ou do serviço local.

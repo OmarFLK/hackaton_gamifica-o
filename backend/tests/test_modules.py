@@ -34,7 +34,7 @@ def test_seed_idempotent_and_hashed(client):
     seed.run_seed()
     seed.run_seed()
     with database.SessionLocal() as db:
-        assert db.scalar(select(func.count()).select_from(entities.User)) == 4
+        assert db.scalar(select(func.count()).select_from(entities.User)) == 6  # 4 contas do briefing + 1 responsável por criança (Theo, Lia)
         assert db.scalar(select(func.count()).select_from(entities.Patient)) == 3
         assert db.scalar(select(func.count()).select_from(entities.MedicationSchedule)) == 2
         assert all(u.password_hash.startswith('$argon2') for u in db.scalars(select(entities.User)))
@@ -134,7 +134,8 @@ def test_message_exchange_and_author(client, tokens):
         me = client.get('/api/auth/me', headers=tokens[role]).json()
         assert result.json()['sender_user_id'] == me['id']
     assert len(client.get('/api/patients/1/messages', headers=tokens['guardian']).json()) == 2
-    assert client.get('/api/patients/2/messages', headers=tokens['guardian']).json() == []
+    # Responsável só acessa a própria criança: o paciente 2 tem outro responsável.
+    assert client.get('/api/patients/2/messages', headers=tokens['guardian']).status_code == 403
     assert client.post('/api/patients/1/messages', headers=tokens['guardian'], json={'body': '  '}).status_code == 422
     assert client.post('/api/patients/1/messages', headers=tokens['guardian'], json={'body': 'Oi', 'sender_user_id': 1}).status_code == 422
 

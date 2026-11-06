@@ -5,7 +5,7 @@ import { errorText, post } from '../../lib/api'
 import { OFFLINE_SAVE_LABEL } from '../../lib/demo'
 import type { MoodEntry } from '../../lib/types'
 import { requestAdult } from '../../components/layouts/ChildLayout'
-import { MOODS, MascotFace } from './mascots'
+import { MOODS, PandiPoseImage } from './mascots'
 import { MoodPicker } from './MoodPicker'
 import { speakText, useAvatar } from './AvatarProvider'
 import type { ChildProfile } from './ChildArea'
@@ -14,7 +14,7 @@ type Result = { kind: 'saved' } | { kind: 'local' } | { kind: 'error'; text: str
 
 /** Check-in de 7 rostinhos com o mascote escolhido. Sem certo/errado, sem contagem, sem punição. */
 export function EmotionCheckinPage({ child, offline }: { child: ChildProfile; offline: boolean }) {
-  const { mascot, scarf } = useAvatar()
+  const { mascot } = useAvatar()
   const navigate = useNavigate()
   const [score, setScore] = useState<number | null>(null)
   const [busy, setBusy] = useState(false)
@@ -32,7 +32,8 @@ export function EmotionCheckinPage({ child, offline }: { child: ChildProfile; of
     const label = MOODS.find(m => m.score === score)?.label ?? ''
     const thanks = `Obrigado por me contar, ${child.firstName}. Todo jeito de sentir vale.`
     return <div className="kid-thanks" role="status">
-      <MascotFace mascot={mascot} score={score ?? 5} size={140} scarf={scarf}/>
+      {/* Resposta acolhedora: comemora humor bom; Pandi calmo e carinhoso nos demais. */}
+      <PandiPoseImage pose={score && score >= 5 ? 'comemorando' : 'calmo'} size={170}/>
       <h1 className="kid-page-title">{thanks}</h1>
       <p>Você escolheu: <strong>{label}</strong>{score && score <= 3 ? '. Que tal chamar um adulto para ficar com você?' : ''}</p>
       <p className="kid-note">{result.kind === 'saved' ? 'Guardado para o seu adulto ver.' : OFFLINE_SAVE_LABEL}</p>
@@ -46,7 +47,7 @@ export function EmotionCheckinPage({ child, offline }: { child: ChildProfile; of
   return <div className="kid-checkin">
     <h1 className="kid-page-title">Como você está hoje?</h1>
     <p className="kid-subtitle">Escolha o rostinho que parece com você agora. Qualquer resposta está tudo bem.</p>
-    <MoodPicker mascot={mascot} value={score} onChange={setScore} scarf={scarf} large withAudio/>
+    <MoodPicker mascot={mascot} value={score} onChange={setScore} large withAudio/>
     {result?.kind === 'error' && <p className="kid-error-text" role="alert">Não deu para guardar agora ({result.text}). Você pode tentar de novo ou chamar um adulto.</p>}
     <div className="kid-row">
       <button className="kid-big-button" onClick={send} disabled={!score || busy}><Heart size={24}/>{busy ? 'Guardando…' : 'Contar'}</button>

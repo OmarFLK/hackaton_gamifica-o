@@ -3,8 +3,8 @@ import type { MedicationSchedule, Patient, Role, User } from './types'
 // Fixtures fixas, públicas, exclusivamente fictícias. Nunca substituem uma escrita da API.
 export const offlinePatients: Patient[] = [
   { id: 1, name: 'Nina Aurora', birth_date: '2017-05-17', chosen_avatar: 'pandi', clinician_id: 1 },
-  { id: 2, name: 'Theo Nuvem', birth_date: '2015-10-02', chosen_avatar: 'arco', clinician_id: 1 },
-  { id: 3, name: 'Lia Sol', birth_date: '2019-07-09', chosen_avatar: 'niva', clinician_id: 1 },
+  { id: 2, name: 'Theo Nuvem', birth_date: '2015-10-02', chosen_avatar: 'pandi', clinician_id: 1 },
+  { id: 3, name: 'Lia Sol', birth_date: '2019-07-09', chosen_avatar: 'pandi', clinician_id: 1 },
 ]
 export const offlineSchedules: MedicationSchedule[] = [
   { id: 1, patient_id: 1, label: 'Medicamento A', times_json: ['08:00', '20:00'], active: true, clinician_id: 1 },
