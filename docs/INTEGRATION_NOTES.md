@@ -1,5 +1,7 @@
 # Integração
 
+**Revisão do PR #1:** banco antigo atualizado sem perda de pacientes, FK SQLite habilitada, correções de teclado/sensores e 37 verificações de navegador. Relatório atual: [REVISAO_PR_1.md](REVISAO_PR_1.md). As seções de bancada/kit abaixo registram o histórico; o aplicativo oficial está em `frontend/`.
+
 ## Módulos 01–09 (fundação, portais, área infantil e jogos)
 
 Atualizado em 06/11/2026. A fundação substituiu a bancada temporária, conforme a seção "Base temporária" abaixo previa.
@@ -23,6 +25,8 @@ Atualizado em 06/11/2026. A fundação substituiu a bancada temporária, conform
 - Testes: responsável recebe 403 em todos os endpoints de outra criança, mesmo digitando o ID; teste do kit 10–18 que esperava `[]` em mensagens do paciente 2 agora espera 403.
 
 **Personagens**: apenas `pandi` é aceito em `chosen_avatar` (backend e frontend). Valores antigos caem no Pandi. Homem-Aranha, Mickey e Minnie aparecem só como nome + "Em desenvolvimento".
+
+**Merge com a `main` do Omar (chat IA, notificações)**: o chat infantil `PendiChildChat` passou a exibir a ilustração oficial do Pandi no lugar do logo; a base de conhecimento infantil da IA (`knowledge/child.md`, `guardian.md`) foi alinhada aos personagens atuais (só Pandi) e ao nome "Voo nas nuvens". Sem outras mudanças no código do Omar.
 
 **Ilustrações do Pandi**: todo desenho do personagem em código foi removido. As telas usam as ilustrações oficiais da equipe em `frontend/public/mascote/` (PNG com transparência), via `PandiPoseImage`, `PandiAvatar` e `MascotFace` (humor 1–7) em `pages/child/mascots.tsx`. Humor: 7 Radiante = muito feliz, 6 Muito feliz = feliz, 5 Feliz = animado, 4 Neutro = calmo, 3 Não tão bem = cansado, 2 Muito mal = preocupado, 1 Muito triste = triste. O jogo `bird` passou a se chamar "Voo nas nuvens" na interface (o Pandi voa); o id do contrato continua `bird`. Ficaram em código apenas elementos de cenário sem ilustração fornecida (vela, nuvens, estrela, ícones).
 

@@ -20,7 +20,7 @@ export function ChildHomePage({ child }: { child: ChildProfile }) {
     </section>
     <nav className="kid-main-actions" aria-label="O que você quer fazer?">
       <Link className="kid-tile feature" to="sentimentos"><Smile size={34}/><strong>Como estou hoje?</strong><span>Contar com rostinhos</span></Link>
-      <Link className="kid-tile" to="conversar"><MessageCircleHeart size={34}/><strong>Conversar</strong><span>Com {mascot.name}</span></Link>
+      <Link className="kid-tile" to="conversar"><MessageCircleHeart size={34}/><strong>Conversar com o Pendi</strong><span>Escrever ou falar antes de enviar</span></Link>
       <Link className="kid-tile" to="mascote"><Palette size={34}/><strong>Trocar companheiro</strong><span>Pandi · novos amigos em breve</span></Link>
     </nav>
     <section aria-labelledby="adventures-title">

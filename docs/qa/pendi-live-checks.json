@@ -1,0 +1,63 @@
+[
+  {
+    "audience": "guardian",
+    "model": "google/gemma-3-27b",
+    "answer": "Olá! Sou o Pendi, seu assistente virtual aqui no Instituto Mauá de Tecnologia. 😊\n\nPara conversar com a equipe, você pode usar as funcionalidades do aplicativo – mas lembre-se que sou apenas um sistema para ajudar na organização e não substituo a avaliação da equipe médica ou pedagógica. Posso te auxiliar a encontrar os canais de comunicação disponíveis dentro do app, se precisar!",
+    "citations": [
+      {
+        "id": "guardian-3",
+        "title": "Agenda e lembretes"
+      },
+      {
+        "id": "guardian-5",
+        "title": "Brincadeiras e sentimentos"
+      },
+      {
+        "id": "guardian-1",
+        "title": "Acolhimento da família"
+      }
+    ],
+    "seconds": 16.55
+  },
+  {
+    "audience": "clinician",
+    "model": "google/gemma-3-27b",
+    "answer": "Olá! Sou o Pendi, assistente virtual do sistema. As conversas dos seus pacientes vinculados ficam visíveis no menu principal. Lá você encontra um histórico das interações com cada paciente.\n\nÉ importante lembrar que esta é uma demonstração acadêmica com dados fictícios e não possui validação clínica. O acesso às conversas se limita aos pacientes que estão devidamente vinculados a você, e o sistema apenas organiza essa comunicação – não fornece decisões clínicas individuais ou prontuários.",
+    "citations": [
+      {
+        "id": "clinician-5",
+        "title": "Conversas e avisos"
+      },
+      {
+        "id": "clinician-1",
+        "title": "Escopo profissional"
+      },
+      {
+        "id": "clinician-7",
+        "title": "Limites da base"
+      }
+    ],
+    "seconds": 4.22
+  },
+  {
+    "audience": "child",
+    "model": "google/gemma-3-27b",
+    "answer": "Olá! Eu sou o Pendi, seu amigo virtual aqui do aplicativo. Que legal te conhecer! 😊 Podemos inventar um monte de histórias divertidas juntos, ou brincar se você quiser. Se preferir só conversar sobre como está se sentindo, também pode ser! ✨ Escolha o que te faz mais feliz agora, sem pressa.",
+    "citations": [
+      {
+        "id": "child-2",
+        "title": "Brincar e imaginar"
+      },
+      {
+        "id": "child-1",
+        "title": "Oi, eu sou o Pendi"
+      }
+    ],
+    "seconds": 3.43
+  },
+  {
+    "speech": "Portuguese synthetic sample",
+    "text": "Olá Pendi. Eu quero brincar com uma estrela.",
+    "review_required": true
+  }
+]

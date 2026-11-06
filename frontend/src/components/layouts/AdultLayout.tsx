@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { ArrowRight, BookOpen, ChevronDown, Droplets, HeartHandshake, LayoutDashboard, LogOut, Menu, MessageCircle, Pill, ShieldCheck, Smile, Sparkles, UserPlus, Users, Wifi, WifiOff, X, type LucideIcon } from 'lucide-react'
+import { ArrowRight, Bell, Bot, BookOpen, ChevronDown, Droplets, HeartHandshake, LayoutDashboard, LogOut, Menu, MessageCircle, Pill, ShieldCheck, Smile, Sparkles, UserPlus, Users, Wifi, WifiOff, X, type LucideIcon } from 'lucide-react'
 import { useAuth } from '../../app/AuthProvider'
 import { usePatients } from '../../app/PatientsProvider'
 import type { Role } from '../../lib/types'
 import { Brand } from '../common/Brand'
 import { PwaInstall } from '../common/PwaInstall'
 import { DemoBadge } from '../ui/Badge'
+import { NotificationBell } from '../../features/notifications/NotificationBell'
 
 interface NavItem { path: string; label: string; icon: LucideIcon; end?: boolean }
 const ROLE_NAMES: Record<Role, string> = { CLINICIAN: 'Profissional de saúde', CLINICAL_ASSISTANT: 'Assistente', GUARDIAN: 'Responsável', DEVELOPER: 'Desenvolvedor' }
@@ -18,6 +19,8 @@ function navigationFor(role: Role): { label: string; items: NavItem[] } {
     { path: '/familia/humor', label: 'Como está hoje', icon: Smile },
     { path: '/familia/medicamentos', label: 'Medicamentos', icon: Pill },
     { path: '/familia/mensagens', label: 'Mensagens', icon: MessageCircle },
+    { path: '/familia/notificacoes', label: 'Notificações', icon: Bell },
+    { path: '/familia/ia', label: 'Assistente IA', icon: Bot },
     { path: '/familia/ajuda', label: 'Dúvidas frequentes', icon: BookOpen },
   ] }
   if (role === 'DEVELOPER') return { label: 'AMBIENTE TÉCNICO', items: [{ path: '/dev', label: 'Status do ambiente', icon: ShieldCheck, end: true }] }
@@ -25,6 +28,11 @@ function navigationFor(role: Role): { label: string; items: NavItem[] } {
     { path: '/medico', label: 'Painel', icon: LayoutDashboard, end: true },
     { path: '/medico/pacientes', label: 'Pacientes', icon: Users, end: true },
     { path: '/medico/pacientes/novo', label: 'Novo paciente', icon: UserPlus },
+    ...(role === 'CLINICIAN' ? [
+      { path: '/medico/mensagens', label: 'Mensagens', icon: MessageCircle },
+      { path: '/medico/notificacoes', label: 'Notificações', icon: Bell },
+      { path: '/medico/ia', label: 'Assistente IA', icon: Bot },
+    ] : []),
     { path: '/medico/ajuda', label: 'Dúvidas frequentes', icon: BookOpen },
   ] }
 }
@@ -78,11 +86,12 @@ export function AdultLayout() {
       <header className="topbar">
         <div className="topbar-start"><button className="icon-button mobile-only" aria-label="Abrir menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu/></button><span className="breadcrumb">Pendi <span>/</span> {nav.label.toLowerCase().replace(/^\w/, c => c.toUpperCase())}</span></div>
         <DemoBadge/>
+        <NotificationBell/>
         <span className={`connection ${offline ? 'is-offline' : ''}`}>{offline ? <WifiOff size={15}/> : <Wifi size={15}/>}{offline ? 'Offline' : 'API conectada'}</span>
       </header>
       {offline && <div className="offline-banner" role="status"><WifiOff size={18}/><span>Modo offline de apresentação — dados fictícios, somente leitura, nada é sincronizado.</span><button className="text-button" onClick={logout}>Voltar ao login online</button></div>}
       <main id="main-content" className="main-content">
-        {user.role === 'GUARDIAN' && <PatientSwitcher/>}
+        {user.role === 'GUARDIAN' && !location.pathname.endsWith('/mensagens') && <PatientSwitcher/>}
         <Outlet/>
         <footer className="app-footer"><span><HeartHandshake size={12}/> Pendi · Cuidado que aproxima</span><span>Demonstração acadêmica · Dados fictícios · Não validado para uso clínico</span></footer>
       </main>

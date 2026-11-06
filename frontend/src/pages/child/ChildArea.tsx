@@ -21,7 +21,7 @@ function ThemedWorld({ child, offline, onExit }: { child: ChildProfile; offline:
       <Route index element={<ChildHomePage child={child}/>}/>
       <Route path="mascote" element={<AvatarPickerPage child={child}/>}/>
       <Route path="sentimentos" element={<EmotionCheckinPage child={child} offline={offline}/>}/>
-      <Route path="conversar" element={<ChildTalkPage/>}/>
+      <Route path="conversar" element={<ChildTalkPage child={child} offline={offline}/>}/>
       <Route path="jogos/:game" element={<ChildGamePage child={child} offline={offline}/>}/>
     </Routes>
   </ChildLayout>
@@ -40,6 +40,7 @@ export function ChildArea() {
   const [patient, setPatient] = useState<Patient | null>(null)
   const [error, setError] = useState('')
   useEffect(() => {
+    setPatient(null); setError('')
     if (offline) { const found = offlinePatients.find(p => p.id === id); setPatient(found ?? null); setError(found ? '' : 'Perfil indisponível no modo offline.'); return }
     const controller = new AbortController()
     api<Patient>(`/api/patients/${id}`, { signal: controller.signal })

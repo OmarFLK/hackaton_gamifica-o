@@ -7,6 +7,9 @@ import { GuardianDashboard, GuardianMedicationsPage, GuardianMessagesPage, Guard
 import { ChildArea } from '../pages/child'
 import { DeveloperDashboard } from '../pages/developer/DeveloperDashboard'
 import { ProtectedRoute, useAuth } from './AuthProvider'
+import { ConversationInbox } from '../features/messages/ConversationInbox'
+import { NotificationsPage } from '../features/notifications/NotificationsPage'
+import { AIChatPage } from '../features/assistant/AIChatPage'
 
 function DeveloperPage() {
   const { offline } = useAuth()
@@ -26,6 +29,11 @@ export function AppRoutes() {
         <Route path="pacientes/novo" element={<PatientCreatePage/>}/>
         <Route path="pacientes/:id" element={<PatientDetailPage/>}/>
         <Route path="ajuda" element={<HelpPage/>}/>
+        <Route element={<ProtectedRoute roles={['CLINICIAN']}/>}>
+          <Route path="mensagens" element={<ConversationInbox/>}/>
+          <Route path="notificacoes" element={<NotificationsPage/>}/>
+          <Route path="ia" element={<AIChatPage/>}/>
+        </Route>
         <Route path="*" element={<Navigate to="/medico" replace/>}/>
       </Route>
     </Route>
@@ -37,6 +45,8 @@ export function AppRoutes() {
         <Route path="humor" element={<GuardianMoodPage/>}/>
         <Route path="medicamentos" element={<GuardianMedicationsPage/>}/>
         <Route path="mensagens" element={<GuardianMessagesPage/>}/>
+        <Route path="notificacoes" element={<NotificationsPage/>}/>
+        <Route path="ia" element={<AIChatPage/>}/>
         <Route path="ajuda" element={<HelpPage/>}/>
         <Route path="*" element={<Navigate to="/familia" replace/>}/>
       </Route>

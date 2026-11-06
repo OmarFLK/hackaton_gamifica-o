@@ -1,0 +1,26 @@
+{
+  "tables": [
+    "clinician_delegates",
+    "game_sessions",
+    "medication_events",
+    "medication_schedules",
+    "messages",
+    "mood_entries",
+    "patient_guardians",
+    "patients",
+    "routine_entries",
+    "users"
+  ],
+  "patient_columns": [
+    "id",
+    "name",
+    "birth_date",
+    "chosen_avatar",
+    "clinician_id",
+    "clinical_notes",
+    "cancer_type_demo",
+    "clinical_stage_demo"
+  ],
+  "foreign_key_violations": 0,
+  "legacy_patients_preserved": true
+}

@@ -1,6 +1,12 @@
 # Pendi (SuperPed) — status real dos módulos
 
-Atualizado em 06/11/2026. Branch local `feat/modulos-01-09`. Este quadro só lista o que foi executado e verificado.
+## Atualização de comunicação e IA
+
+Implementados: central humana de conversas, avisos/sino/leitura por usuário, Pendi com Gemma 27B real da Mauá, três bases RAG isoladas e transcrição local com revisão antes do envio infantil. O navegador passou em 12 novas verificações com duas contas e captura sintética. Ver [PENDI_CHAT_RAG_VOZ.md](PENDI_CHAT_RAG_VOZ.md). Os resultados anteriores do PR #1 abaixo são históricos.
+
+Validação atual: **115 testes API, 17 testes frontend, build de produção e 12 novas verificações no navegador aprovados**. Chamadas reais ao Gemma confirmadas para os três perfis; reconhecimento de voz validado com áudio sintético em português. Nenhuma chave foi incluída no código ou no build público.
+
+Atualizado em 06/11/2026 após a revisão do PR #1. Este quadro só lista o que foi executado e verificado. Detalhes em [REVISAO_PR_1.md](REVISAO_PR_1.md).
 
 | Item | Estado verificável | Evidência |
 |---|---|---|
@@ -17,14 +23,17 @@ Atualizado em 06/11/2026. Branch local `feat/modulos-01-09`. Este quadro só lis
 
 ## Verificação executada
 
-- Backend: `pytest` → **80 passaram** (48 originais + 32 novos, incluindo isolamento do responsável).
+- Backend: `pytest` → **120 passaram** (inclui isolamento do responsável e IA/notificações com provedor simulado).
 - Frontend: `npm test` → **17 passaram** (9 originais + 8 dos jogos); `npm run build` OK.
-- Navegador (Edge, `scripts/smoke_01_09.py`): **21 verificações** em 1440px e 375px, no dev server e no build de produção.
+- Navegador (Edge, `scripts/smoke_01_09.py`): **21 verificações** em 1440px e 375px.
+- Revisão extra (Edge, `scripts/smoke_review_integration.py`): **18 verificações**, com teclado, sensores sintéticos, falha de API, modo offline e jogos em 375/768/1440px.
+- Banco local atualizado a partir da demo antiga, preservando pacientes; zero violações de chave estrangeira.
+- `scripts/smoke_communication_pendi.py` (IA real e ditado) **não executado nesta máquina**: exige chave da API Barô e modelo Whisper locais.
 
 ## Não feito / pendente real
 
-- Deploy Render/Neon/Vercel **não publicado** (requer contas do apresentador; blueprint já existe).
-- Microfone e câmera testados só no caminho de fallback (headless sem dispositivos). Validar em aparelho físico antes da apresentação.
+- Backend Render e banco Neon **não validados nesta execução**. Há preview Vercel informado no PR; integração pública de login/gravações ainda precisa ser conferida.
+- Microfone e câmera testados com dispositivos sintéticos do Edge, incluindo fechamento dos tracks e permissão negada. Validar hardware físico antes da apresentação.
 - Personagens Homem-Aranha, Mickey e Minnie: somente o nome com aviso "Em desenvolvimento". Uso de arte, voz ou nome em produção exige licença dos detentores (Marvel/Disney) e contraria a regra original do briefing; decisão pendente da equipe.
 - Kiosk infantil sem responsável não foi implementado (opcional no contrato).
 - Bundle JS de ~800 kB (Recharts): funciona, mas sem code-splitting.

@@ -111,6 +111,21 @@ class Message(Base):
     created_at: Mapped[str] = mapped_column(String(40), default=now_iso, index=True)
 
 
+class Notification(Base):
+    __tablename__ = 'notifications'
+    __table_args__ = (Index('ix_notification_recipient_unread', 'user_id', 'read_at'),)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), index=True)
+    patient_id: Mapped[int] = mapped_column(ForeignKey('patients.id'), index=True)
+    actor_user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    message_id: Mapped[int | None] = mapped_column(ForeignKey('messages.id'), nullable=True, index=True)
+    kind: Mapped[str] = mapped_column(String(20))
+    title: Mapped[str] = mapped_column(String(100))
+    body: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[str] = mapped_column(String(40), default=now_iso)
+    read_at: Mapped[str | None] = mapped_column(String(40), nullable=True)
+
+
 class GameSession(Base):
     __tablename__ = 'game_sessions'
     id: Mapped[int] = mapped_column(primary_key=True)

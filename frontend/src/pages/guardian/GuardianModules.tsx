@@ -3,7 +3,7 @@ import { usePatients } from '../../app/PatientsProvider'
 import { EmptyState, Loading } from '../../components/ui'
 import { InformationalAssistant } from '../../features/assistant'
 import { MedicationCalendar } from '../../features/medications'
-import { MessageCenter } from '../../features/messages'
+import { ConversationInbox } from '../../features/messages/ConversationInbox'
 
 // Apenas conecta os módulos 10–11 (já existentes) ao paciente selecionado. Sem reimplementar.
 function useSelection() {
@@ -20,10 +20,7 @@ export function GuardianMedicationsPage() {
 }
 
 export function GuardianMessagesPage() {
-  const { user, offline, selected, loading } = useSelection()
-  if (loading) return <Loading/>
-  if (!selected || !user) return <EmptyState>Nenhuma criança vinculada.</EmptyState>
-  return <MessageCenter key={`${selected.id}:${offline}`} patientId={selected.id} userId={user.id} offline={offline}/>
+  return <ConversationInbox/>
 }
 
 export function HelpPage() {

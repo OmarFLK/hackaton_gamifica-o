@@ -1,5 +1,7 @@
 # Deploy demonstrativo — preparado, ainda não publicado
 
+**Atualização após PR #1:** o frontend oficial completo está em `frontend/`; usar essa pasta como Root Directory na Vercel, `npm run build` e saída `dist`. `integration-kit/frontend` é apenas a referência histórica e não contém o sistema completo. O PR informa preview Vercel; backend Render e banco Neon ainda não foram validados nesta execução. As instruções abaixo registram também a fase anterior dos módulos complementares.
+
 Status em 06/11/2026: não foram criados projetos Render, Neon ou Vercel. Não há URLs públicas verificadas. A demonstração complementar Pendi em `integration-kit/frontend` já compila e funciona localmente. A publicação conjunta com os módulos 00–09 ainda depende do outro desenvolvedor.
 
 ## API no Render + Neon

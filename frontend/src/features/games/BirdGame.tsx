@@ -83,7 +83,12 @@ function BirdPlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
   }, [paused, mode, mic.status, mic.levelRef, mic.thresholdRef, speed, reducedMotion])
 
   useEffect(() => {
-    const key = (event: KeyboardEvent) => { if (event.code === 'Space' || event.code === 'ArrowUp') { event.preventDefault(); up() } }
+    const key = (event: KeyboardEvent) => {
+      // Preserva Espaço/Setas em controles nativos (Pausar, Terminar, Sair).
+      const target = event.target
+      if (target instanceof HTMLElement && target.closest('button, a, input, select, textarea, [contenteditable="true"]')) return
+      if (event.code === 'Space' || event.code === 'ArrowUp') { event.preventDefault(); up() }
+    }
     window.addEventListener('keydown', key)
     return () => window.removeEventListener('keydown', key)
   }, [up])
