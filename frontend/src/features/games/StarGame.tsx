@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Star } from 'lucide-react'
 import { GameShell, type GameProps, type PlayContext } from './GameShell'
 import { nextStar } from './logic'
@@ -8,13 +8,18 @@ function StarPlay({ mode, paused, reducedMotion, setMode }: PlayContext) {
   const [star, setStar] = useState(() => nextStar(null))
   const [caught, setCaught] = useState(0)
   const [sparkle, setSparkle] = useState(false)
-  const camera = useCamera(mode === 'camera')
+  const camera = useCamera(mode === 'camera' && !paused)
+  const sparkleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useEffect(() => () => { if (sparkleTimer.current) clearTimeout(sparkleTimer.current) }, [])
   const cameraOn = mode === 'camera' && camera.status === 'on'
 
   const catchStar = () => {
     if (paused) return
     setCaught(c => c + 1); setStar(previous => nextStar(previous))
-    if (!reducedMotion) { setSparkle(true); setTimeout(() => setSparkle(false), 350) }
+    if (!reducedMotion) {
+      if (sparkleTimer.current) clearTimeout(sparkleTimer.current)
+      setSparkle(true); sparkleTimer.current = setTimeout(() => setSparkle(false), 350)
+    }
   }
 
   return <div className="star-stage">

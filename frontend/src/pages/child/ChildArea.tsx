@@ -40,6 +40,7 @@ export function ChildArea() {
   const [patient, setPatient] = useState<Patient | null>(null)
   const [error, setError] = useState('')
   useEffect(() => {
+    setPatient(null); setError('')
     if (offline) { const found = offlinePatients.find(p => p.id === id); setPatient(found ?? null); setError(found ? '' : 'Perfil indisponível no modo offline.'); return }
     const controller = new AbortController()
     api<Patient>(`/api/patients/${id}`, { signal: controller.signal })

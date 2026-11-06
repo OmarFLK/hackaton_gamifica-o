@@ -1,5 +1,7 @@
 # Integração
 
+**Revisão do PR #1:** banco antigo atualizado sem perda de pacientes, FK SQLite habilitada, correções de teclado/sensores e 37 verificações de navegador. Relatório atual: [REVISAO_PR_1.md](REVISAO_PR_1.md). As seções de bancada/kit abaixo registram o histórico; o aplicativo oficial está em `frontend/`.
+
 ## Módulos 01–09 (fundação, portais, área infantil e jogos)
 
 Atualizado em 06/11/2026. A fundação substituiu a bancada temporária, conforme a seção "Base temporária" abaixo previa.

@@ -1,6 +1,6 @@
 # Pendi (SuperPed) — status real dos módulos
 
-Atualizado em 06/11/2026. Branch local `feat/modulos-01-09`. Este quadro só lista o que foi executado e verificado.
+Atualizado em 06/11/2026 após a revisão do PR #1. Este quadro só lista o que foi executado e verificado. Detalhes em [REVISAO_PR_1.md](REVISAO_PR_1.md).
 
 | Item | Estado verificável | Evidência |
 |---|---|---|
@@ -17,14 +17,16 @@ Atualizado em 06/11/2026. Branch local `feat/modulos-01-09`. Este quadro só lis
 
 ## Verificação executada
 
-- Backend: `pytest` → **75 passaram** (48 originais + 27 novos).
+- Backend: `pytest` → **85 passaram** (75 existentes + 10 regressões da revisão).
 - Frontend: `npm test` → **17 passaram** (9 originais + 8 dos jogos); `npm run build` OK.
 - Navegador (Edge, `scripts/smoke_01_09.py`): **19 verificações** em 1440px e 375px, no dev server e no build de produção.
+- Revisão extra (Edge, `scripts/smoke_review_integration.py`): **18 verificações**, com teclado, sensores sintéticos, falha de API, modo offline e jogos em 375/768/1440px.
+- Banco local atualizado a partir da demo antiga, preservando pacientes; 10 tabelas e zero violações de chave estrangeira.
 
 ## Não feito / pendente real
 
-- Deploy Render/Neon/Vercel **não publicado** (requer contas do apresentador; blueprint já existe).
-- Microfone e câmera testados só no caminho de fallback (headless sem dispositivos). Validar em aparelho físico antes da apresentação.
+- Backend Render e banco Neon **não validados nesta execução**. Há preview Vercel informado no PR; integração pública de login/gravações ainda precisa ser conferida.
+- Microfone e câmera testados com dispositivos sintéticos do Edge, incluindo fechamento dos tracks e permissão negada. Validar hardware físico antes da apresentação.
 - Escolha de mascote persiste só no dispositivo (contrato não tem endpoint de avatar); a interface informa isso.
 - Kiosk infantil sem responsável não foi implementado (opcional no contrato).
 - Bundle JS de ~800 kB (Recharts): funciona, mas sem code-splitting.

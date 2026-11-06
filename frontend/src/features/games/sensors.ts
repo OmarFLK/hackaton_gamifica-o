@@ -48,12 +48,16 @@ export function useMicrophoneLevel(enabled: boolean) {
         frame = requestAnimationFrame(tick)
       }
       frame = requestAnimationFrame(tick)
-    }).catch(() => { if (!cancelled) setStatus('denied') })
+    }).catch(() => {
+      stream?.getTracks().forEach(t => t.stop())
+      if (context && context.state !== 'closed') void context.close().catch(() => undefined)
+      if (!cancelled) setStatus('denied')
+    })
     return () => {
       cancelled = true
       cancelAnimationFrame(frame)
       stream?.getTracks().forEach(t => t.stop())
-      void context?.close()
+      if (context && context.state !== 'closed') void context.close().catch(() => undefined)
       levelRef.current = 0
     }
   }, [enabled])
