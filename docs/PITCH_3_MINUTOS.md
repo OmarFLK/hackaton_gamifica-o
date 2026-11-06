@@ -1,10 +1,10 @@
-# SuperPed — roteiro de 3 minutos
+# Pendi — roteiro de 3 minutos
 
-**Nota ao apresentador:** este é um roteiro para o MVP integrado. Hoje a API dos módulos 10/11/13 está testada, e a interface ainda aguarda integração. Não afirmar que as cenas pendentes já funcionam.
+**Nota ao apresentador:** os módulos complementares possuem interface e API integradas, com medicamentos, chat, FAQ, companhia por voz/botões, status e contingência. Os portais completos, rotinas e jogos 00–09 ainda aguardam o outro dev. Ajustar as cenas do pitch ao estado mostrado em `STATUS_4H.md`.
 
 **0:00–0:40 — contexto**
 
-Durante um tratamento longo, famílias precisam organizar a rotina e encontrar formas acolhedoras de acompanhar a criança. A proposta do SuperPed — Jornada Corajosa é reunir atividades lúdicas voluntárias, registros da família e comunicação com a equipe num mesmo ambiente. Esta é uma demonstração acadêmica com dados inteiramente fictícios, sem validação clínica.
+Durante um tratamento longo, famílias precisam organizar a rotina e encontrar formas acolhedoras de acompanhar a criança. A proposta do Pendi é reunir atividades lúdicas voluntárias, registros da família e comunicação com a equipe num mesmo ambiente. Esta é uma demonstração acadêmica com dados inteiramente fictícios, sem validação clínica.
 
 **0:40–1:25 — experiência proposta**
 
@@ -12,7 +12,7 @@ A criança participa com um responsável, escolhe um companheiro original e pode
 
 **1:25–2:10 — demonstração e tecnologia**
 
-Na demonstração, mostramos somente os fluxos já integrados e testados. A API utiliza FastAPI e SQLAlchemy, com SQLite para execução local e PostgreSQL para hospedagem. A interface planejada utiliza React e Vite. O projeto está preparado para serviços gratuitos, sujeito aos limites das contas. A FAQ usa respostas estáticas; não há IA treinada com prontuários nem chamada a API paga. A voz prevista usa síntese genérica do navegador, com texto sempre disponível.
+Na demonstração, mostramos somente os fluxos já integrados e testados. A API utiliza FastAPI e SQLAlchemy, com SQLite para execução local e configuração PostgreSQL para hospedagem. A interface utiliza React e Vite. O projeto está preparado para serviços gratuitos, sujeito aos limites das contas. A FAQ usa respostas estáticas; não há IA treinada com prontuários nem chamada a API paga. A voz usa síntese genérica do navegador, com texto sempre disponível. O reconhecimento de voz é opcional, com consentimento e alternativas por botões.
 
 **2:10–2:45 — acesso e limites**
 

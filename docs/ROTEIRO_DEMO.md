@@ -1,6 +1,17 @@
-# Demo guiada — 2 minutos após integração
+# Pendi — demo guiada dos módulos complementares
 
-**Ainda não executada:** interface e módulos 00–09 estão com outro dev. As etapas dependentes aparecem explicitamente abaixo. Não apresentar este roteiro como teste aprovado.
+**Executado no navegador:** médico cria agenda, família registra relato, ambos leem mensagens, FAQ encaminha questão clínica, criança usa companhia por botões, dev vê somente status, e contingência funciona sem internet. Os módulos 00–09 continuam com o outro dev.
+
+## Percurso disponível agora (2 minutos)
+
+1. **0–20s:** abrir http://127.0.0.1:5174, preencher conta Médico e entrar. Nina é selecionada pela bancada de leitura. Criar programação fictícia ou consultar a agenda existente.
+2. **20–45s:** sair, entrar com Família, selecionar uma ocorrência e registrar um relato. Mostrar autor e horário no histórico. A notificação é apenas um lembrete; não equivale a administração.
+3. **45–65s:** em Mensagens, enviar texto fictício. Em Dúvidas frequentes, consultar uma questão de uso e demonstrar que uma pergunta sobre dose é encaminhada, sem orientação individual.
+4. **65–90s:** abrir “Conhecer o Pandi”, escolher “Quero descansar” e mostrar que os botões funcionam sem microfone. Reproduzir voz somente se disponível; chamar adulto é uma ação local, não um alerta remoto.
+5. **90–110s:** voltar ao adulto, mostrar o botão de simulação de 10 segundos e o aviso identificado. Sair e entrar como Dev para mostrar status sem pacientes.
+6. **110–120s:** sair e abrir “Apresentar sem API”; mostrar o aviso offline e os botões de gravação desabilitados.
+
+## Percurso futuro com os módulos 00–09
 
 | Tempo | Cena | Dependência/estado |
 |---|---|---|
@@ -15,6 +26,6 @@
 
 Antes do ensaio: usar só contas `@superped.demo` com senha fictícia do seed, verificar origem CORS, não abrir `.env` em público, confirmar banco persistente se hospedado. O botão de simulação do lembrete deve anunciar claramente que é uma simulação de 10 segundos.
 
-## Demo disponível agora, sem interface
+## Alternativa técnica via API
 
 Com a API local em execução, abrir `http://127.0.0.1:8000/docs`, autenticar usando o token obtido em `/api/auth/login`, consultar a agenda, criar um relato, consultar histórico por outra conta vinculada e trocar mensagens. Esse é um percurso técnico; não equivale ao teste manual do produto completo.

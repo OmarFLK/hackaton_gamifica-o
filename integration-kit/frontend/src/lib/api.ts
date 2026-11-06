@@ -11,12 +11,20 @@ export class ApiError extends Error {
 }
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = getToken()
+  const controller = new AbortController()
+  const abort = () => controller.abort()
+  if (options.signal?.aborted) abort()
+  options.signal?.addEventListener('abort', abort, { once: true })
+  const timeout = setTimeout(abort, 20000)
   let response: Response
   try {
-    response = await fetch(`${API_URL}${path}`, { ...options, signal: options.signal ?? AbortSignal.timeout(20000), headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } })
+    response = await fetch(`${API_URL}${path}`, { ...options, signal: controller.signal, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } })
   } catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') throw error
+    if (options.signal?.aborted) throw error
     throw new ApiError('API indisponível. Tente novamente; o serviço pode estar iniciando. Nenhuma alteração foi sincronizada.')
+  } finally {
+    clearTimeout(timeout)
+    options.signal?.removeEventListener('abort', abort)
   }
   if (!response.ok) {
     const data = await response.json().catch(() => ({}))

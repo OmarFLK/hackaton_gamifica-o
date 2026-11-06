@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: superped-demo-api
+    name: pendi-demo-api
     runtime: python
     plan: free
     rootDir: backend

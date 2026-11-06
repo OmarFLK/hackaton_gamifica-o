@@ -1,0 +1,92 @@
+[
+  {
+    "test": "Login médico real e agenda de paciente vinculado",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:41.875973-03:00"
+  },
+  {
+    "test": "Médico cria programação fictícia persistida na API",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:41.969975-03:00"
+  },
+  {
+    "test": "Família vê agenda compartilhada e registra relato com autor",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:45.259771-03:00"
+  },
+  {
+    "test": "Relato persiste após refresh",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:45.925280-03:00"
+  },
+  {
+    "test": "Agenda responsiva sem overflow em 375px",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:46.164394-03:00"
+  },
+  {
+    "test": "Agenda responsiva sem overflow em 768px",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:46.469705-03:00"
+  },
+  {
+    "test": "Agenda responsiva sem overflow em 1440px",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:46.827225-03:00"
+  },
+  {
+    "test": "Lembrete demonstrativo dispara após 10 segundos",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:57.038485-03:00"
+  },
+  {
+    "test": "Mensagens compartilhadas entre sessões médico e família",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:57.502039-03:00"
+  },
+  {
+    "test": "FAQ explica uso e encaminha questão clínica pessoal",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:57.881784-03:00"
+  },
+  {
+    "test": "Companheiro por botões, chamada local de adulto e tela infantil sem medicação",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:10:58.544431-03:00"
+  },
+  {
+    "test": "Médico lê o relato e a mensagem da família",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:00.739484-03:00"
+  },
+  {
+    "test": "Dev recebe status técnico e 403 para pacientes",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:02.156809-03:00"
+  },
+  {
+    "test": "Assistente sem delegação não recebe acesso clínico implícito",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:03.408515-03:00"
+  },
+  {
+    "test": "Modo offline explícito e gravações desabilitadas",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:04.420387-03:00"
+  },
+  {
+    "test": "Service worker cacheia somente shell e assets públicos",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:04.429274-03:00"
+  },
+  {
+    "test": "Reabertura da SPA e FAQ sem internet após cache público",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:05.729424-03:00"
+  },
+  {
+    "test": "Nenhum erro JavaScript não tratado durante a demo",
+    "status": "PASSOU",
+    "at": "2026-11-06T12:11:05.729529-03:00"
+  }
+]

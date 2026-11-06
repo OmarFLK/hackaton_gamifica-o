@@ -11,6 +11,8 @@ Atualizado em 06/11/2026. A interface geral será desenvolvida pelo outro dev e 
 - `backend/app/main.py`: registro dos quatro routers, health e CORS por origem configurada.
 - `integration-kit/frontend/src/features/medications/`: componentes exportados `MedicationCalendar`, `MedicationReminder`, `MedicationConfirmDialog`.
 - `integration-kit/frontend/src/lib/`: cliente REST, tipos e fixtures públicas somente de leitura.
+- `features/messages/MessageCenter`, `features/assistant/InformationalAssistant`, `features/child-voice/MascotVoice`, `pages/developer/DeveloperDashboard`: componentes conectados e testados no preview isolado.
+- `public/manifest.webmanifest`, `public/brand/` e `scripts/build-offline.mjs`: identidade Pendi, PWA e cache restrito a arquivos públicos.
 
 ## Base temporária, isolada
 
@@ -27,7 +29,8 @@ Os routers esperam `get_db`, `current_user`, `authorize_patient(db, user, patien
 3. Chamar `configureApi(() => tokenAtual, logout)` no cliente do kit, ou adaptar os imports das features ao cliente único do projeto. `VITE_API_URL` é a raiz, sem `/api` no fim.
 4. Integrar agenda na ficha do médico e área da família. `offline=true` usa fixtures públicas e desabilita gravações. Nenhuma falha HTTP deve ativar sucesso local.
 5. Históricos guardam todas as correções; a ocorrência exibe o evento mais recente, por id. `scheduled_for` deve incluir o offset local, mantendo HH:MM da agenda. `reported_at` e autor são do servidor.
-6. Conectar futuros `MessageCenter`, `InformationalAssistant`, `MascotVoice`, `DeveloperDashboard` nas telas apropriadas após receber a base visual. Esses componentes ainda não foram implementados.
+6. Conectar `MessageCenter({patientId, userId, offline?})`, `InformationalAssistant({offline?})`, `MascotVoice({onCallAdult?, mascotName?})`, `DeveloperDashboard({offline?})` nas telas apropriadas. Os quatro já estão implementados. Montar chat e agenda com chave por paciente; a área infantil só deve ser aberta por responsável vinculado.
+7. Copiar `public/brand/` e manifest; incluir o gerador de service worker no build final, adaptando os caminhos. Nunca cachear respostas da API. Registrar o worker somente no build de produção.
 
 ## Extensão de contrato
 
@@ -35,4 +38,4 @@ Além do contrato original, existe `PUT /api/patients/{patient_id}/medications/{
 
 ## Integração ainda pendente
 
-Interface final, mensagens/FAQ/dev em React, voz/PWA, roteamento dos portais e testes de navegador aguardam a base do outro dev. A checagem TypeScript/build do kit não foi executada; ele é fonte de componentes, não um aplicativo independente.
+Os módulos complementares funcionam num aplicativo independente em `integration-kit/frontend` (porta 5174), com CSS, login, roteamento e offline. Build/TypeScript, 9 testes de lógica frontend e 18 verificações de navegador passaram. A integração no frontend principal e com os modelos/autorização dos módulos 00–09 aguarda o código do outro dev. Não portar o shell provisório sobre a interface dele.

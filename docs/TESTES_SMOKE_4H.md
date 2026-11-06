@@ -1,5 +1,7 @@
 # Resultados reais — 06/11/2026
 
+**Registro histórico da primeira etapa.** A validação atualizada com frontend/build/navegador está em [TESTES_MODULOS_10_18.md](TESTES_MODULOS_10_18.md).
+
 Execução às aproximadamente 11:25 (São Paulo). Comando: `../.venv/Scripts/python -m pytest -q`, dentro de `backend`. Resultado: **48 passed em 31,80s**. SQLite em memória, TestClient e tokens reais gerados pelo login demo. Nenhum teste usa Neon ou serviços remotos.
 
 | Verificação | Resultado | Evidência/limite | Severidade se falhar |

@@ -13,7 +13,10 @@ export function MedicationReminder({ schedules, events }: { schedules: Medicatio
   const notify = (demo = false) => {
     const text = `${demo ? 'Simulação · ' : ''}Lembrete de medicamento programado`
     setAlert(text)
-    if ('Notification' in window && Notification.permission === 'granted' && window.isSecureContext) new Notification('SuperPed', { body: 'Lembrete de medicamento programado. Abra a agenda.', icon: '/icons/superped.svg', tag: 'superped-reminder' })
+    if ('Notification' in window && Notification.permission === 'granted' && window.isSecureContext) {
+      try { new Notification('Pendi', { body: 'Lembrete de medicamento programado. Abra a agenda.', icon: '/brand/pendi-symbol.png', tag: 'pendi-reminder' }) }
+      catch { /* O aviso na tela permanece disponível em navegadores sem suporte ao construtor. */ }
+    }
   }
   useEffect(() => {
     const check = () => {

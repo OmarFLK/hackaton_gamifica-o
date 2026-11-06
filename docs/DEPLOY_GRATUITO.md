@@ -1,6 +1,6 @@
 # Deploy demonstrativo — preparado, ainda não publicado
 
-Status em 06/11/2026: não foram criados projetos Render, Neon ou Vercel. Não há URLs públicas verificadas. Aguardar o frontend do outro desenvolvedor antes da publicação conjunta.
+Status em 06/11/2026: não foram criados projetos Render, Neon ou Vercel. Não há URLs públicas verificadas. A demonstração complementar Pendi em `integration-kit/frontend` já compila e funciona localmente. A publicação conjunta com os módulos 00–09 ainda depende do outro desenvolvedor.
 
 ## API no Render + Neon
 
@@ -12,18 +12,21 @@ Status em 06/11/2026: não foram criados projetos Render, Neon ou Vercel. Não h
 
 SQLite é apenas local. A API rejeita SQLite ao detectar ambiente Render. Não foi testada uma conexão Neon nesta execução.
 
-## Frontend na Vercel após integração
+## Frontend na Vercel
 
-- Root: `frontend` do outro dev; build: `npm run build`; output: `dist`.
+- Para publicar apenas os módulos complementares: root `integration-kit/frontend`, build `npm run build`, output `dist`. `vercel.json` já está nessa pasta e evita 404 na SPA, preservando assets/manifest/worker.
+- Para publicar o sistema integrado após o commit do outro dev: usar a pasta do frontend final, copiar os assets/manifest e adaptar o passo de build do service worker. Não publicar o kit como se já incluísse os módulos 00–09.
 - Ambiente: `VITE_API_URL=https://<api-real>.onrender.com`, `VITE_DEMO_MODE=true`.
 - Adicionar `vercel.json` com rewrite SPA, preservando arquivos estáticos:
 
 ```json
-{"rewrites":[{"source":"/((?!icons/|assets/|manifest.webmanifest|sw.js).*)","destination":"/index.html"}]}
+{"rewrites":[{"source":"/((?!brand/|assets/|manifest.webmanifest|sw.js).*)","destination":"/index.html"}]}
 ```
 
 - Ajustar `FRONTEND_URL` no backend para o domínio publicado. Verificar refresh direto em `/familia`, `/dev` e nas rotas protegidas.
 - Confirmar o plano gratuito e adequação acadêmica/não comercial na conta antes de publicar. Não cadastrar dados reais.
+
+Nenhuma credencial de hospedagem foi solicitada por chat ou colocada no código. Blueprint/arquivos de configuração estão prontos; provisionamento e verificação pública continuam pendentes de acesso às contas.
 
 ## Limites e fontes
 
