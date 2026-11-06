@@ -36,10 +36,15 @@ class Answer(BaseModel):
     is_demo: bool = True
 
 
-def answer_question(question: str):
+def is_clinical_question(question: str):
     text = normalize(question)
     clinical = r'\b(dose\w*|dosagem|mg|ml|remedio\w*|sintoma\w*|febre|dor|dores|sangr\w*|vomit\w*|enjoo|falta de ar|respirar|desmai\w*|convuls\w*|emergencia|urgencia|prognostico|cura|sobrevida|cancer|quimio\w*|tratamento|seguro|posso tomar|devo tomar|dobrar|aumentar|diminuir|interromper|suspender)\b'
-    if re.search(clinical, text):
+    return bool(re.search(clinical, text))
+
+
+def answer_question(question: str):
+    text = normalize(question)
+    if is_clinical_question(question):
         return Answer(answer='Não posso avaliar sintomas, doses ou tratamento individual. Fale com a equipe de saúde responsável. Em situação de urgência, procure o serviço de emergência local; não aguarde resposta deste chat.', escalate=True)
     for keywords, answer in FAQ:
         if any(word in text for word in keywords):

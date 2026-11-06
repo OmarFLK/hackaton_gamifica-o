@@ -21,7 +21,7 @@ function ThemedWorld({ child, offline, onExit }: { child: ChildProfile; offline:
       <Route index element={<ChildHomePage child={child}/>}/>
       <Route path="mascote" element={<AvatarPickerPage child={child}/>}/>
       <Route path="sentimentos" element={<EmotionCheckinPage child={child} offline={offline}/>}/>
-      <Route path="conversar" element={<ChildTalkPage/>}/>
+      <Route path="conversar" element={<ChildTalkPage child={child} offline={offline}/>}/>
       <Route path="jogos/:game" element={<ChildGamePage child={child} offline={offline}/>}/>
     </Routes>
   </ChildLayout>

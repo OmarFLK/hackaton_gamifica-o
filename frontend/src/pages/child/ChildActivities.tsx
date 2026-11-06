@@ -1,9 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { BirdGame, CandleGame, StarGame } from '../../features/games'
-import { MascotVoice } from '../../features/child-voice'
-import { requestAdult } from '../../components/layouts/ChildLayout'
-import { useAvatar } from './AvatarProvider'
+import { PendiChildChat } from '../../features/assistant/PendiChildChat'
 import type { ChildProfile } from './ChildArea'
 
 const GAMES = { candle: CandleGame, bird: BirdGame, star: StarGame }
@@ -18,10 +16,9 @@ export function ChildGamePage({ child, offline }: { child: ChildProfile; offline
 }
 
 /** Conversa por botões e voz sintética (módulo 12, já existente), com o nome do mascote escolhido. */
-export function ChildTalkPage() {
-  const { mascot } = useAvatar()
+export function ChildTalkPage({ child, offline }: { child: ChildProfile; offline: boolean }) {
   return <>
     <Link className="kid-back" to=".."><ArrowLeft size={20}/>Voltar ao meu mundo</Link>
-    <MascotVoice mascotName={mascot.name} onCallAdult={requestAdult}/>
+    <PendiChildChat key={child.id} patientId={child.id} offline={offline}/>
   </>
 }

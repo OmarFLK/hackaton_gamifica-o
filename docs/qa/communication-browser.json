@@ -1,0 +1,50 @@
+[
+  {
+    "test": "Família envia mensagem, médico recebe aviso e abre a conversa com autor identificado",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Médico responde e a família recebe notificação na própria conta",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Aviso explícito do médico fica salvo e tem leitura individual",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Central de conversas responsiva em 375px",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Central de conversas responsiva em 768px",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Central de conversas responsiva em 1440px",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Chat adulto responde com Gemma real e mostra a base consultada",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Gravação sintética percorre MediaRecorder e Whisper, sem envio automático ao modelo",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Criança revisa o texto, envia e recebe resposta infantil do Pendi real",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Pergunta clínica infantil encaminha para adulto sem sugerir dose",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Browser não acessa diretamente o provedor nem recebe a chave da API",
+    "status": "PASSOU"
+  },
+  {
+    "test": "Nenhum erro JavaScript não tratado no percurso",
+    "status": "PASSOU"
+  }
+]

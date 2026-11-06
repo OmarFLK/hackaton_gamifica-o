@@ -1,0 +1,9 @@
+import { Link } from 'react-router-dom'
+import { Bell, CheckCheck, RefreshCw } from 'lucide-react'
+import { useNotifications } from './useNotifications'
+import { EmptyState, ErrorState, Loading } from '../../components/common/Feedback'
+
+export function NotificationsPage() {
+  const { items, unread_count, loading, error, offline, refresh, read, readAll } = useNotifications()
+  return <><div className="page-heading"><div><span className="eyebrow">AVISOS PARA VOCÊ</span><h1>Notificações<span className="heading-dot">.</span></h1><p className="muted">Mensagens e avisos da família e da equipe vinculadas.</p></div><button className="button ghost" disabled={offline || loading} onClick={() => void refresh()}><RefreshCw size={17}/>Atualizar</button></div><section className="card"><div className="section-heading"><h2><Bell size={20}/>{unread_count} não lida(s)</h2><button className="button ghost small" disabled={offline || !unread_count} onClick={() => void readAll()}><CheckCheck size={17}/>Marcar todas como lidas</button></div>{loading && !items.length && <Loading/>}{error && <ErrorState message={error} retry={() => void refresh()}/>}{!items.length && !loading && <EmptyState>{offline ? 'Notificações não são carregadas sem API.' : 'Você está em dia. Novos avisos aparecerão aqui.'}</EmptyState>}{items.map(item => <article className={`notification-full ${item.read_at ? '' : 'unread'}`} key={item.id}><div className="section-heading"><h3>{item.title}</h3><span className="status-badge">{item.read_at ? 'Lida' : 'Nova'}</span></div><p className="muted small-text">{item.actor_name} · {item.patient_name} · {new Date(item.created_at).toLocaleString('pt-BR')}</p><p>{item.body}</p><div className="form-actions">{!item.read_at && <button className="button ghost small" onClick={() => void read(item.id).catch(() => undefined)}>Marcar como lida</button>}<Link className="button primary small" to={item.target_url}>Abrir conversa</Link></div></article>)}</section></>
+}

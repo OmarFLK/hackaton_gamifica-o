@@ -1,5 +1,7 @@
 # Pendi — Cuidado que aproxima
 
+**Nova entrega:** chat médico/família com avisos individuais, assistente Pendi conectado ao Gemma 27B da Mauá, RAG separado por responsável/médico/criança e fala infantil que vira texto revisável antes do envio. A chave permanece somente na configuração do backend. [Guia e testes](docs/PENDI_CHAT_RAG_VOZ.md).
+
 Demonstração acadêmica com dados inteiramente fictícios. **DEMONSTRAÇÃO · Não validado para uso clínico.**
 
 Módulos 01–18 do kit `PROMPTS_HACKATHON_4H` integrados. O app oficial está em `frontend/` e a API em `backend/`. `integration-kit/frontend` foi mantido como referência dos módulos 10–18.

@@ -24,7 +24,13 @@ export interface RoutineEntry { id: number; patient_id: number; kind: RoutineKin
 export interface MedicationSchedule { id: number; patient_id: number; label: string; times_json: string[]; active: boolean; clinician_id: number }
 export type EventStatus = 'given' | 'not_given' | 'postponed'
 export interface MedicationEvent { id: number; schedule_id: number; scheduled_for: string; status: EventStatus; reported_at: string; reporter_user_id: number; note: string | null }
-export interface Message { id: number; patient_id: number; sender_user_id: number; body: string; created_at: string }
+export interface Message { id: number; patient_id: number; sender_user_id: number; sender_name?: string; sender_role?: Role; body: string; created_at: string }
+export interface Conversation { patient_id: number; patient_name: string; chosen_avatar: string; last_message: Message | null; unread_count: number }
+export interface UserNotification { id: number; patient_id: number; patient_name: string; actor_name: string; kind: 'message' | 'notice'; title: string; body: string; created_at: string; read_at: string | null; target_url: string }
+export interface NotificationList { items: UserNotification[]; unread_count: number }
+export interface AIStatus { configured: boolean; provider_label: string; status: 'configured' | 'awaiting_configuration'; model?: string; rag?: boolean }
+export interface AITurn { role: 'user' | 'assistant'; content: string }
+export interface AIAnswer { answer: string; source: string; escalate: boolean; is_ai: boolean; audience: 'guardian' | 'clinician' | 'child'; citations: { id: string; title: string }[] }
 
 export type GameId = 'candle' | 'bird' | 'star'
 export type GameMode = 'touch' | 'microphone' | 'camera'

@@ -9,16 +9,21 @@ export function configureApi(tokenGetter: () => string | null, unauthorized: () 
 export class ApiError extends Error {
   constructor(message: string, public status = 0) { super(message) }
 }
-export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
+export interface ApiOptions extends RequestInit { timeoutMs?: number }
+export async function api<T>(path: string, options: ApiOptions = {}): Promise<T> {
+  const { timeoutMs = 20000, ...requestOptions } = options
   const token = getToken()
   const controller = new AbortController()
   const abort = () => controller.abort()
   if (options.signal?.aborted) abort()
   options.signal?.addEventListener('abort', abort, { once: true })
-  const timeout = setTimeout(abort, 20000)
+  const timeout = setTimeout(abort, timeoutMs)
+  const headers = new Headers(options.headers)
+  if (!(options.body instanceof FormData)) headers.set('Content-Type', 'application/json')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
   let response: Response
   try {
-    response = await fetch(`${API_URL}${path}`, { ...options, signal: controller.signal, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } })
+    response = await fetch(`${API_URL}${path}`, { ...requestOptions, signal: controller.signal, headers })
   } catch (error) {
     if (options.signal?.aborted) throw error
     throw new ApiError('API indisponível. Tente novamente; o serviço pode estar iniciando. Nenhuma alteração foi sincronizada.')
@@ -34,6 +39,6 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
   }
   return response.json() as Promise<T>
 }
-export const post = <T,>(path: string, body: unknown) => api<T>(path, { method: 'POST', body: JSON.stringify(body) })
+export const post = <T,>(path: string, body: unknown, options: ApiOptions = {}) => api<T>(path, { ...options, method: 'POST', body: JSON.stringify(body) })
 export function errorText(error: unknown) { return error instanceof Error ? error.message : 'Não foi possível concluir a operação.' }
 export const put = <T,>(path: string, body: unknown) => api<T>(path, { method: 'PUT', body: JSON.stringify(body) })

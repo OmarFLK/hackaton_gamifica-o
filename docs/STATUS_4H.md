@@ -1,5 +1,11 @@
 # Pendi (SuperPed) — status real dos módulos
 
+## Atualização de comunicação e IA
+
+Implementados: central humana de conversas, avisos/sino/leitura por usuário, Pendi com Gemma 27B real da Mauá, três bases RAG isoladas e transcrição local com revisão antes do envio infantil. O navegador passou em 12 novas verificações com duas contas e captura sintética. Ver [PENDI_CHAT_RAG_VOZ.md](PENDI_CHAT_RAG_VOZ.md). Os resultados anteriores do PR #1 abaixo são históricos.
+
+Validação atual: **115 testes API, 17 testes frontend, build de produção e 12 novas verificações no navegador aprovados**. Chamadas reais ao Gemma confirmadas para os três perfis; reconhecimento de voz validado com áudio sintético em português. Nenhuma chave foi incluída no código ou no build público.
+
 Atualizado em 06/11/2026 após a revisão do PR #1. Este quadro só lista o que foi executado e verificado. Detalhes em [REVISAO_PR_1.md](REVISAO_PR_1.md).
 
 | Item | Estado verificável | Evidência |

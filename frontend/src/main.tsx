@@ -8,6 +8,7 @@ import '@fontsource-variable/nunito'
 import { App } from './app/App'
 import './styles/index.css'
 import './styles/app.css'
+import './styles/communication.css'
 
 createRoot(document.getElementById('root')!).render(<StrictMode><BrowserRouter><App/></BrowserRouter></StrictMode>)
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {

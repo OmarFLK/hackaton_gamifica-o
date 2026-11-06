@@ -1,4 +1,4 @@
-param([switch]$WithBrowserTests)
+param([switch]$WithBrowserTests, [switch]$WithSpeech)
 $ErrorActionPreference = 'Stop'
 $workspacePath = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 Push-Location $workspacePath
@@ -10,6 +10,12 @@ try {
     $requirementsPath = if ($WithBrowserTests) { 'backend/requirements-dev.txt' } else { 'backend/requirements.lock.txt' }
     & .venv/Scripts/python -m pip install -r $requirementsPath
     if ($LASTEXITCODE -ne 0) { throw 'Falha na instalacao Python.' }
+    if ($WithSpeech) {
+        & .venv/Scripts/python -m pip install -r backend/requirements-speech.txt
+        if ($LASTEXITCODE -ne 0) { throw 'Falha ao instalar a transcricao local.' }
+        & .venv/Scripts/python scripts/setup_speech.py
+        if ($LASTEXITCODE -ne 0) { throw 'Falha ao preparar o modelo de voz.' }
+    }
     $backendEnvPath = Join-Path $workspacePath 'backend/.env'
     if (-not (Test-Path -LiteralPath $backendEnvPath)) {
         $demoSecret = & .venv/Scripts/python -c 'import secrets; print(secrets.token_urlsafe(48))'
